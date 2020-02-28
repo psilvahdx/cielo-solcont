@@ -24,7 +24,6 @@ sap.ui.define([
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("Parecer").attachDisplay(jQuery.proxy(this._onRouteMatched, this));
 			
-			
 			//limpa a timeline 
 			// var oTimeline = this.getView().byId('idTimeline');
 			// oTimeline.removeAllContent();
