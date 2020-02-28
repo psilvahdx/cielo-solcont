@@ -761,7 +761,7 @@ sap.ui.define([
 			var aprovador = oController.formatter.textName(beneficiarioId[0].Nome);
 			oCampoApr.setValue(aprovador);
 		},
-
+		
 		_onSearchApr: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter(
