@@ -110,7 +110,6 @@ sap.ui.define([
 					oController.onDialogClose();
 				}
 			});
-
 		}
 
 	});
