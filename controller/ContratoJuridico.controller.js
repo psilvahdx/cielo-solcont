@@ -32,7 +32,7 @@ sap.ui.define([
 			Device.media.attachHandler(function (oDevice) {
 				this.getModel("view").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
-
+			
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getRoute("contrato").attachPatternMatched(this._onRouteMatched, this);
 		},
@@ -41,10 +41,13 @@ sap.ui.define([
 		_onRouteMatched: function (oEvent) {
 			var oArgs,
 				sPath,
+				that = this,
 				structureAppModel = this.getModel("structureApp"),
-				structureApp = structureAppModel.getData();
+				structureApp = structureAppModel.getData(),
+				oView = this.getView();
 			
 			this.getView().unbindElement();
+			this.getView().byId("txtAdvogadoResp").setText("");
 
 			oArgs = oEvent.getParameter("arguments");
 			sPath = oArgs.IdSolic;
@@ -58,6 +61,16 @@ sap.ui.define([
 					path: "/GravarContratoJuridicoSet('".concat(sPath).concat("')"),
 					parameters: {
 						expand: "AnexoSet"
+					},
+					events:{
+							dataReceived: function(oEvent){
+								var oContext = oEvent.getSource().getBoundContext(),
+									oViewModel = this.getModel().getObject(oContext.getPath());
+								
+								if(oViewModel.NumAdvogado !== "00000000"){
+            						that.getAdvogadoResponsavel(oViewModel.NumAdvogado);
+								}
+        					}
 					}
 				});
 			} else {
@@ -66,7 +79,67 @@ sap.ui.define([
 				structureAppModel.setData(structureApp);
 				this.setInitialValues();
 			}
+
 		},
+		
+		getAdvogadoResponsavel: function (sMatricula){
+			
+			var that = this,
+				oModel = this.getModel();
+				
+			oModel.read(oModel.createKey("/ProcuradoresSet", {
+				Matricula: sMatricula
+			}), 
+			{
+				success: function (oData) {
+						var oAdvogadoModel = new JSONModel(oData);
+						that.getView().byId("txtAdvogadoResp").setText(oAdvogadoModel.getProperty("/Nome"));
+					},
+				error: function (oError) {
+						that.getView().byId("txtAdvogadoResp").setText("");
+					}
+			});
+			
+		},
+		
+		getFornecedorByCnpj: function (sCnpj){
+			
+			var that = this,
+				oModel = this.getModel();
+				
+			oModel.read(oModel.createKey("/FornecedorSet", {
+				IvCnpj: sCnpj
+			}), 
+			{
+				success: function (oData) {
+						var oFornecedorModel = new JSONModel(oData);
+						that.getView().byId("inpRazao").setValue(oFornecedorModel.getProperty("/EvFornecedor"));
+						that.getOwnerComponent().hideBusyIndicator();
+					},
+				error: function (oError) {
+						that.getView().byId("inpRazao").setValue("");
+						that.getOwnerComponent().hideBusyIndicator();
+					}
+			});
+			
+		},
+		
+		onCnpjChange: function(oEvent){
+			
+			var oValue = oEvent.getSource().getValue();
+			if(oValue){
+				if(oValue.length >= 11){ //CPF / CNPJ
+					this.getOwnerComponent().showBusyIndicator();
+					this.getFornecedorByCnpj(oValue);
+				}
+			}
+			else{
+				this.getView().byId("inpRazao").setValue("");
+				this.getOwnerComponent().hideBusyIndicator();
+			}
+			
+		},
+		
 		setInitialValues: function () {
 
 			//data atual
@@ -230,7 +303,7 @@ sap.ui.define([
 					"NumAdvogado": "",
 					"IdEmpresa": oView.byId("cmbEmpresa").getSelectedKey(),
 					"IdTipoSol": oView.byId("cmbSolicitacao").getSelectedKey(),
-					"IdTipoDoc": oView.byId("cmbDocumento").getSelectedKey(),
+					"IdTipoDoc": oView.byId("cmbDocumento").getSelectedKey()
 				};
 
 				that.oParams = oParams;

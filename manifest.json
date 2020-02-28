@@ -214,7 +214,7 @@
 		}
 	},
 	"sap.platform.abap": {
-		"uri": "/sap/bc/ui5_ui5/sap/zui5_solcont/webapp",
+		"uri": "/sap/bc/ui5_ui5/sap/zui5_solcont",
 		"_version": "1.1.0"
 	}
 }

@@ -10,13 +10,6 @@
 				<l:BlockLayoutCell class="sapUiNoContentPadding">
 					<VBox>
 						<f:Form id="FormSolicitacao" editable="true" ariaLabelledBy="tlForm">
-							<!--<f:toolbar>-->
-							<!--	<Toolbar id="TB1">-->
-							<!--		<Title id="tlForm" text="Abertura de Solicitação ao Jurídico"  level="H4" titleStyle="H4"/>-->
-							<!--		<ToolbarSpacer/>-->
-							<!--		<Button text="Salvar" type="Emphasized"/>-->
-							<!--	</Toolbar>-->
-							<!--</f:toolbar>-->
 							<f:title>
 								<core:Title text="{i18n>abertura_sol_juri_txt}" icon="sap-icon://compare"/>
 							</f:title>
@@ -62,6 +55,11 @@
 										<f:FormElement id="lblDescricao" label="{i18n>descricao_sol_lbl}">
 											<f:fields>
 												<TextArea id="txtADes" value="{DescSolic}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblAdvogadoResp" label="{i18n>advogado_resp_lbl}">
+											<f:fields>
+												<Text id="txtAdvogadoResp" width="100%"/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>
@@ -122,7 +120,8 @@
 												<Label text="{i18n>aprovador_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpSegundoA" value="{SegApr}" width="100%" valueHelpRequest="_onOpenDialogAprovador" showValueHelp="true" enabled="{structureApp>/solViewModel/enabled}"/>
+												<Input id="inpSegundoA" value="{SegApr}" width="100%" valueHelpRequest="_onOpenDialogAprovador" showValueHelp="true" enabled="{structureApp>/solViewModel/enabled}"
+												required="true"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
@@ -198,18 +197,18 @@
 									<f:formElements>
 										<f:FormElement>
 											<f:label>
-												<Label text="{i18n>razao_social_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												<Label text="{i18n>cnpj_cpf_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpRazao" value="{RazaoSoc}" editable="true" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}"/>
+												<Input id="inpCNPJ" value="{CnpjCpf}"  width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}" liveChange="onCnpjChange" />
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
 											<f:label>
-												<Label text="{i18n>cnpj_cpf_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+												<Label text="{i18n>razao_social_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpCNPJ" value="{CnpjCpf}" editable="true" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}"/>
+												<Input id="inpRazao" value="{RazaoSoc}" editable="true" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
