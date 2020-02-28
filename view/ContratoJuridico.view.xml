@@ -1,0 +1,274 @@
+<mvc:View xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.ContratoJuridico">
+	<Page title="{i18n>num_solicitacao_txt}: {path: 'NumSolic', formatter: '.formatter.solicNumber'}" class="sapUiContentPadding">
+		<headerContent>
+			<Button text="{i18n>btn_salvar_txt}" press="onSubmit" type="Emphasized"/>
+		</headerContent>
+		<landmarkInfo/>
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<f:Form id="FormSolicitacao" editable="true" ariaLabelledBy="tlForm">
+							<!--<f:toolbar>-->
+							<!--	<Toolbar id="TB1">-->
+							<!--		<Title id="tlForm" text="Abertura de Solicitação ao Jurídico"  level="H4" titleStyle="H4"/>-->
+							<!--		<ToolbarSpacer/>-->
+							<!--		<Button text="Salvar" type="Emphasized"/>-->
+							<!--	</Toolbar>-->
+							<!--</f:toolbar>-->
+							<f:title>
+								<core:Title text="{i18n>abertura_sol_juri_txt}" icon="sap-icon://compare"/>
+							</f:title>
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+									emptySpanM="0" emptySpanS="0" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false"/>
+							</f:layout>
+							<f:formContainers>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement id="lblData" label="{i18n>data_sol}">
+											<f:fields>
+												<DatePicker id="dtSolic" displayFormat="dd/MM/yyyy" editable="false" value=" {path: 'DtSolic', formatter: '.formatter.date'}"
+													tooltip="{i18n>dia_sol_realizada}" width="100%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblEmpresa" label="{i18n>empresa_lbl}">
+											<f:fields>
+												<ComboBox id="cmbEmpresa" width="100%" required="true" items="{shModel>/EmpresasSet}"
+												selectedKey="{IdEmpresa}" enabled="{structureApp>/solViewModel/enabled}">
+													<core:Item key="{shModel>IdEmpresa}" text="{shModel>DescEmpresa}"/>
+												</ComboBox>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblTipoS" label="{i18n>tp_sol_lbl}">
+											<f:fields>
+												<ComboBox id="cmbSolicitacao" width="100%" required="true"
+													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPSOLICITACAO' }] }"
+													selectedKey="{IdTipoSol}" enabled="{structureApp>/solViewModel/enabled}">
+													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+												</ComboBox>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblTipoD" label="{i18n>tp_doc_lbl}">
+											<f:fields>
+												<ComboBox id="cmbDocumento" width="100%" required="true"
+													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPDOCUMENTO' }] }"
+													selectedKey="{IdTipoDoc}" enabled="{structureApp>/solViewModel/enabled}">
+													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+												</ComboBox>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblDescricao" label="{i18n>descricao_sol_lbl}">
+											<f:fields>
+												<TextArea id="txtADes" value="{DescSolic}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement>
+											<f:fields>
+												<Text id="teste" visible="{= ${device>/system/phone} !== true ? true : false}" width="100%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblValor" label="{i18n>valor_lbl}">
+											<f:fields>
+												<Input id="inpValor" value="{Valor}" width="100%" liveChange="currency" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblNContrato" label="{i18n>num_contrato_lbl}">
+											<f:fields>
+												<Input id="inpNContrato" value="{NContrato}" valueHelpRequest="openDialogContrato" showValueHelp="true" width="100%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblNRC" label="{i18n>num_req_compras_lbl}">
+											<f:fields>
+												<Input id="inpNRC" value="{NRc}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<f:Form id="FormItens" editable="true">
+							<f:title>
+								<core:Title text="{i18n>dados_area_cont_fornec_txt}" icon="sap-icon://company-view"/>
+							</f:title>
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+									emptySpanM="0" emptySpanS="0" columnsM="2" columnsL="2" columnsXL="2" singleContainerFullSize="false"/>
+							</f:layout>
+							<f:formContainers>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>solicitante_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Text id="txtSolicitante" text="{Solicitante}" width="100%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>aprovador_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Input id="inpSegundoA" value="{SegApr}" width="100%" valueHelpRequest="_onOpenDialogAprovador" showValueHelp="true" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:fields>
+												<CheckBox id="chekCompras" selected="{= ${SendCompras} !== '' ? true : false}" text="{i18n>chk_compras_txt}" select="checkCompra" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:fields>
+												<CheckBox id="checkComplice" selected="{= ${SendComplice} !== '' ? true : false}" text="{i18n>chk_parte_relac_txt}" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>telefone_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Text id="txtTelefone" text="{Telefone}" width="100%"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>centro_custo_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Input id="inpCentroC" value="{CCusto}" valueHelpRequest="_onOpenDialogCC" showValueHelp="true" liveChange="_onChangeCC" width="100%"
+													required="true"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>nome_gerencia_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Input id="inpGerencia" value="{Gerencia}" editable="true" width="100%" liveChange="_onChangeGestor" required="true"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>resp_compras_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<ComboBox id="cmbResponsavel" enabled="false" items="{ path: '/AprovadoresComprasSet'}">
+													<core:Item key="1" text=""/>
+													<core:Item key="{Matricula}" text="{path: 'Nome', formatter : '.formatter.textName'}"/>
+												</ComboBox>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<f:Form id="FormFornecedor" editable="true">
+							<f:title>
+								<core:Title text="{i18n>dados_fornec_contrat_tit}" icon="sap-icon://account"/>
+							</f:title>
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+									emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+							</f:layout>
+							<f:formContainers>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>razao_social_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Input id="inpRazao" value="{RazaoSoc}" editable="true" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>cnpj_cpf_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<Input id="inpCNPJ" value="{CnpjCpf}" editable="true" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement>
+											<f:label>
+												<Label text="{i18n>desc_contratacao_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+											</f:label>
+											<f:fields>
+												<TextArea id="txtADescricao" value="{DescContratacao}" placeholder="{i18n>desc_contratacao_plh}" editable="true" width="100%"
+													required="true"/>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<f:Form id="FormAnexo" editable="true">
+							<f:layout>
+								<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+									emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+							</f:layout>
+							<f:formContainers>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement>
+											<f:fields>
+												<UploadCollection id="UploadCollection" maximumFilenameLength="55" fileDeleted="fnFileDeleted" maximumFileSize="10" multiple="false"
+													sameFilenameAllowed="false" numberOfAttachmentsText="{i18n>number_of_attachments_txt}" noDataText="{i18n>nodata_attachment}"
+													instantUpload="false" noDataDescription="{i18n>nodata_description}" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"
+													change="handleSelectFile" fileType="pdf,png,jpeg,jpg" mimeType="pdf,png,jpeg,jpg" items="{path: 'AnexoSet', templateShareable: true}">
+													<items>
+														<UploadCollectionItem documentId="{Idanexo}" fileName="{Zfilename}" mimeType="{Zfiletype}" press="handleShowFile"></UploadCollectionItem>
+													</items>
+												</UploadCollection>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+		<footer>
+			<OverflowToolbar width="100%" height="46px" design="Auto">
+				<content>
+					<ToolbarSpacer width=""/>
+					<Button text="{i18n>btn_encaminhar_txt}" type="Emphasized" iconFirst="true" width="auto" enabled="{structureApp>/solViewModel/fowardEnabled}"
+						iconDensityAware="false" press="onSubmit"/>
+					<Button text="{i18n>btn_cancelar_txt}" type="Default" iconFirst="true" width="auto" enabled="true" iconDensityAware="false"
+						press="onCancel"/>
+				</content>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

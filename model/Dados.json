@@ -1,0 +1,30 @@
+{
+	"dados": [
+		{	
+			"id":  1, 
+			"n": 11997, 
+			"titulo": "Contrato de Licenciamento de Software - Mastersaf GF", 
+			"solicitante": "SERGIO GALVAO TORSO JUNIOR  ", 
+			"razaoS": "TSL - Tecnologia em Sistemas de Legislação Ltda.", 
+			"situacao": "Parecer enviado", 
+			"data": "26/09/2013", 
+			"sla": "Aprovado",
+			"tpSolic": "Análise",
+			"tpDoc":"Contrato",
+			"desc": "Contrato de Licenciamento de Software ",
+			"CODSAP": "567890",
+			"valor": "15000,00",
+			"nContrato": "7000981",
+			"RC": "567819",
+			"PrimAprovador": "José Iranildo",
+			"SegAprovador":"",
+			"CentroC": "10103018",
+			"Gerencia": "Ger. Sistemas",
+			"RespCompras": "Eli",
+			"CNPJCPF": "00012910292010",
+			"descContratacao": "Contrato"
+		},
+		{"id":  2, "n": 15573, "titulo": "Aditivo no Contrato de Sustentação", "solicitante": "SERGIO GALVAO TORSO JUNIOR ", "razaoS": "COMPLEX IT SOLUTION CONSULTORIA EM CONSULTORIA", "situacao": "Parecer enviado", "data": "03/07/2015", "sla": "Aprovado"},
+     	{"id":  3, "n": 21726, "titulo": "Desenvolvimento da Solução Consolidação Societária SAP BPC ", "solicitante": "SERGIO GALVAO TORSO JUNIOR ", "razaoS": "INSIGHT CONS", "situacao": "Parecer enviado", "data": "13/09/2018", "sla": "Aprovado"}
+	]
+}

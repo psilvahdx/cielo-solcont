@@ -1,0 +1,60 @@
+<mvc:View height="100%"
+	controllerName="com.sap.build.sapcsr.SOLCONT.controller.App"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:tnt="sap.tnt">
+	<tnt:ToolPage
+		id="app"
+		class="sapUiDemoToolPage">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Button
+					id="sideNavigationToggleButton"
+					icon="sap-icon://menu2"
+					type="Transparent"
+					press=".onSideNavButtonPress"
+					tooltip="{i18n>navigationToggleButtonTooltip}">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+				<ToolbarSpacer/>
+				
+				<ToolbarSpacer/>
+				
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:sideContent>
+			<tnt:SideNavigation
+				expanded="true"
+				itemSelect="onItemSelect"> 
+				<tnt:NavigationList
+					items="{
+						path: 'side>/navigation',
+						templateShareable: false
+					}">
+					<tnt:NavigationListItem
+						text="{side>title}"
+						icon="{side>icon}"
+						expanded="{side>expanded}"
+						visible="{side>visible}"
+						items="{
+							path: 'side>items',
+							templateShareable: false
+						}"
+						key="{side>key}">
+						<tnt:NavigationListItem
+							text="{side>title}"
+							key="{side>key}"
+							visible="{side>visible}">
+						</tnt:NavigationListItem>
+					</tnt:NavigationListItem>
+				</tnt:NavigationList>
+
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+		<tnt:mainContents>
+			<App id="mainContents"/>
+		</tnt:mainContents>
+	</tnt:ToolPage>
+</mvc:View>

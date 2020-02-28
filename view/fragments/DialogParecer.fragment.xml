@@ -1,0 +1,41 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Dialog contentWidth="600px" horizontalScrolling="true" resizable="true" draggable="true" >
+		<content>
+			<VBox>
+				<f:Form id="FormNovoParecer" title="{i18n>novo_parecer_txt}" editable="true">
+					<f:layout>
+							<f:ResponsiveGridLayout labelSpanXL="2" labelSpanL="2" labelSpanM="2" labelSpanS="2" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
+							emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+					</f:layout>
+					<f:formContainers>
+						<f:FormContainer>
+							<f:formElements>
+								<f:FormElement>
+									<f:label>
+										<Label text="{i18n>msg_txt}"  design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</f:label>
+										<TextArea id="inpMensagem"  width="100%" rows="10"  ></TextArea>
+								</f:FormElement>
+								<f:FormElement>
+									<f:label>
+										<Label text="{i18n>arquivo_txt}" design="Bold" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</f:label>
+									<u:FileUploader id="Files" name="myFileUpload" tooltip="{i18n>arquivo_txt}"  change="handleSelectFile" fileType="pdf,png,jpeg,jpg" typeMissmatch="onTypeMissmatch"/>
+								</f:FormElement>
+							</f:formElements>
+						</f:FormContainer>
+					</f:formContainers>
+				</f:Form>
+			</VBox>
+		</content>
+		<beginButton/>
+		<buttons>
+			<Button text="{i18n>btn_confirmar_txt}" type="Emphasized" press="onDialogParecerConfirm"/>
+			<Button text="{i18n>btn_cancelar_txt}" type="Default" press="onDialogClose"/>
+		</buttons>
+		<customHeader/>
+		<endButton/>
+		<subHeader/>
+	</Dialog>
+</core:FragmentDefinition>

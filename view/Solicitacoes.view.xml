@@ -1,0 +1,60 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.Solicitacoes" xmlns="sap.m"
+	xmlns:semantic="sap.f.semantic" xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core">
+	<Page id="page" showHeader="false" title="" showFooter="false" showNavButton="false">
+		<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+			<items>
+				<Table id="tbSolicitacoes" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
+					mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: '/GravarContratoJuridicoSet', templateShareable:true}">
+					<headerToolbar>
+						<OverflowToolbar width="auto" height="100%" design="Transparent" visible="true" enabled="true">
+							<content>
+								<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
+								<ToolbarSpacer width=""/>
+							</content>
+						</OverflowToolbar>
+					</headerToolbar>
+					<columns>
+						<Column demandPopin="false" hAlign="Begin" width="6%">
+							<Text text="Nº"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
+							<Text text="{i18n>title_txt}"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="20%">
+							<Text text="{i18n>solicitante_txt}"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="14%">
+							<Text text="{i18n>razao_social_txt}"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
+							<Text text="{i18n>situacao_txt}"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
+							<Text text="{i18n>data_txt}" tooltip="{i18n>conta_contabil_tol}"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
+							<Text text="{i18n>sla_txt}"/>
+						</Column>
+						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
+							<Text text=""/>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem type="Active">
+							<cells>
+								<Text text="{path: 'NumSolic', formatter: '.formatter.solicNumber'}"/>
+								<Text text="{path: 'DescSolic', formatter: '.formatter.textName'}"/>
+								<Text text="{path: 'Solicitante', formatter: '.formatter.textName'}"/>
+								<Text text="{path: 'RazaoSoc', formatter: '.formatter.textName'}"/>
+								<Text text="{path: 'Situacao', formatter: '.formatter.textName'}"/>
+								<Text text="{path: 'DtSolic', formatter: '.formatter.date'}"/>
+								<core:Icon src="{path: 'sla', formatter: '.formatter.getIcon'}" color="{path: 'sla', formatter: '.formatter.getColor'}"/>
+								<Button type="Transparent" icon="sap-icon://dropdown" press="handlePopoverPress"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</items>
+		</FlexBox>
+	</Page>
+</mvc:View>

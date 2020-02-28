@@ -1,0 +1,220 @@
+{
+	"_version": "1.12.0",
+	"sap.app": {
+		"id": "com.sap.build.sapcsr.SOLCONT",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"dataSources": {
+			"local": {
+				"uri": "/here/goes/your/serviceUrl/local/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": ""
+				}
+			},
+			"ZMM_SOLCONT_SRV_01": {
+				"uri": "/sap/opu/odata/SAP/ZMM_SOLCONT_SRV_01/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
+		}
+	},
+	"sap.ui": {
+		"_version": "1.3.0",
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "com.sap.build.sapcsr.SOLCONT.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30",
+			"libs": {
+				"sap.m": {},
+				"sap.suite.ui.microchart": {
+					"lazy": true
+				},
+				"sap.tnt": {},
+				"sap.ui.core": {},
+				"sap.ui.layout": {},
+				"sap.uxap": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "com.sap.build.sapcsr.SOLCONT.i18n.i18n"
+				}
+			},
+			"side": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/sideContent.json"
+			},
+			"alerts": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/alerts.json"
+			},
+			"customer": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/customers.json"
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultCountMode": "None"
+				},
+				"dataSource": "ZMM_SOLCONT_SRV_01",
+				"preload": true
+			},
+			"shModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultCountMode": "None"
+				},
+				"dataSource": "ZMM_SOLCONT_SRV_01",
+				"preload": true
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"controlId": "mainContents",
+				"viewType": "XML",
+				"controlAggregation": "pages",
+				"viewPath": "com.sap.build.sapcsr.SOLCONT.view",
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "solicitacoes",
+					"target": "solicitacoes"
+				},
+				{
+					"pattern": "Home",
+					"name": "home",
+					"target": "home"
+				},
+				{
+					"pattern": "ContratoJuridico",
+					"name": "contratoJuridico",
+					"target": "contratoJuridico"
+				},
+				{
+					"pattern": "Parecer/{IdSolic}",
+					"name": "Parecer",
+					"target": [
+						"Parecer"
+					]
+				},
+				{
+					"pattern": "MasterSettings",
+					"name": "masterSettings",
+					"target": [
+						"detailSettings",
+						"masterSettings"
+					]
+				},
+				{
+					"pattern": "SystemSettings",
+					"name": "systemSettings",
+					"target": "detailSettings"
+				},
+				{
+					"pattern": "Statistics",
+					"name": "statistics",
+					"target": "statistics"
+				},
+				{
+					"pattern": "VizualizarContrato/{IdSolic}",
+					"name": "contrato",
+					"target": "contrato"
+				}
+			],
+			"targets": {
+				"home": {
+					"viewId": "home",
+					"viewName": "Home"
+				},
+				"contrato": {
+					"viewId": "contrato",
+					"viewName": "ContratoJuridico"
+				},
+				"solicitacoes": {
+					"viewId": "solicitacoes",
+					"viewName": "Solicitacoes"
+				},
+				"contratoJuridico": {
+					"viewId": "contratoJuridico",
+					"viewName": "ContratoJuridico"
+				},
+				"Parecer": {
+					"viewName": "Parecer",
+					"viewId": "Parecer"
+				},
+				"appSettings": {
+					"viewId": "appSettings",
+					"viewName": "settings.AppSettings"
+				},
+				"masterSettings": {
+					"viewId": "masterSettings",
+					"viewName": "settings.MasterSettings",
+					"controlId": "appSettings",
+					"controlAggregation": "masterPages",
+					"parent": "appSettings"
+				},
+				"detailSettings": {
+					"viewId": "detailSettings",
+					"viewName": "settings.DetailSettings",
+					"controlId": "appSettings",
+					"controlAggregation": "detailPages",
+					"parent": "appSettings"
+				},
+				"statistics": {
+					"viewId": "statistics",
+					"viewName": "Statistics"
+				}
+			}
+		}
+	},
+	"sap.platform.abap": {
+		"uri": "/sap/bc/ui5_ui5/sap/zui5_solcont/webapp",
+		"_version": "1.1.0"
+	}
+}

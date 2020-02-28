@@ -1,0 +1,33 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core"  xmlns="sap.m">
+    <TableSelectDialog id="centroCustoTable" 
+    noDataText="{i18n>falha_na_requisi_txt}" multiSelect="false" confirm="_onTableItemCCPress" 
+    title="{i18n>centro_custo_lbl}" liveChange="_onSearchCC" items="{
+			path : 'centroCusto>/results',
+            sorter : {
+				path : 'Kostl',
+				descending : false
+			}
+		}"
+    >
+        <items>
+            <ColumnListItem >
+                <cells>
+                   	<Text text="{path : 'centroCusto>Kostl'}" />
+                    <Text text="{path : 'centroCusto>Ltext', formatter : '.formatter.textName'}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+        <columns>
+            <Column hAlign="Begin">
+                <header>
+                    <Text text="{i18n>numero_txt}" />
+                </header>
+            </Column>        	
+            <Column hAlign="Begin">
+                <header>
+                    <Text text="{i18n>descricao_txt}" />
+                </header>
+            </Column>
+        </columns>
+    </TableSelectDialog>
+</core:FragmentDefinition>

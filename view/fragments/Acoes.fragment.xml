@@ -1,0 +1,18 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover showHeader="false"
+		contentWidth="170px"
+		contentHeight="230px"
+		placement="Auto">
+		<Button id="btnVizualizar" text="{i18n>visualizar_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://search" width="auto"  iconDensityAware="false" press="_onVizualizar" tooltip="{i18n>visualizar_txt}"/>
+		<Button id="btnAlterar" text="{i18n>alterar_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://edit"  width="auto" iconDensityAware="false" press="_onAlterar" tooltip="{i18n>alterar_txt}"/>
+		<Button id="btnCancelar" text="{i18n>cancelar_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://sys-cancel" width="auto"   iconDensityAware="false" press="_onCancelar" tooltip="{i18n>cancelar_txt}"/>
+		<Button id="btnParecer" text="{i18n>encaminhar_parecer_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://message-popup" width="auto"  iconDensityAware="false" press="_onEParecer" tooltip="{i18n>encaminhar_parecer_txt}"/>
+		<Button id="btnImprimir" text="{i18n>imprimir_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://print" width="auto"   iconDensityAware="false" press="_onImprimir" tooltip="Imprimir"/>
+		<Button id="btnRelatorio" text="{i18n>relatorio_parecer_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://print" width="auto"  iconDensityAware="false" press="_onRelatorio" tooltip="{i18n>relatorio_parecer_txt}"/>
+		<Button id="btnCriar" text="{i18n>criar_alterar_contrato_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://request" width="auto"  iconDensityAware="false" press="_onCriarAlt" tooltip="{i18n>criar_alterar_contrato_txt}"/>
+		<Button id="btnDefineProc" text="{i18n>definir_advogado_txt}" type="Transparent"  iconFirst="true" icon="sap-icon://add-employee" width="auto" 
+		iconDensityAware="false" press="_onDefineProc" tooltip="{i18n>definir_advogado_txt}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}"/>
+	</Popover>
+</core:FragmentDefinition>

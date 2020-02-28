@@ -1,0 +1,137 @@
+.sapUiDemoWT .myCustomText {
+	font-family: 'Museo', Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+.sapMPageHeader::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    top: 0;
+    border-top: 0 !important;
+    z-index: 7;
+}
+
+.sapMPanelContent { 
+	padding: 0 !important;
+    box-sizing: border-box;
+    overflow: auto;
+    white-space: normal;
+}
+
+.sapContrast.sapTntNavLIGroupItem.sapTntNavLIItem:last-child, .sapContrast .sapTntNavLIGroupItem.sapTntNavLIItem:last-child {
+    border-bottom: none;
+}
+
+/* formata cores da toolArea e sideContent*/
+
+/*sideContent action buttons */
+.sapTntNavLIItem {
+	background-color: #f2f2f2 !important
+}
+
+/*sideContent (below action buttons) */
+.sapTntSideNavigationFlexible {
+	background-color: #f2f2f2 !important
+}
+
+
+/*toolPage header */
+.sapTntToolHeader {
+	/*background-color: #f2f2f2 !important */
+	background-color: #f2f2f2 !important
+}
+
+/*sideContent action buttons when mouse over */
+.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):hover {
+	background-color: #f2f2f2 !important
+}
+
+/* */
+.sapTntNavLI .sapTntNavLIGroup.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):active>.sapUiIcon,.sapTntNavLI .sapTntNavLIGroupItem.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):active>.sapUiIcon {
+    color: #333333 !important
+}
+
+/* */
+.sapTntNavLI .sapTntNavLIGroup.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):active>.sapMText,.sapTntNavLI .sapTntNavLIGroupItem.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):active>.sapMText {
+    color: #333333 !important
+}
+
+/* */
+ .sapTntNavLI .sapTntNavLIGroup.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):active,.sapTntNavLI .sapTntNavLIGroupItem.sapTntNavLIItem:not(.sapTntNavLIItemDisabled):active {
+    background-color: #CCCCCC  !important
+} 
+
+/* */
+.sapContrast.sapTntToolHeader.sapMTB,.sapContrast .sapTntToolHeader.sapMTB {
+    background-color: #2f3c48;
+    border-top: 0px solid #cccccc !important;
+    border-right: 0px solid #cccccc !important;
+    border-left: 0px solid #cccccc !important;
+    border-bottom: 1px solid #cccccc !important;
+}
+
+.sapContrast.sapTntNavLIItem>.sapMText,.sapContrast .sapTntNavLIItem>.sapMText {
+    color: #333333 !important
+}
+
+/* sideContent font color */
+.sapContrast.sapTntNavLIItem>.sapMText,.sapContrast .sapTntNavLIItem>.sapMText {
+    color: #333 !important;
+}
+
+.sapTntSideNavigation {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #ffffff;
+   border-right: 0px solid #dddddd !important; 
+}
+
+.sapTntSideNavigationScrollIconUp {
+    border-bottom: 0px solid #e5e5e5 !important;
+}
+
+/* sideExpand icon color*/
+.sapContrast.sapTntNavLIItem>.sapUiIcon,.sapContrast .sapTntNavLIItem>.sapUiIcon {
+    color: #333333 !important;
+}
+
+/* collapse/expand sideContent menu button*/
+.sapContrast :not(.sapMBtnDisabled) .sapMBtnTransparent>.sapMBtnIcon {
+    color: #333333;
+}
+
+/* sideContent footer color*/
+.sapContrast.sapTntSideNavigation,.sapContrast .sapTntSideNavigation {
+    background: #efefef;
+    border-right: 1px solid #4f667a;
+}
+
+/* sideContent border color*/
+.sapContrast.sapTntNavLIGroup,.sapContrast .sapTntNavLIGroup {
+    border-bottom: 0px solid #ddd;
+}
+
+.sapTntNavLIGroup {
+    border-bottom: 1px solid #e5e5e5 !important;
+}
+
+.sapUiSizeCompact .sapMBtnInner {
+    text-shadow: none !important;
+}
+
+/*detalhes solicitacoes
+
+.sapMSplitContainer:not(.sapMSplitContainerHideMode) .sapMOH {
+    padding: 1rem !important;
+}*/
+
