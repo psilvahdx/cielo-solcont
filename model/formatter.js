@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/base/strings/formatMessage"
-], function (formatMessage) {
+	"sap/base/strings/formatMessage",
+	"sap/ui/core/format/DateFormat"
+], function (formatMessage, DateFormat) {
 	"use strict";
 
 	return {
@@ -61,10 +62,17 @@ sap.ui.define([
 		
 		date :  function (oDate) {
 			if (oDate === null) return "";
-			var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+			var oDateFormat = DateFormat.getDateTimeInstance({
 				pattern : "dd/MM/yyyy"
 			});
-			return oDateFormat.format(new Date(oDate));
+			return oDateFormat.format(new Date(oDate),true);
+		},
+		
+		formatDateShow: function(oDate) {
+			var oDateInstance = DateFormat.getDateInstance({
+				pattern: "dd/MM/yyyy"
+			});
+			return oDate && oDateInstance.format(new Date(oDate),true);
 		},
 		
 		textName: function(text){

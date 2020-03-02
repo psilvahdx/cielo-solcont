@@ -22,14 +22,14 @@
 									<f:formElements>
 										<f:FormElement id="lblData" label="{i18n>data_sol}">
 											<f:fields>
-												<DatePicker id="dtSolic" displayFormat="dd/MM/yyyy" editable="false" value=" {path: 'DtSolic', formatter: '.formatter.date'}"
+												<DatePicker id="dtSolic" displayFormat="dd/MM/yyyy" editable="false" value=" {path: 'DtSolic', formatter: '.formatter.formatDateShow'}"
 													tooltip="{i18n>dia_sol_realizada}" width="100%"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement id="lblEmpresa" label="{i18n>empresa_lbl}">
 											<f:fields>
-												<ComboBox id="cmbEmpresa" width="100%" required="true" items="{shModel>/EmpresasSet}"
-												selectedKey="{IdEmpresa}" enabled="{structureApp>/solViewModel/enabled}">
+												<ComboBox id="cmbEmpresa" width="100%" required="true" items="{shModel>/EmpresasSet}" selectedKey="{IdEmpresa}"
+													enabled="{structureApp>/solViewModel/enabled}">
 													<core:Item key="{shModel>IdEmpresa}" text="{shModel>DescEmpresa}"/>
 												</ComboBox>
 											</f:fields>
@@ -86,6 +86,30 @@
 												<Input id="inpNRC" value="{NRc}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
+										<!--ADM-->
+										<f:FormElement id="lblNatCont" label="{i18n>nat_contrato_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+											<f:fields>
+												<ComboBox id="cmbNatCont" width="100%"
+													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_NAT_CONT' }] }"
+													selectedKey="{NaturezaContrato}" enabled="{structureApp>/solViewModel/enabled}">
+													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+												</ComboBox>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblVigencia" label="{i18n>vigencia_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+											<f:fields>
+												<DatePicker id="inpDtVigenciaDe"  placeholder="dd/MM/yyyy" enabled="{structureApp>/solViewModel/enabled}"
+													displayFormat="dd/MM/yyyy" value=" {path: 'DtVigenciaIni', formatter: '.formatter.formatDateShow'}" change="onDtVigenciaDeChange" ></DatePicker>
+												<DatePicker id="inpDtVigenciaAte" placeholder="dd/MM/yyyy" enabled="{structureApp>/solViewModel/enabled}"
+													displayFormat="dd/MM/yyyy" value=" {path: 'DtVigenciaFim', formatter: '.formatter.formatDateShow'}"></DatePicker>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement id="lblFormVig" label="{i18n>form_vigencia_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+											<f:fields>
+												<Input id="inpFormVig" value="{FormVigencia}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<!--ADM-->
 									</f:formElements>
 								</f:FormContainer>
 							</f:formContainers>
@@ -120,18 +144,20 @@
 												<Label text="{i18n>aprovador_txt}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpSegundoA" value="{SegApr}" width="100%" valueHelpRequest="_onOpenDialogAprovador" showValueHelp="true" enabled="{structureApp>/solViewModel/enabled}"
-												required="true"/>
+												<Input id="inpSegundoA" value="{SegApr}" width="100%" valueHelpRequest="_onOpenDialogAprovador" showValueHelp="true"
+													enabled="{structureApp>/solViewModel/enabled}" required="true"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
 											<f:fields>
-												<CheckBox id="chekCompras" selected="{= ${SendCompras} !== '' ? true : false}" text="{i18n>chk_compras_txt}" select="checkCompra" enabled="{structureApp>/solViewModel/enabled}"/>
+												<CheckBox id="chekCompras" selected="{= ${SendCompras} !== '' ? true : false}" text="{i18n>chk_compras_txt}" select="checkCompra"
+													enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
 											<f:fields>
-												<CheckBox id="checkComplice" selected="{= ${SendComplice} !== '' ? true : false}" text="{i18n>chk_parte_relac_txt}" enabled="{structureApp>/solViewModel/enabled}"/>
+												<CheckBox id="checkComplice" selected="{= ${SendComplice} !== '' ? true : false}" text="{i18n>chk_parte_relac_txt}"
+													enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>
@@ -200,7 +226,7 @@
 												<Label text="{i18n>cnpj_cpf_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpCNPJ" value="{CnpjCpf}"  width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}" liveChange="onCnpjChange" />
+												<Input id="inpCNPJ" value="{CnpjCpf}" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}" liveChange="onCnpjChange"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
@@ -262,10 +288,9 @@
 			<OverflowToolbar width="100%" height="46px" design="Auto">
 				<content>
 					<ToolbarSpacer width=""/>
-					<Button text="{i18n>btn_encaminhar_txt}" type="Emphasized" iconFirst="true" width="auto" enabled="{structureApp>/solViewModel/fowardEnabled}"
-						iconDensityAware="false" press="onSubmit"/>
-					<Button text="{i18n>btn_cancelar_txt}" type="Default" iconFirst="true" width="auto" enabled="true" iconDensityAware="false"
-						press="onCancel"/>
+					<Button text="{i18n>btn_encaminhar_txt}" type="Emphasized" iconFirst="true" width="auto"
+						enabled="{structureApp>/solViewModel/fowardEnabled}" iconDensityAware="false" press="onPressEncaminhar"/>
+					<Button text="{i18n>btn_cancelar_txt}" type="Default" iconFirst="true" width="auto" enabled="true" iconDensityAware="false" press="onCancel"/>
 				</content>
 			</OverflowToolbar>
 		</footer>
