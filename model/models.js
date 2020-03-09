@@ -30,6 +30,29 @@ sap.ui.define([
 					NumSolic:"",
 					RazaoSoc: ""
 				}
+				
+			});
+		},
+		createFilterModel: function(){
+			return new JSONModel({
+				gerenciador:{
+					solicitante:"",
+					razao:"",
+					dtPeriodoDe:"",
+					dtPeriodoAte:"",
+					numero:"",
+					cnpj:"",
+					titulo: "",
+					tipo:"",
+					gerencia:"",
+					advogado:"",
+					situacao:""
+				},
+				admUsers:{
+					idUser: "",
+					nome: "",
+					perfil: ""
+				}
 			});
 		}
 	};

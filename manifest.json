@@ -102,6 +102,14 @@
 				},
 				"dataSource": "ZMM_SOLCONT_SRV_01",
 				"preload": true
+			},
+			"gerenciadorModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultCountMode": "None"
+				},
+				"dataSource": "ZMM_SOLCONT_SRV_01",
+				"preload": true
 			}
 		},
 		"resources": {
@@ -165,6 +173,16 @@
 					"pattern": "VizualizarContrato/{IdSolic}",
 					"name": "contrato",
 					"target": "contrato"
+				},
+				{
+					"pattern": "AdmUsers",
+					"name": "usersAdm",
+					"target": "usersAdm"
+				},
+				{
+					"pattern": "Gerenciador",
+					"name": "gerenciador",
+					"target": "gerenciador"
 				}
 			],
 			"targets": {
@@ -209,9 +227,18 @@
 				"statistics": {
 					"viewId": "statistics",
 					"viewName": "Statistics"
+				},
+				"usersAdm": {
+					"viewName": "AdmUsuarios",
+					"viewId": "usersAdm"
+				},
+				"gerenciador": {
+					"viewId": "gerenciador",
+					"viewName": "Gerenciador"
 				}
 			}
-		}
+		},
+		"flexEnabled": true
 	},
 	"sap.platform.abap": {
 		"uri": "/sap/bc/ui5_ui5/sap/zui5_solcont",

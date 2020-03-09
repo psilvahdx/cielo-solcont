@@ -87,7 +87,7 @@
 											</f:fields>
 										</f:FormElement>
 										<!--ADM-->
-										<f:FormElement id="lblNatCont" label="{i18n>nat_contrato_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+										<!--<f:FormElement id="lblNatCont" label="{i18n>nat_contrato_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
 											<f:fields>
 												<ComboBox id="cmbNatCont" width="100%"
 													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_NAT_CONT' }] }"
@@ -95,16 +95,16 @@
 													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
 												</ComboBox>
 											</f:fields>
-										</f:FormElement>
-										<f:FormElement id="lblVigencia" label="{i18n>vigencia_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+										</f:FormElement>-->
+										<f:FormElement id="lblVigencia" label="{i18n>vigencia_lbl}">
 											<f:fields>
-												<DatePicker id="inpDtVigenciaDe"  placeholder="dd/MM/yyyy" enabled="{structureApp>/solViewModel/enabled}"
-													displayFormat="dd/MM/yyyy" value=" {path: 'DtVigenciaIni', formatter: '.formatter.formatDateShow'}" change="onDtVigenciaDeChange" ></DatePicker>
-												<DatePicker id="inpDtVigenciaAte" placeholder="dd/MM/yyyy" enabled="{structureApp>/solViewModel/enabled}"
-													displayFormat="dd/MM/yyyy" value=" {path: 'DtVigenciaFim', formatter: '.formatter.formatDateShow'}"></DatePicker>
+												<DatePicker id="inpDtVigenciaDe" placeholder="dd/MM/yyyy" enabled="{structureApp>/solViewModel/enabled}" displayFormat="dd/MM/yyyy"
+													value=" {path: 'DtVigenciaIni', formatter: '.formatter.formatDateShow'}" change="onDtVigenciaDeChange"></DatePicker>
+												<DatePicker id="inpDtVigenciaAte" placeholder="dd/MM/yyyy" enabled="{structureApp>/solViewModel/enabled}" displayFormat="dd/MM/yyyy"
+													value=" {path: 'DtVigenciaFim', formatter: '.formatter.formatDateShow'}"></DatePicker>
 											</f:fields>
 										</f:FormElement>
-										<f:FormElement id="lblFormVig" label="{i18n>form_vigencia_lbl}" visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+										<f:FormElement id="lblFormVig" label="{i18n>form_vigencia_lbl}">
 											<f:fields>
 												<Input id="inpFormVig" value="{FormVigencia}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
@@ -157,6 +157,7 @@
 										<f:FormElement>
 											<f:fields>
 												<CheckBox id="checkComplice" selected="{= ${SendComplice} !== '' ? true : false}" text="{i18n>chk_parte_relac_txt}"
+													visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}"
 													enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
@@ -226,7 +227,14 @@
 												<Label text="{i18n>cnpj_cpf_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpCNPJ" value="{CnpjCpf}" width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}" liveChange="onCnpjChange"/>
+											<!--	<MaskInput id="inpCNPJ" mask="99.999.999/9999-99" placeholderSymbol="_" value="{path: 'CnpjCpf', formatter: '.formatter.mascaraCnpj'}"
+													width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}" change="onCnpjChange">
+													<rules>
+														<MaskInputRule maskFormatSymbol="9" regex="[0-9]"/>
+													</rules>
+												</MaskInput>-->
+												<Input id="inpCNPJ" value="{path: 'CnpjCpf', formatter: '.formatter.mascaraCnpj'}" width="50%" required="true"
+													enabled="{structureApp>/solViewModel/enabled}" liveChange="onCnpjLiveChange"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
@@ -266,12 +274,13 @@
 									<f:formElements>
 										<f:FormElement>
 											<f:fields>
-												<UploadCollection id="UploadCollection" maximumFilenameLength="55" fileDeleted="fnFileDeleted" maximumFileSize="10" multiple="false"
-													sameFilenameAllowed="false" numberOfAttachmentsText="{i18n>number_of_attachments_txt}" noDataText="{i18n>nodata_attachment}"
-													instantUpload="false" noDataDescription="{i18n>nodata_description}" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch"
-													change="handleSelectFile" fileType="pdf,png,jpeg,jpg" mimeType="pdf,png,jpeg,jpg" items="{path: 'AnexoSet', templateShareable: true}">
+												<UploadCollection id="UploadCollection" maximumFilenameLength="55" maximumFileSize="10" multiple="false" sameFilenameAllowed="false"
+													numberOfAttachmentsText="{i18n>number_of_attachments_txt}" noDataText="{i18n>nodata_attachment}" instantUpload="false"
+													noDataDescription="{i18n>nodata_description}" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch" change="handleSelectFile"
+													fileType="pdf,png,jpeg,jpg" mimeType="pdf,png,jpeg,jpg" items="{path: 'AnexoSet', templateShareable: false}">
 													<items>
-														<UploadCollectionItem documentId="{Idanexo}" fileName="{Zfilename}" mimeType="{Zfiletype}" press="handleShowFile"></UploadCollectionItem>
+														<UploadCollectionItem documentId="{Idanexo}" fileName="{Zfilename}" mimeType="{Zfiletype}" press="handleShowFile"
+															deletePress="fnFileDeleted"></UploadCollectionItem>
 													</items>
 												</UploadCollection>
 											</f:fields>
@@ -290,7 +299,8 @@
 					<ToolbarSpacer width=""/>
 					<Button text="{i18n>btn_encaminhar_txt}" type="Emphasized" iconFirst="true" width="auto"
 						enabled="{structureApp>/solViewModel/fowardEnabled}" iconDensityAware="false" press="onPressEncaminhar"/>
-					<Button text="{i18n>btn_cancelar_txt}" type="Default" iconFirst="true" width="auto" enabled="true" iconDensityAware="false" press="onCancel"/>
+					<Button text="{i18n>btn_cancelar_txt}" type="Default" iconFirst="true" width="auto" enabled="true" iconDensityAware="false"
+						press="_onCancel"/>
 				</content>
 			</OverflowToolbar>
 		</footer>

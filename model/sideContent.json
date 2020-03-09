@@ -1,91 +1,77 @@
 {
-	"navigation": [
-		{
-			"title": "Contratos",
-			"icon": "sap-icon://documents",
-			"expanded": false,
+	"navigation": [{
+		"title": "Contratos",
+		"icon": "sap-icon://documents",
+		"expanded": false,
+		"key": "solicitacoes",
+		"visible": true,
+		"items": [{
+			"title": "Gerenciador",
+			"key": "gerenciador",
+			"visible": true
+		}, {
+			"title": "Pendências",
 			"key": "solicitacoes",
-			"visible": true,
-			"items": [
-				{
-					"title": "Gerenciador",
-					"key": "Gerenciar",
-					"visible": true
-				},
-				{
-					"title": "Pendências",
-					"key": "solicitacoes",
-					"visible": true
-				},
-				{
-					"title": "Histórico",
-					"key": "Story",
-					"visible": true
-				},
-				{
-					"title": "Histórico do parecer",
-					"key": "StoryP",
-					"visible": true
-				}
-			]
-		},
-		{
-			"title": "Nova solicitação",
-			"icon": "sap-icon://write-new-document",
-			"expanded": false,
+			"visible": true
+		}, {
+			"title": "Histórico",
+			"key": "Story",
+			"visible": true
+		}, {
+			"title": "Histórico do parecer",
+			"key": "StoryP",
+			"visible": true
+		}]
+	}, {
+		"title": "Nova solicitação",
+		"icon": "sap-icon://write-new-document",
+		"expanded": false,
+		"key": "contratoJuridico",
+		"visible": true,
+		"items": [{
+			"title": "Contratos ao Jurídico",
 			"key": "contratoJuridico",
-			"visible": true,
-			"items": [
-				{
-					"title": "Contratos ao Jurídico",
-					"key": "contratoJuridico",
-					"visible": true
-				}
-			]
-		},
-		{
-			"title": "Administrador",
-			"icon": "sap-icon://user-settings",
-			"expanded": false,
-			"key": "solicitacoes",
-			"visible": false,
-			"items": []
-		},
-		{
-			"title": "Ajuda",
-			"icon": "sap-icon://sys-help",
-			"expanded": false,
-			"key": "",
-			"visible": true,
-			"items": []
-		}
-	],
+			"visible": true
+		}]
+	}, {
+		"title": "Administrador",
+		"icon": "sap-icon://user-settings",
+		"expanded": false,
+		"key": "solicitacoes",
+		"visible": false,
+		"items": [{
+			"title": "Usuários e Perfis de Acesso",
+			"key": "usersAdm",
+			"visible": true
+		}]
+	}, {
+		"title": "Ajuda",
+		"icon": "sap-icon://sys-help",
+		"expanded": false,
+		"key": "",
+		"visible": true,
+		"items": []
+	}],
 
-	"masterSettings": [
-		{
-			"title": "System Settings",
-			"key": "systemSettings",
-			"selected": true
-		},
-		{
-			"title": "Order Settings",
-			"key": "orderSettings",
-			"selected": false
-		},
-		{
-			"title": "Supplier Settings",
-			"key": "supplierSettings",
-			"selected": false
-		},
-		{
-			"title": "Campaign Settings",
-			"key": "campaignSettings",
-			"selected": false
-		},
-		{
-			"title": "Shipping Settings",
-			"key": "shipping Settings",
-			"selected": false
-		}
-	]
+	"masterSettings": [{
+		"title": "System Settings",
+		"key": "systemSettings",
+		"selected": true
+	}, {
+		"title": "Order Settings",
+		"key": "orderSettings",
+		"selected": false
+	}, {
+		"title": "Supplier Settings",
+		"key": "supplierSettings",
+		"selected": false
+	}, {
+		"title": "Campaign Settings",
+		"key": "campaignSettings",
+		"selected": false
+	}, {
+		"title": "Shipping Settings",
+		"key": "shipping Settings",
+		"selected": false
+	}]
 }

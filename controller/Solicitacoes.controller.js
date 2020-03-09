@@ -1,5 +1,5 @@
 sap.ui.define([
-	"com/sap/build/sapcsr/SOLCONT/controller/BaseController",
+	"./BaseController",
 	"sap/m/MessageBox",
 	"sap/ui/core/routing/History",
 	"sap/ui/comp/valuehelpdialog/ValueHelpDialog",
@@ -32,16 +32,10 @@ sap.ui.define([
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 		},
 		
-	/*	_onRouteMatched: function(oEvent){
-			
-			var structureAppModel = this.getModel("structureApp"),
-				structureApp = structureAppModel.getData();
-		},*/
-
 		handlePopoverPress: function (oEvent) {
 
 			var index = oEvent.getSource().getBindingContext().sPath.split("'")[1];
-			this.getOwnerComponent().IdSolic = parseInt(index);
+			this.getOwnerComponent().IdSolic = parseInt(index,10);
 
 			var oContext = oEvent.getSource().getBindingContext(),
 				oObject = this.getModel().getObject(oContext.getPath()),
@@ -60,6 +54,26 @@ sap.ui.define([
 			this._oPopover.openBy(oEvent.getSource());
 
 		},
+		
+		_onCriarAlt: function(oEvent){
+			var structureAppModel = this.getModel("structureApp"),
+				structureApp = structureAppModel.getData(),
+				iNumSol = parseInt(structureApp.procuradorData.NumSolic,10),
+				sFinalText = this.geti18nText("finalizacao_txt"),
+				sMessage = this.geti18nText1("confirm_finaliza_sol_msg", [sFinalText,iNumSol]);
+			
+			this.showMessageBoxConfirmation(sMessage, structureApp,"F");
+		},
+		
+		_onCancelar: function(oEvent){
+				var structureAppModel = this.getModel("structureApp"),
+					structureApp = structureAppModel.getData(),
+					iNumSol = parseInt(structureApp.procuradorData.NumSolic,10),
+					sFinalText = this.geti18nText("cancelamento_txt"),
+					sMessage = this.geti18nText1("confirm_finaliza_sol_msg", [sFinalText,iNumSol]);
+			
+				this.showMessageBoxConfirmation(sMessage, structureApp,"C");
+		},
 
 		_onEParecer: function (oEvent) {
 			this.getRouter().navTo("Parecer", {
@@ -68,12 +82,14 @@ sap.ui.define([
 		},
 
 		_onVizualizar: function (oEvent) {
+			this.showBusy();
 			this.getRouter().navTo("contrato", {
 				IdSolic: this.getOwnerComponent().IdSolic
 			});
 		},
 		
 		_onAlterar: function (oEvent){
+			this.showBusy();
 			this.getRouter().navTo("contrato",{
 				IdSolic: this.getOwnerComponent().IdSolic
 			});
@@ -84,7 +100,39 @@ sap.ui.define([
 			this.oDialogDefineProc.open();
 
 		},
+		
+		showMessageBoxConfirmation: function(sMessage, oSolicitacao, sEvento){
+			var that = this;
+			MessageBox.warning(
+				sMessage,
+				{
+					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+					onClose: function(sAction) {
+						if(sAction === sap.m.MessageBox.Action.OK){
+							that.finalizaSolicitacao(oSolicitacao,sEvento);
+						}
+					}
+				}
+			);
+		},
+		
+		finalizaSolicitacao: function(oSolicitacao, sEvento){
+			var that = this,
+				oParams = {};
+			
+			oParams = {
+				"NumSolic": oSolicitacao.procuradorData.NumSolic,
+				"Status": "",
+				"Situacao": "",
+				"Evento": sEvento,
+				"AnexoSet": []
+			};
 
+			that.oParams = oParams;
+			that.sendSolicitacao(that.oParams, sEvento);
+			
+		},
+		
 		getDialogDefineProc: function (sFragment) {
 			if (!this._oDialogDefProc) {
 				this._oDialogDefProc = sap.ui.xmlfragment(sFragment, this);
@@ -221,6 +269,36 @@ sap.ui.define([
 			}
 			oControl.setValueState("None");
 			return true;
+		},
+		
+		sendSolicitacao: function (oParams, sAction) {
+			this.getOwnerComponent().showBusyIndicator();
+			var that = this,
+				oModel = this.getModel(),
+				sText = "",
+				entitySet = "/GravarContratoJuridicoSet";
+
+			oModel.create(entitySet, oParams, {
+				success: function (oData) {
+					var iNumSol = parseInt(oData.NumSolic,10);
+					if (sAction === "F") {
+						sText = that.geti18nText("finalizada_txt");
+						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText1("solicitacao_encerrada_sucesso_msg", [iNumSol,sText]));
+					} 
+					if (sAction === "C") {
+						sText = that.geti18nText("cancelada_txt");
+						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText1("solicitacao_encerrada_sucesso_msg", [iNumSol,sText]));
+					} 
+					that.getOwnerComponent().hideBusyIndicator();
+					oModel.refresh();
+				},
+				error: function (oError) {
+					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("solicitacao_erro"));
+					that.getOwnerComponent().hideBusyIndicator();
+					oModel.refresh(true);
+				}
+			});
+
 		},
 
 		/***********************

@@ -14,14 +14,16 @@ sap.ui.define([
 			// call the init function of the parent
 			UIComponent.prototype.init.apply(this, arguments);
 
-			// set the device model
+			// set the App models
 			this.setModel(models.createDeviceModel(), "device");
 			this.setModel(models.createStructureAppModel(), "structureApp");
+			this.setModel(models.createFilterModel(), "filterModel");
 
 			// create the views based on the url/hash
 			this.getRouter().initialize();
 			
 			this.oListSolic = undefined; 
+			this.oListSolicGerenciador = undefined; 
 		},
 
 		myNavBack: function () {

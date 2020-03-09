@@ -15,7 +15,7 @@
 					</headerToolbar>
 					<columns>
 						<Column demandPopin="false" hAlign="Begin" width="6%">
-							<Text text="Nº"/>
+							<Text text="{i18n>num_txt}"/>
 						</Column>
 						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
 							<Text text="{i18n>title_txt}"/>

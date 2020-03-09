@@ -1,16 +1,16 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core"  xmlns="sap.m">
-    <TableSelectDialog noDataText="{i18n>falha_na_requisi_txt}" multiSelect="false" 
-    confirm="_onTableItemProcPress" title="{i18n>advogado_txt}" liveChange="_onSearchProc" items="{
-			path : 'procuradores>/results',
+    <TableSelectDialog noDataText="{i18n>falha_na_requisi_txt}" multiSelect="false" search="_onSearchSolic" 
+    confirm="_onTableItemSolicPress" title="{i18n>solicitante_txt}" liveChange="_onSearchSolic" items="{
+			path : 'solicitantes>/results',
             sorter : {
 				path : 'Nome',
 				descending : false
 			}
 		}">
         <items>
-            <ColumnListItem press="_onTableItemProcPress">
+            <ColumnListItem press="_onTableItemSolicPress">
                 <cells>
-                    <Text text="{path : 'procuradores>Nome', formatter: '.formatter.textName'}" />
+                    <Text text="{path : 'solicitantes>Nome', formatter: '.formatter.textName'}" />
                 </cells>
             </ColumnListItem>
         </items>

@@ -13,9 +13,10 @@ sap.ui.define([
 	"sap/ui/model/ValidateException",
 	"sap/ui/Device",
 	"sap/ui/comp/valuehelpdialog/ValueHelpDialog",
-	"com/sap/build/sapcsr/SOLCONT/model/formatter"
+	"com/sap/build/sapcsr/SOLCONT/model/formatter",
+	"com/sap/build/sapcsr/SOLCONT/model/jqueryMask"
 ], function (jQuery, BaseController, History, MessageBox, ODataModel, Filter, FilterOperator, MessageToast, SimpleType, UIComponent,
-	JSONModel, ValidateException, Device, ValueHelpDialog, formatter) {
+	JSONModel, ValidateException, Device, ValueHelpDialog, formatter, jqueryMask) {
 	"use strict";
 
 	return BaseController.extend("com.sap.build.sapcsr.SOLCONT.controller.ContratoJuridico", {
@@ -53,9 +54,7 @@ sap.ui.define([
 			sPath = oArgs.IdSolic;
 			if (sPath !== "New") {
 				this.sNumSolicitacao = sPath;
-				structureApp.solViewModel.enabled = false;
 				structureApp.solViewModel.fowardEnabled = true;
-				structureAppModel.setData(structureApp);
 
 				this.getView().bindElement({
 					path: "/GravarContratoJuridicoSet('".concat(sPath).concat("')"),
@@ -64,8 +63,21 @@ sap.ui.define([
 					},
 					events: {
 						dataReceived: function (oEvent) {
+							that.hideBusy();
 							var oContext = oEvent.getSource().getBoundContext(),
 								oViewModel = this.getModel().getObject(oContext.getPath());
+							
+							var oJsonModel = new JSONModel(oViewModel);
+							that.getView().setModel(oJsonModel,"viewModel");
+								
+							if(oViewModel.Evento === "S"){
+								structureApp.solViewModel.enabled = true;
+							}
+							else{
+								structureApp.solViewModel.enabled = false;
+							}
+							structureApp.solViewModel.fowardEnabled = true;
+							structureAppModel.setData(structureApp);
 
 							if (oViewModel.NumAdvogado !== "00000000") {
 								that.getAdvogadoResponsavel(oViewModel.NumAdvogado);
@@ -94,6 +106,7 @@ sap.ui.define([
 				success: function (oData) {
 					var oAdvogadoModel = new JSONModel(oData);
 					that.getView().byId("txtAdvogadoResp").setText(oAdvogadoModel.getProperty("/Nome"));
+					that.getView().setModel(oAdvogadoModel, "advogadoRespModel");
 				},
 				error: function (oError) {
 					that.getView().byId("txtAdvogadoResp").setText("");
@@ -123,15 +136,39 @@ sap.ui.define([
 
 		},
 
-		onCnpjChange: function (oEvent) {
+		onCnpjLiveChange: function (oEvent) {
 
-			var oValue = oEvent.getSource().getValue();
-			if (oValue) {
-				if (oValue.length >= 11) { //CPF / CNPJ
-					this.getOwnerComponent().showBusyIndicator();
-					this.getFornecedorByCnpj(oValue);
-				}
+			var brCnpjBehaviour = function (value) {
+					return value.replace(/\D/g, "").length === 14 ? "00.000.000/0000-00" : "00.000.000/0000-00";
+				},
+				brOptions = {
+					onKeyPress: function (value, event, field, options) {
+						var behaviour;
+						behaviour = brCnpjBehaviour;
+						field.mask(behaviour.apply({}, arguments), options);
+					}
+				};
+			
+			var oInput = oEvent.getSource().getId() + "-inner";
+			$(document.getElementById(oInput)).mask(brCnpjBehaviour, brOptions);
+			
+			var strCnpjNew = oEvent.getParameter("newValue");
+			
+			/*if(this.validarCNPJ(strCnpjNew)){
+				this.getView().byId("inpCNPJ").setValueState("None");
+			}
+			else{
+				this.getView().byId("inpCNPJ").setValueState("Error");
+			}*/
+			
+			strCnpjNew = this.retirarFormatacao(strCnpjNew);
+
+			if (strCnpjNew.length === 14) {
+				this.getView().byId("inpCNPJ").setValueState("None");
+				this.getOwnerComponent().showBusyIndicator();
+				this.getFornecedorByCnpj(strCnpjNew);
 			} else {
+				this.getView().byId("inpCNPJ").setValueState("Error");
 				this.getView().byId("inpRazao").setValue("");
 				this.getOwnerComponent().hideBusyIndicator();
 			}
@@ -156,12 +193,14 @@ sap.ui.define([
 				structureApp = structureAppModel.getData();
 
 			oBeneficiario.setText("" + structureApp.userData.Nome + "");
-			oCentroCusto.setValue("" + structureApp.userData.CentroCusto + "");
-			oGerencia.setValue("" + structureApp.userData.Gerencia + "");
+			//oCentroCusto.setValue("" + structureApp.userData.CentroCusto + "");
+			//oGerencia.setValue("" + structureApp.userData.Gerencia + "");
 			oTelefone.setText("" + structureApp.userData.Telefone + "");
 
 			this.byId("chekCompras").setSelected(false);
 			this.byId("checkComplice").setSelected(false);
+
+			sap.ui.getCore().fileUploadArr = [];
 
 		},
 		/********************************
@@ -237,6 +276,19 @@ sap.ui.define([
 		 ************************/
 
 		onSubmit: function () {
+			this.oParams = this.getParamsToSubmit("S");
+			this.sendSolicitacao(this.oParams, "S");
+		},
+		
+		onPressEncaminhar: function (oEvent) {
+			if(this._validateForm()){
+				this.oParams = this.getParamsToSubmit("E");
+				this.sendSolicitacao(this.oParams, "E");
+			}
+		},
+		
+		getParamsToSubmit: function(sEvento){
+			
 			var oView = this.getView();
 			var oParams = new Object();
 			var that = this;
@@ -247,9 +299,8 @@ sap.ui.define([
 			var aFiles = new Array();
 			var oArquivo;
 			var oFiles = new Array();
-
-			if (this._validateForm()) {
-
+			var oViewModel = this.getView().getModel("viewModel");
+			
 				//anexos
 				jQuery.each(aArquivos, function (i, oFile) {
 
@@ -275,6 +326,12 @@ sap.ui.define([
 				if (aFiles.length === 0) {
 					aFiles = oFiles;
 				}
+				
+				var sCnpjunmask = this.retirarFormatacao(oView.byId("inpCNPJ").getValue()),
+			 		oAdvogadoModel = oView.getModel("advogadoRespModel"),
+			 		oAprovModel = oView.getModel("selectedAprovador"),
+					sNumAdvogadoResp = oAdvogadoModel ? oAdvogadoModel.getProperty("/Matricula") : "",
+					sAprovadorID = oAprovModel ? oAprovModel.getProperty("/Matricula") : "";
 
 				oParams = {
 					"NumSolic": this.sNumSolicitacao,
@@ -292,52 +349,33 @@ sap.ui.define([
 					"Gerencia": oView.byId("inpGerencia").getValue(),
 					"RespCompras": oView.byId("cmbResponsavel").getValue(),
 					"RazaoSoc": oView.byId("inpRazao").getValue(),
-					"CnpjCpf": oView.byId("inpCNPJ").getValue(),
+					"CnpjCpf":  sCnpjunmask,
 					"DescContratacao": oView.byId("txtADescricao").getValue(),
-					"Status": "",
-					"Situacao": "",
-					"SendCompras": "",
-					"SendComplice": "",
+					"Status": oViewModel ? oViewModel.getProperty("Status") : "" ,
+					"Situacao": oViewModel ? oViewModel.getProperty("Situacao") : "",
+					"SendCompras": oViewModel ? oViewModel.getProperty("SendCompras") : "",
+					"SendComplice": oViewModel ? oViewModel.getProperty("SendComplice") : "",
 					"Valor": oValor.getValue() ? (oValor.data("convertedValue") ? oValor.data("convertedValue") : oValor.getValue().replace(",", ".")) : "0.00",
 					"AnexoSet": aFiles,
-					"NumAdvogado": "",
+					"NumAdvogado": sNumAdvogadoResp ? sNumAdvogadoResp : "",
 					"IdEmpresa": oView.byId("cmbEmpresa").getSelectedKey(),
 					"IdTipoSol": oView.byId("cmbSolicitacao").getSelectedKey(),
 					"IdTipoDoc": oView.byId("cmbDocumento").getSelectedKey(),
-					"Evento": "S",
-					"NaturezaContrato": oView.byId("cmbNatCont").getSelectedKey(),
+					"Evento": sEvento,
+					//"NaturezaContrato": oView.byId("cmbNatCont").getSelectedKey(),
 					"DtVigenciaIni": oView.byId("inpDtVigenciaDe").getDateValue(),
 					"DtVigenciaFim": oView.byId("inpDtVigenciaAte").getDateValue(),
-					"FormVigencia": oView.byId("inpFormVig").getValue()
+					"FormVigencia": oView.byId("inpFormVig").getValue(),
+					"NumSegAprov": sAprovadorID ? sAprovadorID : ""
 				};
-
-				that.oParams = oParams;
-				that.sendSolicitacao(that.oParams, "S");
-
-			}
-		},
-
-		onPressEncaminhar: function (oEvent) {
-
-			var oView = this.getView();
-			var oParams = new Object();
-			var that = this;
-
-			oParams = {
-				"NumSolic": this.sNumSolicitacao,
-				"Status": "",
-				"Situacao": "",
-				"Evento": "E",
-				"AnexoSet": []
-			};
-
-			that.oParams = oParams;
-			that.sendSolicitacao(that.oParams, "E");
-
+				
+			return oParams;
+			
 		},
 
 		sendSolicitacao: function (oParams, sAction) {
 			this.getOwnerComponent().showBusyIndicator();
+			sap.ui.getCore().fileUploadArr = [];
 			var that = this,
 				oModel = this.getModel(),
 				entitySet = "/GravarContratoJuridicoSet";
@@ -352,7 +390,6 @@ sap.ui.define([
 					}
 					that.getOwnerComponent().hideBusyIndicator();
 					//that.onCancel();
-					oModel.refresh();
 					if (sAction === "E") {
 						setTimeout(function () {
 							that.navToSolicitacoes();
@@ -360,16 +397,20 @@ sap.ui.define([
 					} else {
 						if (that.sNumSolicitacao === "") {
 							if (oData.NumSolic !== "") {
+								that.getOwnerComponent().showBusyIndicator();
 								that.readSolicitacao(oData.NumSolic);
 							}
 						}
 
 					}
+					that.getOwnerComponent().showBusyIndicator();
+					oModel.refresh();
 				},
 				error: function (oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("solicitacao_erro"));
 					that.getOwnerComponent().hideBusyIndicator();
 					oModel.refresh(true);
+
 				}
 			});
 
@@ -377,16 +418,32 @@ sap.ui.define([
 
 		readSolicitacao: function (sPath) {
 
-			var structureAppModel = this.getModel("structureApp"),
+			var that = this,
+				structureAppModel = this.getModel("structureApp"),
 				structureApp = structureAppModel.getData();
-
-			structureApp.solViewModel.enabled = false;
-			structureAppModel.setData(structureApp);
+			
+			structureApp.solViewModel.fowardEnabled = true;
+			sap.ui.getCore().fileUploadArr = [];
 
 			this.getView().bindElement({
 				path: "/GravarContratoJuridicoSet('".concat(sPath).concat("')"),
 				parameters: {
 					expand: "AnexoSet"
+				},
+				events: {
+					dataReceived: function (oEvent) {
+						that.hideBusy();
+						var oSolicitacao = oEvent.getParameter("data");
+						if(oSolicitacao.Evento === "S"){
+							structureApp.solViewModel.enabled = true;	
+						}
+						else{
+							structureApp.solViewModel.enabled = false;
+						}
+						structureApp.solViewModel.fowardEnabled = true;
+						structureAppModel.setData(structureApp);
+						structureAppModel.refresh();
+					}
 				}
 			});
 		},
@@ -397,6 +454,10 @@ sap.ui.define([
 		/***********************
 		 *  Quando clica em CANCELAR solicitação 
 		 ************************/
+		_onCancel: function (oEvent) {
+			this.getView().unbindElement();
+			history.go(-1);
+		},
 
 		onCancel: function () {
 			var oView = this.getView();
@@ -800,8 +861,42 @@ sap.ui.define([
 			window.open(url, '_blank');
 		},
 
-		fnFileDeleted: function () {
-			var oSelectedModel = this.getSelected();
+		fnFileDeleted: function (oEvent) {
+			var that = this,
+				sMsg = "",
+				oModel = this.getModel(),
+				oContext = oEvent.getSource().getBindingContext(),
+				oFile = this.getModel().getObject(oContext.getPath());
+
+			if (oFile) {
+
+				sap.m.MessageBox.warning(
+					this.geti18nText1("confirm_excluir_file", [oFile.Zfilename]), {
+						actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.CANCEL],
+						onClose: function (sAction) {
+							if (sAction === sap.m.MessageBox.Action.YES) {
+								that.showBusy();
+								oModel.remove(oModel.createKey("/AnexoSet", {
+									Numsolic: oFile.Numsolic,
+									Idanexo: oFile.Idanexo
+								}), {
+									success: function (oData) {
+										that.hideBusy();
+										sMsg = that.geti18nText("arquivo_excluido_sucess_msg");
+										that.getOwnerComponent()._genericSuccessMessage(sMsg);
+									},
+									error: function (oError) {
+										that.hideBusy();
+										sMsg = that.geti18nText("arquivo_excluido_error_msg");
+										that.getOwnerComponent()._genericErrorMessage(sMsg);
+									}
+								});
+							}
+						}
+					}
+				);
+
+			}
 
 		},
 
@@ -816,8 +911,8 @@ sap.ui.define([
 				respCompras.setValue("");
 			}
 		},
-		
-		onDtVigenciaDeChange: function(oEvent){
+
+		onDtVigenciaDeChange: function (oEvent) {
 			var dMindate = oEvent.getSource().getDateValue();
 			this.byId("inpDtVigenciaAte").setValue("");
 			this.byId("inpDtVigenciaAte").setMinDate(dMindate);
@@ -876,8 +971,15 @@ sap.ui.define([
 			var beneficiarioId = aContexts.map(function (oContext) {
 				return oContext.getObject();
 			});
-			var aprovador = oController.formatter.textName(beneficiarioId[0].Nome);
+			var aprovador = oController.formatter.textName(beneficiarioId[0].Nome),
+				sMatriculaAprovador = oController.formatter.textName(beneficiarioId[0].Matricula);
 			oCampoApr.setValue(aprovador);
+			
+			var oSelectedAprovador = new JSONModel(beneficiarioId[0]);
+			this.getView().setModel(oSelectedAprovador, "selectedAprovador");
+			
+			this.setCentroDeCustoAprovador(sMatriculaAprovador);
+			
 		},
 
 		_onSearchApr: function (oEvent) {
@@ -890,6 +992,37 @@ sap.ui.define([
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter([oFilter]);
 		},
+		
+		setCentroDeCustoAprovador: function(sMatricula){
+				var oView = this.getView(),
+				oOwnerComponent = this.getOwnerComponent(),
+				oModel = this.getModel(),
+				that = this;
+
+			if (sMatricula) {
+				oOwnerComponent.showBusyIndicator();
+
+				oModel.read(oModel.createKey("/CentroCustoUsuarioSet",{
+					Matricula: sMatricula
+				}), {
+					success: function (oData) {
+
+						var oCCustoAprov = new JSONModel(oData);
+						oView.setModel(oCCustoAprov, "centroCusotAprovModel");
+						oView.byId("inpCentroC").setValue(oCCustoAprov.getProperty("/CentroCusto"));
+						oView.byId("inpGerencia").setValue(oCCustoAprov.getProperty("/DescCentroCusto"));
+						oOwnerComponent.hideBusyIndicator();
+						
+					},
+					error: function (oError) {
+						oOwnerComponent.hideBusyIndicator();
+						oOwnerComponent._genericErrorMessage(that.geti18nText("centro_custo_error_load_msg"));
+					}
+
+				});
+			}
+			
+		}
 
 	});
 });
