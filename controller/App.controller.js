@@ -82,7 +82,19 @@ sap.ui.define([
 			var oItem = oEvent.getParameter("item");
 			var sKey = oItem.getKey();
 			
-			// if you click on home, settings or statistics button, call the navTo function
+			if(sKey === "contratoJuridico" ){ //informando o target 'contrato' para capturar no evento attachPatternMatched 
+				this.getRouter().navTo("contrato", {
+					IdSolic: "New"
+				});
+			}
+			
+			if (Device.system.phone) {
+					this.onSideNavButtonPress();
+				}
+			
+			this.getRouter().navTo(sKey);
+			
+		  /*// if you click on home, settings or statistics button, call the navTo function
 			if ((sKey === "home" || sKey === "masterSettings" || sKey === "solicitacoes" || sKey === "usersAdm" || sKey === "gerenciador")) {
 				// if the device is phone, collaps the navigation side of the app to give more space
 				if (Device.system.phone) {
@@ -95,11 +107,11 @@ sap.ui.define([
 				this.getRouter().navTo("contrato", {
 					IdSolic: "New"
 				});
-			}
+			}*/
 			
-			else {
+			/*else {
 				MessageToast.show(sKey);
-			}
+			}*/
 		},
 		
 		onUserNamePress: function(oEvent) {

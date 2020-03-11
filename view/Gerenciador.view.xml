@@ -1,160 +1,170 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.Gerenciador" xmlns="sap.m"
-	xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
 	<Page showHeader="false" title="{i18n>gerenciador_title}" showFooter="false" showNavButton="false">
-		<content>
-			<Panel expandable="true" expanded="true" headerText="{i18n>gerenciar_form_title}" width="auto">
-				<content>
-					<form:Form width="100%" editable="true">
-						<form:formContainers>
-							<form:FormContainer>
-								<form:formElements>
-									<form:FormElement label="{i18n>gerencia_lbl}">
-										<form:fields>
-											<ComboBox  id="cmbGerencia" selectedKey="{filterModel>/gerenciador/gerencia}"
-												items="{ path : '/GestoresSet', sorter : { path : 'Nome', descending : false } }">
-												<items>
-													<core:Item key="{Matricula}" text="{path : 'Nome', formatter: '.formatter.textName'}"/>
-												</items>
-											</ComboBox>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>advogado_lbl}">
-										<form:fields>
-											<ComboBox id="cmbAdvogado" selectedKey="{filterModel>/gerenciador/advogado}"
-												items="{ path : '/ProcuradoresSet', sorter : { path : 'Nome', descending : false } }">
-												<items>
-													<core:Item key="{Matricula}" text="{path : 'Nome', formatter: '.formatter.textName'}"/>
-												</items>
-											</ComboBox>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>numero_lbl}">
-										<form:fields>
-											<Input type="Text" value="{filterModel>/gerenciador/numero}"/>
-										</form:fields>
-									</form:FormElement>
-								</form:formElements>
-								<form:title/>
-							</form:FormContainer>
-							<form:FormContainer>
-								<form:formElements>
-									<form:FormElement label="{i18n>solicitante_lbl}">
-										<form:fields>
-											<Input type="Text" value="{filterModel>/gerenciador/solicitante}" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="_onOpenDialogSolicitante" />
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>situacao_lbl}">
-										<form:fields>
-											<ComboBox id="cbmSituacao" selectedKey="{filterModel>/gerenciador/situacao}"
-												items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_STATUS_CONTRATO' }] }">
-												<items>
-													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
-												</items>
-											</ComboBox>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>razao_lbl}">
-										<form:fields>
-											<Input type="Text" value="{filterModel>/gerenciador/razao}" showValueHelp="false" valueHelpOnly="false"/>
-										</form:fields>
-									</form:FormElement>
-								</form:formElements>
-								<form:title/>
-							</form:FormContainer>
-							<form:FormContainer>
-								<form:formElements>
-									<form:FormElement label="{i18n>periodo_lbl}">
-										<form:fields>
-											<DatePicker id="inpDtPeriodoDe" placeholder="dd/MM/yyyy" displayFormat="dd/MM/yyyy" value="{filterModel>/gerenciador/dtPeriodoDe}"
-												change="onDtPeriodoDeChange"></DatePicker>
-											<DatePicker id="inpDtPeriodoAte" placeholder="dd/MM/yyyy" displayFormat="dd/MM/yyyy" value="{filterModel>/gerenciador/dtPeriodoAte}"></DatePicker>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>cnpj_lbl}">
-										<form:fields>
-											<Input type="Text" value="{filterModel>/gerenciador/cnpj}" liveChange="onCnpjLiveChange"/>
-										</form:fields>
-									</form:FormElement>
-									<form:FormElement label="{i18n>titulo_lbl}">
-										<form:fields>
-											<Input type="Text" value="{filterModel>/gerenciador/titulo}"/>
-										</form:fields>
-									</form:FormElement>
-								</form:formElements>
-								<form:title/>
-							</form:FormContainer>
-						</form:formContainers>
-						<form:layout>
-							<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="3" labelSpanL="3" columnsM="3" labelSpanM="2" labelSpanS="12"/>
-						</form:layout>
-					</form:Form>
-					<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
 						<content>
-							<ToolbarSpacer width=""/>
-							<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
-							<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
-						</content>
-					</OverflowToolbar>
-					<!--LISTA-->
-				</content>
-			</Panel>
-			<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
-				<items>
-					<Table id="tbSolicitacoesGerenciador" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
-						mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: 'gerenciadorModel>/GravarContratoJuridicoSet', templateShareable:true}">
-						<headerToolbar>
-							<OverflowToolbar width="auto" height="100%" design="Transparent" visible="true" enabled="true">
+							<Panel expandable="true" expanded="true" headerText="{i18n>gerenciar_form_title}" width="auto">
 								<content>
-									<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
-									<ToolbarSpacer width=""/>
-									<Button visible="false" icon="sap-icon://excel-attachment" press="onExport"/>
+									<form:Form width="100%" editable="true">
+										<form:formContainers>
+											<form:FormContainer>
+												<form:formElements>
+													<form:FormElement label="{i18n>gerencia_lbl}">
+														<form:fields>
+															<ComboBox id="cmbGerencia" selectedKey="{filterModel>/gerenciador/gerencia}"
+																items="{ path : '/GestoresSet', sorter : { path : 'Nome', descending : false } }">
+																<items>
+																	<core:Item key="{Matricula}" text="{path : 'Nome', formatter: '.formatter.textName'}"/>
+																</items>
+															</ComboBox>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>advogado_lbl}">
+														<form:fields>
+															<ComboBox id="cmbAdvogado" selectedKey="{filterModel>/gerenciador/advogado}"
+																items="{ path : '/ProcuradoresSet', sorter : { path : 'Nome', descending : false } }">
+																<items>
+																	<core:Item key="{Matricula}" text="{path : 'Nome', formatter: '.formatter.textName'}"/>
+																</items>
+															</ComboBox>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>numero_lbl}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/numero}"/>
+														</form:fields>
+													</form:FormElement>
+												</form:formElements>
+												<form:title/>
+											</form:FormContainer>
+											<form:FormContainer>
+												<form:formElements>
+													<form:FormElement label="{i18n>solicitante_lbl}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/solicitante}" showValueHelp="true" valueHelpOnly="false"
+																valueHelpRequest="_onOpenDialogSolicitante"/>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>situacao_lbl}">
+														<form:fields>
+															<ComboBox id="cbmSituacao" selectedKey="{filterModel>/gerenciador/situacao}"
+																items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_STATUS_CONTRATO' }] }">
+																<items>
+																	<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+																</items>
+															</ComboBox>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>razao_lbl}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/razao}" showValueHelp="false" valueHelpOnly="false"/>
+														</form:fields>
+													</form:FormElement>
+												</form:formElements>
+												<form:title/>
+											</form:FormContainer>
+											<form:FormContainer>
+												<form:formElements>
+													<form:FormElement label="{i18n>periodo_lbl}">
+														<form:fields>
+															<DatePicker id="inpDtPeriodoDe" placeholder="dd/MM/yyyy" displayFormat="dd/MM/yyyy" value="{filterModel>/gerenciador/dtPeriodoDe}"
+																change="onDtPeriodoDeChange"></DatePicker>
+															<DatePicker id="inpDtPeriodoAte" placeholder="dd/MM/yyyy" displayFormat="dd/MM/yyyy" value="{filterModel>/gerenciador/dtPeriodoAte}"></DatePicker>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>cnpj_lbl}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/cnpj}" liveChange="onCnpjLiveChange"/>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>titulo_lbl}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/titulo}"/>
+														</form:fields>
+													</form:FormElement>
+												</form:formElements>
+												<form:title/>
+											</form:FormContainer>
+										</form:formContainers>
+										<form:layout>
+											<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="3" labelSpanL="3" columnsM="3" labelSpanM="2" labelSpanS="12"/>
+										</form:layout>
+									</form:Form>
+									<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
+										<content>
+											<ToolbarSpacer width=""/>
+											<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
+											<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
+										</content>
+									</OverflowToolbar>
+									<!--LISTA-->
 								</content>
-							</OverflowToolbar>
-						</headerToolbar>
-						<columns>
-							<Column demandPopin="false" hAlign="Begin" width="6%">
-								<Text text="{i18n>num_txt}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
-								<Text text="{i18n>title_txt}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="20%">
-								<Text text="{i18n>solicitante_txt}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="14%">
-								<Text text="{i18n>razao_social_txt}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
-								<Text text="{i18n>situacao_txt}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
-								<Text text="{i18n>data_txt}" tooltip="{i18n>conta_contabil_tol}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
-								<Text text="{i18n>sla_txt}"/>
-							</Column>
-							<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
-								<Text text=""/>
-							</Column>
-						</columns>
-						<items>
-							<ColumnListItem type="Active">
-								<cells>
-									<Text text="{path: 'gerenciadorModel>NumSolic', formatter: '.formatter.solicNumber'}"/>
-									<Text text="{path: 'gerenciadorModel>DescSolic', formatter: '.formatter.textName'}"/>
-									<Text text="{path: 'gerenciadorModel>Solicitante', formatter: '.formatter.textName'}"/>
-									<Text text="{path: 'gerenciadorModel>RazaoSoc', formatter: '.formatter.textName'}"/>
-									<Text text="{path: 'gerenciadorModel>Situacao', formatter: '.formatter.textName'}"/>
-									<Text text="{path: 'gerenciadorModel>DtSolic', formatter: '.formatter.date'}"/>
-									<core:Icon src="{path: 'gerenciadorModel>sla', formatter: '.formatter.getIcon'}" color="{path: 'gerenciadorModel>sla', formatter: '.formatter.getColor'}"/>
-									<Button type="Transparent" icon="sap-icon://dropdown" press="handlePopoverPress"/>
-								</cells>
-							</ColumnListItem>
-						</items>
-					</Table>
-				</items>
-			</FlexBox>
-			<!--LISTA-->
-		</content>
+							</Panel>
+							<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+								<items>
+									<Table id="tbSolicitacoesGerenciador" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
+										mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: 'gerenciadorModel>/GravarContratoJuridicoSet', templateShareable:true}">
+										<headerToolbar>
+											<OverflowToolbar width="auto" height="100%" design="Transparent" visible="true" enabled="true">
+												<content>
+													<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
+													<ToolbarSpacer width=""/>
+													<Button visible="false" icon="sap-icon://excel-attachment" press="onExport"/>
+												</content>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column demandPopin="false" hAlign="Begin" width="6%">
+												<Text text="{i18n>num_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
+												<Text text="{i18n>title_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="20%">
+												<Text text="{i18n>solicitante_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="14%">
+												<Text text="{i18n>razao_social_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
+												<Text text="{i18n>situacao_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
+												<Text text="{i18n>data_txt}" tooltip="{i18n>conta_contabil_tol}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
+												<Text text="{i18n>sla_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
+												<Text text=""/>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<Text text="{path: 'gerenciadorModel>NumSolic', formatter: '.formatter.solicNumber'}"/>
+													<Text text="{path: 'gerenciadorModel>DescSolic', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>Solicitante', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>RazaoSoc', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>Situacao', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>DtSolic', formatter: '.formatter.date'}"/>
+													<core:Icon src="{path: 'gerenciadorModel>sla', formatter: '.formatter.getIcon'}"
+														color="{path: 'gerenciadorModel>sla', formatter: '.formatter.getColor'}"/>
+													<Button type="Transparent" icon="sap-icon://dropdown" press="handlePopoverPress"/>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</items>
+							</FlexBox>
+							<!--LISTA-->
+						</content>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
 	</Page>
 </mvc:View>

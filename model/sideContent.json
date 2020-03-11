@@ -43,6 +43,11 @@
 			"title": "Usuários e Perfis de Acesso",
 			"key": "usersAdm",
 			"visible": true
+		},
+		{
+			"title": "Redirecionamento de Pendências",
+			"key": "gerenPendencias",
+			"visible": true
 		}]
 	}, {
 		"title": "Ajuda",

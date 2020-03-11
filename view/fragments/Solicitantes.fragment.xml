@@ -7,19 +7,25 @@
 				descending : false
 			}
 		}">
-        <items>
-            <ColumnListItem press="_onTableItemSolicPress">
-                <cells>
-                    <Text text="{path : 'solicitantes>Nome', formatter: '.formatter.textName'}" />
-                </cells>
-            </ColumnListItem>
-        </items>
-        <columns>
+    	<columns>
+            	<Column>
+        		<header hAlign="Begin">
+        			<Text text="{i18n>id_user_lbl}"></Text>
+        		</header>
+        	</Column>
             <Column hAlign="Begin">
                 <header>
                     <Text text="{i18n>nome_txt}" />
                 </header>
             </Column>
         </columns>
+        <items>
+            <ColumnListItem press="_onTableItemSolicPress">
+                <cells>
+                	<Text text="{solicitantes>Usuario}" />
+                    <Text text="{path : 'solicitantes>Nome', formatter: '.formatter.textName'}" />
+                </cells>
+            </ColumnListItem>
+        </items>
     </TableSelectDialog>
 </core:FragmentDefinition>

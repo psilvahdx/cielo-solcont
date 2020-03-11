@@ -13,7 +13,7 @@ sap.ui.define([
 	JSONModel, Device, ValueHelpDialog, formatter) {
 	"use strict";
 
-	return BaseController.extend("com.sap.build.sapcsr.SOLCONT.controller.AdmUsuarios", {
+	return BaseController.extend("com.sap.build.sapcsr.SOLCONT.controller.EditUsuario", {
 		formatter: formatter,
 
 		onInit: function () {
@@ -31,20 +31,24 @@ sap.ui.define([
 			this.oDialogUsuarios = this.getDialogUsuarios("com.sap.build.sapcsr.SOLCONT.view.fragments.Usuarios");
 
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this.oRouter.getRoute("usersAdm").attachPatternMatched(this._onRouteMatched, this);
+			this.oRouter.getRoute("editUsuario").attachPatternMatched(this._onRouteMatched, this);
 		},
 
 		//função que copia todos os dados do oData para os campos na tela, e as imagens
 		_onRouteMatched: function (oEvent) {
 			var that = this,
-				structureAppModel = this.getModel("structureApp"),
-				structureApp = structureAppModel.getData();
+				sPath = "/UsuarioPerfilSet('#')",
+				sArgs = oEvent.getParameter("arguments");
+
+			sPath = sPath.replace("#", sArgs.IdUsuario);
 
 			this.getView().bindElement({
-				path: "/UsuarioPerfilSet",
+				path: sPath,
 				events: {
-					dataReceived: function (oEvent) {
-						that.hideBusy();
+					dataReceived: function (oSource) {
+						//var oJsonModel = new JSONModel(oSource.getParameter("data"));
+						//that.getView().setModel(oJsonModel,"editUser");
+						//that.hideBusy();
 					}
 				}
 			});
@@ -161,79 +165,50 @@ sap.ui.define([
 				perfil: ""
 			};
 			filterModel.setProperty("/admUsers", oFilterAdm);
-			this.onSearch();
 		},
 
-		onNavToEdit: function (oEvent) {
-
-			var oContext = oEvent.getParameter("listItem").getBindingContext(),
-				oObject = this.getModel().getObject(oContext.getPath());
-
-			//this.showBusy();
-			this.getRouter().navTo("editUsuario", {
-				IdUsuario: oObject.IdUsuario
-			});
-		},
-
-		onListUsersUpdateFinished: function (oEvent) {
-
-			var iTotal = oEvent.getParameter("total");
-			if (iTotal > 0) {
-				this.byId("btnNewUser").setEnabled(false);
-			} else {
-				this.byId("btnNewUser").setEnabled(true);
-			}
-
-		},
-
-		validateFields: function (oParams) {
-			var bReturn = true;
-			this.byId("inpIdUser").setValueState("None");
-			this.byId("cmbPerfil").setValueState("None");
-			if (oParams.IdUsuario === "") {
-				this.byId("inpIdUser").setValueState("Error");
-				bReturn = false;
-			}
-			if (oParams.Perfil === "") {
-				this.byId("cmbPerfil").setValueState("Error");
-				bReturn = false;
-			}
-			return bReturn;
-		},
-
-		onNewUser: function (oEvent) {
+		onSave: function (oEvent) {
 
 			var that = this,
 				entitySet = "/UsuarioPerfilSet",
 				oModel = this.getModel(),
-				filterModel = this.getModel("filterModel"),
-				oFilterAdm = filterModel.getProperty("/admUsers");
+				oContext = oEvent.getSource().getBindingContext(),
+				oUser = oModel.getObject(oContext.getPath());
 
 			var oParams = {
-				IdUsuario: oFilterAdm.idUser,
-				Nome: oFilterAdm.nome,
-				Perfil: oFilterAdm.perfil
+				IdUsuario: oUser.IdUsuario,
+				Nome: oUser.Nome,
+				Perfil: this.byId("cmbPerfil").getSelectedKey()
 			};
 
-			if (this.validateFields(oParams)) {
-				oModel.create(entitySet, oParams, {
-					success: function (oData) {
-						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("insere_user_sucesso_msg"));
-						that.getOwnerComponent().hideBusyIndicator();
-						that.onClearFilters();
-						oModel.refresh();
-					},
-					error: function (oError) {
-						that.getOwnerComponent()._genericErrorMessage(that.geti18nText("insere_user_erro"));
-						that.getOwnerComponent().hideBusyIndicator();
-						oModel.refresh(true);
+			oModel.create(entitySet, oParams, {
+				success: function (oData) {
+					that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("edit_user_sucesso_msg"));
+					that.getOwnerComponent().hideBusyIndicator();
+					//that.navBack();
+					oModel.refresh();
 
-					}
-				});
-			}else{
-				MessageToast.show(this.geti18nText("campo_obrigatorio_msg"));
-			}
+					setTimeout(function () {
+						that.navBack();
+					}.bind(that), 2000);
 
+				},
+				error: function (oError) {
+					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("edit_user_erro"));
+					that.getOwnerComponent().hideBusyIndicator();
+					oModel.refresh(true);
+
+				}
+			});
+
+		},
+
+		onCancel: function (oEvent) {
+			this.navBack(oEvent);
+		},
+		navBack: function (oEvent) {
+			this.getView().unbindElement();
+			history.go(-1);
 		}
 
 	});

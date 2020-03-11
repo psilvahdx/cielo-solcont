@@ -1,0 +1,93 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.GerenciadorPendencias" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+	<Page showHeader="false" title="{i18n>gerenciador_title}" showFooter="false" showNavButton="false">
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+							<Panel expandable="true" expanded="true" headerText="{i18n>redirecionamento_pendencia_txt}" width="auto">
+								<content>
+									<form:Form width="100%" editable="true">
+										<form:formContainers>
+											<form:FormContainer>
+												<form:formElements>
+													<form:FormElement label="{i18n>pendente_para_txt}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/solicitante}" showValueHelp="true" valueHelpOnly="false"
+																valueHelpRequest="_onOpenDialogSolicitante"/>
+														</form:fields>
+													</form:FormElement>
+													<form:FormElement label="{i18n>num_solicitacao_txt}">
+														<form:fields>
+															<Input type="Text" value="{filterModel>/gerenciador/numero}"/>
+														</form:fields>
+													</form:FormElement>
+												</form:formElements>
+											</form:FormContainer>
+										</form:formContainers>
+										<form:layout>
+											<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="3" labelSpanL="3" columnsM="3" labelSpanM="2" labelSpanS="12"/>
+										</form:layout>
+									</form:Form>
+									<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
+										<content>
+											<ToolbarSpacer width=""/>
+											<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
+											<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
+										</content>
+									</OverflowToolbar>
+								</content>
+							</Panel>
+							<!--LISTA BEGIN-->
+							<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+								<items>
+									<Table id="tbGerenciadorPendencias" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
+										mode="MultiSelect" class="sapUiSmallMarginTop" items="{path: 'gerenciadorModel>/GravarContratoJuridicoSet', templateShareable:true}"
+										selectionChange="onTbGernciaPencenciaSelecChange">
+										<headerToolbar>
+											<OverflowToolbar width="auto" height="100%" design="Transparent">
+												<content>
+													<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
+													<ToolbarSpacer width=""/>
+													<Button id="btnRedirecionarPendencias" enabled="false" text="{i18n>redirecionar_para_txt}" icon="sap-icon://add-employee" type="Emphasized"  press="onRedirectParaPress"/>
+												</content>
+											</OverflowToolbar>
+										</headerToolbar>
+										<columns>
+											<Column demandPopin="false" hAlign="Begin" width="5%">
+												<Text text="{i18n>num_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="45%">
+												<Text text="{i18n>title_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
+												<Text text="{i18n>solicitante_txt}"/>
+											</Column>
+											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
+												<Text text="{i18n>situacao_txt}"/>
+											</Column>
+											<!--<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
+												<Text text=""/>
+											</Column>-->
+										</columns>
+										<items>
+											<ColumnListItem type="Active">
+												<cells>
+													<Text text="{path: 'gerenciadorModel>NumSolic', formatter: '.formatter.solicNumber'}"/>
+													<Text text="{path: 'gerenciadorModel>DescSolic', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>Solicitante', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>Situacao', formatter: '.formatter.textName'}"/>
+													<!--<Button type="Transparent" icon="sap-icon://dropdown" press="handlePopoverPress"/>-->
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</items>
+							</FlexBox>
+							<!--LISTA END-->
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+</mvc:View>

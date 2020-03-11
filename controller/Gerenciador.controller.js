@@ -44,14 +44,6 @@ sap.ui.define([
 				structureAppModel = this.getModel("structureApp"),
 				structureApp = structureAppModel.getData();
 
-			/*this.getView().bindElement({
-				path: "/UsuarioPerfilSet",
-				events: {
-					dataReceived: function (oEvent) {
-						that.hideBusy();
-					}
-				}
-			});*/
 		},
 
 		buildFilters: function (oFilterGer) {

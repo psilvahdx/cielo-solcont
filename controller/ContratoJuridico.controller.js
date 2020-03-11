@@ -70,7 +70,7 @@ sap.ui.define([
 							var oJsonModel = new JSONModel(oViewModel);
 							that.getView().setModel(oJsonModel,"viewModel");
 								
-							if(oViewModel.Evento === "S"){
+							if(oViewModel.Evento === "S" || oViewModel.Evento === ""){
 								structureApp.solViewModel.enabled = true;
 							}
 							else{

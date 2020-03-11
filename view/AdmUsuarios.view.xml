@@ -1,84 +1,95 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.AdmUsuarios" xmlns="sap.m"
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" controllerName="com.sap.build.sapcsr.SOLCONT.controller.AdmUsuarios" xmlns="sap.m"
 	xmlns:semantic="sap.f.semantic" xmlns:form="sap.ui.layout.form" xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core">
 	<Page id="page" showHeader="false" title="Users" showFooter="false" showNavButton="false">
 		<!--FILTERBAR-->
-		<Panel expandable="true" expanded="true" headerText="{i18n>users_adm_title}" width="auto">
-			<content>
-				<form:Form width="100%" editable="true">
-					<form:formContainers>
-						<form:FormContainer>
-							<form:formElements>
-								<form:FormElement label="{i18n>id_user_lbl}">
-									<form:fields>
-										<Input type="Text" value="{filterModel>/admUsers/idUser}" showValueHelp="false" enabled="true" valueHelpOnly="false"/>
-									</form:fields>
-								</form:FormElement>
-								<form:FormElement label="{i18n>nome_lbl}">
-									<form:fields>
-										<Input type="Text" value="{filterModel>/admUsers/nome}" showValueHelp="false" enabled="true" valueHelpOnly="false"/>
-									</form:fields>
-								</form:FormElement>
-								<form:FormElement label="{i18n>perfil_lbl}">
-									<form:fields>
-										<ComboBox id="cmbPerfil" change="onFilterChange" selectedKey="{filterModel>/admUsers/perfil}"
-											items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_PERFIL' }] }">
-											<items>
-												<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
-											</items>
-										</ComboBox>
-									</form:fields>
-								</form:FormElement>
-							</form:formElements>
-						</form:FormContainer>
-					</form:formContainers>
-					<form:layout>
-						<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="3" labelSpanL="3" columnsM="3" labelSpanM="2" labelSpanS="12"/>
-					</form:layout>
-				</form:Form>
-				<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
-					<content>
-						<ToolbarSpacer width=""/>
-						<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
-						<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" width="auto"/>
-					</content>
-				</OverflowToolbar>
-			</content>
-		</Panel>
-		<!--LISTA-->
-		<FlexBox id="flb" width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
-			<items>
-				<Table id="tbUsers" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
-					mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: '/UsuarioPerfilSet', templateShareable:false}">
-					<headerToolbar>
-						<OverflowToolbar width="auto" height="100%" design="Transparent">
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<Panel expandable="true" expanded="true" headerText="{i18n>users_adm_title}" width="auto">
 							<content>
-								<Title text="{i18n>users_adm_title}" class="sapUiSmallMarginBottom"></Title>
-								<ToolbarSpacer width=""/>
+								<form:Form width="100%" editable="true">
+									<form:formContainers>
+										<form:FormContainer>
+											<form:formElements>
+												<form:FormElement label="{i18n>id_user_lbl}">
+													<form:fields>
+														<Input id="inpIdUser" type="Text" value="{filterModel>/admUsers/idUser}" showValueHelp="true" valueHelpOnly="false"
+															valueHelpRequest="_onOpenDialogUsuarios"/>
+													</form:fields>
+												</form:FormElement>
+												<form:FormElement label="{i18n>nome_lbl}">
+													<form:fields>
+														<Input type="Text" value="{filterModel>/admUsers/nome}" showValueHelp="false" enabled="true" valueHelpOnly="false"/>
+													</form:fields>
+												</form:FormElement>
+												<form:FormElement label="{i18n>perfil_lbl}">
+													<form:fields>
+														<ComboBox id="cmbPerfil" change="onFilterChange" selectedKey="{filterModel>/admUsers/perfil}"
+															items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_PERFIL' }] }">
+															<items>
+																<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+															</items>
+														</ComboBox>
+													</form:fields>
+												</form:FormElement>
+											</form:formElements>
+										</form:FormContainer>
+									</form:formContainers>
+									<form:layout>
+										<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="2" labelSpanL="2" columnsM="2" labelSpanM="2" labelSpanS="12"/>
+									</form:layout>
+								</form:Form>
+								<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
+									<content>
+										<Button id="btnNewUser" enabled="false" text="{i18n>btn_inserir_txt}" type="Emphasized" iconFirst="true" press="onNewUser"/>
+										<ToolbarSpacer width=""/>
+										<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" press="onSearch"/>
+										<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" press="onClearFilters"/>
+									</content>
+								</OverflowToolbar>
 							</content>
-						</OverflowToolbar>
-					</headerToolbar>
-					<columns>
-						<Column demandPopin="false" hAlign="Begin" width="25%">
-							<Text text="{i18n>id_user_lbl}"/>
-						</Column>
-						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="50%">
-							<Text text="{i18n>nome_lbl}"/>
-						</Column>
-						<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
-							<Text text="{i18n>perfil_lbl}"/>
-						</Column>
-					</columns>
-					<items>
-						<ColumnListItem type="Navigation">
-							<cells>
-								<Text text="{IdUsuario}"/>
-								<Text text="{path: 'Nome', formatter: '.formatter.textName'}"/>
-								<Text text="{Perfil}"/>
-							</cells>
-						</ColumnListItem>
-					</items>
-				</Table>
-			</items>
-		</FlexBox>
+						</Panel>
+						<!--LISTA-->
+						<FlexBox id="flb" width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+							<items>
+								<Table id="tbUsers" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>usuario_noDataText}"
+									mode="SingleSelectMaster" itemPress="onNavToEdit" class="sapUiSmallMarginTop" items="{path: '/UsuarioPerfilSet', templateShareable:false}"
+									updateFinished="onListUsersUpdateFinished">
+									<headerToolbar>
+										<OverflowToolbar width="auto" height="100%" design="Transparent">
+											<content>
+												<Title text="{i18n>usuarios_perfil_txt}" class="sapUiSmallMarginBottom"></Title>
+												<ToolbarSpacer width=""/>
+											</content>
+										</OverflowToolbar>
+									</headerToolbar>
+									<columns>
+										<Column demandPopin="false" hAlign="Begin" width="25%">
+											<Text text="{i18n>id_user_lbl}"/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="50%">
+											<Text text="{i18n>nome_lbl}"/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
+											<Text text="{i18n>perfil_lbl}"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem type="Navigation">
+											<cells>
+												<Text text="{IdUsuario}"/>
+												<Text text="{path: 'Nome', formatter: '.formatter.textName'}"/>
+												<Text text="{Perfil}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</items>
+						</FlexBox>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
 	</Page>
 </mvc:View>

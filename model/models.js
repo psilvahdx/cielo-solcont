@@ -5,14 +5,14 @@ sap.ui.define([
 	"use strict";
 
 	return {
-		createDeviceModel : function () {
+		createDeviceModel: function () {
 			var oModel = new JSONModel(Device);
 			oModel.setDefaultBindingMode("OneWay");
 			return oModel;
 		},
-		createStructureAppModel: function(){
+		createStructureAppModel: function () {
 			return new JSONModel({
-				solViewModel:{
+				solViewModel: {
 					enabled: true,
 					fowardEnabled: false
 				},
@@ -24,31 +24,38 @@ sap.ui.define([
 					Gerrencia: "",
 					Telefone: ""
 				},
-				procuradorData:{
+				procuradorData: {
 					Matricula: "",
 					Nome: "",
-					NumSolic:"",
+					NumSolic: "",
 					RazaoSoc: ""
+				},
+				redirecionarData: {
+					solicitacao: [{
+						NumSolic: "",
+						UsrSolic: "",
+						UsrRedir: ""
+					}]
 				}
-				
+
 			});
 		},
-		createFilterModel: function(){
+		createFilterModel: function () {
 			return new JSONModel({
-				gerenciador:{
-					solicitante:"",
-					razao:"",
-					dtPeriodoDe:"",
-					dtPeriodoAte:"",
-					numero:"",
-					cnpj:"",
+				gerenciador: {
+					solicitante: "",
+					razao: "",
+					dtPeriodoDe: "",
+					dtPeriodoAte: "",
+					numero: "",
+					cnpj: "",
 					titulo: "",
-					tipo:"",
-					gerencia:"",
-					advogado:"",
-					situacao:""
+					tipo: "",
+					gerencia: "",
+					advogado: "",
+					situacao: ""
 				},
-				admUsers:{
+				admUsers: {
 					idUser: "",
 					nome: "",
 					perfil: ""

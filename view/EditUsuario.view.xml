@@ -1,0 +1,56 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.EditUsuario" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+	<Page id="page" showHeader="false" title="Users" showNavButton="true">
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<form:Form width="100%" editable="true">
+							<form:title>
+								<core:Title text="{i18n>editar_perfil_usuario}" icon="sap-icon://add-employee"/>
+							</form:title>
+							<form:formContainers>
+								<form:FormContainer>
+									<form:formElements>
+										<form:FormElement label="{i18n>id_user_lbl}">
+											<form:fields>
+												<Input type="Text" value="{IdUsuario}" enabled="false"/>
+											</form:fields>
+										</form:FormElement>
+										<form:FormElement label="{i18n>nome_lbl}">
+											<form:fields>
+												<Input type="Text" value="{Nome}" enabled="false"/>
+											</form:fields>
+										</form:FormElement>
+										<form:FormElement label="{i18n>perfil_lbl}">
+											<form:fields>
+												<ComboBox id="cmbPerfil" selectedKey="{Perfil}"
+													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_PERFIL' }] }">
+													<items>
+														<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+													</items>
+												</ComboBox>
+											</form:fields>
+										</form:FormElement>
+									</form:formElements>
+								</form:FormContainer>
+							</form:formContainers>
+							<form:layout>
+								<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="2" labelSpanL="2" columnsM="2" labelSpanM="2" labelSpanS="12"/>
+							</form:layout>
+						</form:Form>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+		<footer>
+			<OverflowToolbar width="auto" height="46px" visible="true" design="Auto">
+				<content>
+					<ToolbarSpacer width=""/>
+					<Button text="{i18n>btn_salvar_txt}" type="Emphasized" iconFirst="true" width="auto" press="onSave"/>
+					<Button text="{i18n>cancelar_txt}" type="Default" iconFirst="true" width="auto" press="onCancel"/>
+				</content>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

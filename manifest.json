@@ -183,6 +183,18 @@
 					"pattern": "Gerenciador",
 					"name": "gerenciador",
 					"target": "gerenciador"
+				},
+				{
+					"pattern": "EditUser/{IdUsuario}",
+					"name": "editUsuario",
+					"target": [
+						"editUsuario"
+					]
+				},
+				{
+					"pattern": "GerenciadorPendencias",
+					"name": "gerenPendencias",
+					"target": "gerenPendencias"
 				}
 			],
 			"targets": {
@@ -235,6 +247,14 @@
 				"gerenciador": {
 					"viewId": "gerenciador",
 					"viewName": "Gerenciador"
+				},
+				"editUsuario": {
+					"viewName": "EditUsuario",
+					"viewId": "editUsuario"
+				},
+				"gerenPendencias": {
+					"viewName": "GerenciadorPendencias",
+					"viewId": "gerenPendencias"
 				}
 			}
 		},
