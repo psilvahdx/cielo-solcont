@@ -40,10 +40,7 @@ sap.ui.define([
 
 		//função que copia todos os dados do oData para os campos na tela
 		_onRouteMatched: function (oEvent) {
-			var that = this,
-				structureAppModel = this.getModel("structureApp"),
-				structureApp = structureAppModel.getData();
-
+			this.getModel().refresh();
 		},
 
 		buildFilters: function (oFilterGer) {

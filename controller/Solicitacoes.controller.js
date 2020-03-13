@@ -30,6 +30,11 @@ sap.ui.define([
 			});
 			
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			this.oRouter.getRoute("solicitacoes").attachPatternMatched(this._onRouteMatched, this);
+		},
+		
+		_onRouteMatched: function(oEvents){
+			this.getModel().refresh();
 		},
 		
 		handlePopoverPress: function (oEvent) {

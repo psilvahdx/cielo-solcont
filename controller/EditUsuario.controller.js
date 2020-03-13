@@ -203,6 +203,49 @@ sap.ui.define([
 
 		},
 
+		onDelete: function (oEvent) {
+			var that = this,
+				entitySet = "/UsuarioPerfilSet",
+				oModel = this.getModel(),
+				oContext = oEvent.getSource().getBindingContext(),
+				oUser = oModel.getObject(oContext.getPath()),
+				sMessage = this.geti18nText1("excluir_user_conf_msg", [oUser.Nome]);
+
+			MessageBox.warning(
+				sMessage, {
+					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.CANCEL],
+					onClose: function (sAction) {
+						if (sAction === sap.m.MessageBox.Action.YES) {
+
+							oModel.remove(oModel.createKey(entitySet, {
+								IdUsuario: oUser.IdUsuario
+							}), {
+								success: function (oData) {
+									that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("excluir_user_sucess_msg"));
+									that.getOwnerComponent().hideBusyIndicator();
+
+									oModel.refresh();
+
+									setTimeout(function () {
+										that.navBack();
+									}.bind(that), 2000);
+
+								},
+								error: function (oError) {
+									that.getOwnerComponent()._genericErrorMessage(that.geti18nText("edit_user_erro"));
+									that.getOwnerComponent().hideBusyIndicator();
+									oModel.refresh(true);
+
+								}
+							});
+
+						}
+					}
+				}
+			);
+
+		},
+
 		onCancel: function (oEvent) {
 			this.navBack(oEvent);
 		},

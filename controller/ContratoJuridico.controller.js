@@ -332,6 +332,10 @@ sap.ui.define([
 			 		oAprovModel = oView.getModel("selectedAprovador"),
 					sNumAdvogadoResp = oAdvogadoModel ? oAdvogadoModel.getProperty("/Matricula") : "",
 					sAprovadorID = oAprovModel ? oAprovModel.getProperty("/Matricula") : "";
+					
+				if (sAprovadorID === ""){
+					sAprovadorID = oViewModel ? oViewModel.getProperty("/NumSegAprov") : "";
+				}
 
 				oParams = {
 					"NumSolic": this.sNumSolicitacao,
@@ -389,7 +393,8 @@ sap.ui.define([
 						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText1("enc_solicitacao_sucesso_msg", [iNumSol]));
 					}
 					that.getOwnerComponent().hideBusyIndicator();
-					//that.onCancel();
+					oModel.refresh();
+					
 					if (sAction === "E") {
 						setTimeout(function () {
 							that.navToSolicitacoes();
@@ -401,16 +406,13 @@ sap.ui.define([
 								that.readSolicitacao(oData.NumSolic);
 							}
 						}
-
 					}
-					that.getOwnerComponent().showBusyIndicator();
-					oModel.refresh();
+					
 				},
 				error: function (oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("solicitacao_erro"));
 					that.getOwnerComponent().hideBusyIndicator();
 					oModel.refresh(true);
-
 				}
 			});
 

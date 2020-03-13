@@ -6,7 +6,7 @@
 			<l:BlockLayoutRow>
 				<l:BlockLayoutCell class="sapUiNoContentPadding">
 					<VBox>
-						<Panel expandable="true" expanded="true" headerText="{i18n>users_adm_title}" width="auto">
+						<Panel expandable="true" expanded="true" headerText="{i18n>users_adm_title}"  width="auto">
 							<content>
 								<form:Form width="100%" editable="true">
 									<form:formContainers>
@@ -42,10 +42,10 @@
 								</form:Form>
 								<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
 									<content>
-										<Button id="btnNewUser" enabled="false" text="{i18n>btn_inserir_txt}" type="Emphasized" iconFirst="true" press="onNewUser"/>
+										<Button id="btnNewUser" icon="sap-icon://add-employee" enabled="false" text="{i18n>btn_inserir_txt}" type="Emphasized" iconFirst="true" press="onNewUser"/>
 										<ToolbarSpacer width=""/>
-										<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" press="onSearch"/>
-										<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" press="onClearFilters"/>
+										<Button text="{i18n>pesquisar_lbl}" icon="sap-icon://search" type="Emphasized" iconFirst="true" press="onSearch"/>
+										<Button text="{i18n>limpar_tela_lbl}" icon="sap-icon://clear-filter" type="Default" iconFirst="true" press="onClearFilters"/>
 									</content>
 								</OverflowToolbar>
 							</content>

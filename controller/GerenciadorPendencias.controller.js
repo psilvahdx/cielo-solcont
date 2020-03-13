@@ -39,25 +39,7 @@ sap.ui.define([
 
 		//função que copia todos os dados do oData para os campos na tela
 		_onRouteMatched: function (oEvent) {
-			var that = this,
-				oBindItems = this.getView().byId("tbGerenciadorPendencias"),
-				oTemplateTable = oBindItems.getBindingInfo("items").template,
-				filterModel = this.getModel("filterModel"),
-				oFilterGer = filterModel.getProperty("/gerenciador"),
-				aFilter = this.buildFilters(oFilterGer);
-
-			oBindItems.bindItems({
-				path: "/GravarContratoJuridicoSet",
-				model: "gerenciadorModel",
-				template: oTemplateTable,
-				filters: aFilter.aFilters,
-				events: {
-					dataReceived: function (oEvent) {
-
-					}
-				}
-			});
-
+			this.onSearch(oEvent);
 		},
 
 		buildFilters: function (oFilterGer) {
@@ -69,7 +51,7 @@ sap.ui.define([
 			aFilter.aFilters.push(oFilter);
 
 			if (oFilterGer.solicitante) {
-				oFilter = new Filter("Solicitante", sap.ui.model.FilterOperator.Contains, oFilterGer.solicitante);
+				oFilter = new Filter("NomeResponsavel", sap.ui.model.FilterOperator.Contains, oFilterGer.solicitante);
 				aFilter.aFilters.push(oFilter);
 			}
 			if (oFilterGer.numero) {
@@ -86,7 +68,7 @@ sap.ui.define([
 				oBinding = oTable.getBinding("items"),
 				oFilterGer = filterModel.getProperty("/gerenciador"),
 				aFilter = this.buildFilters(oFilterGer);
-
+			
 			oBinding.filter(aFilter.aFilters);
 
 		},
@@ -242,21 +224,24 @@ sap.ui.define([
 			this.getOwnerComponent().showBusyIndicator();
 			var that = this,
 				oModel = this.getModel(),
-			//	sText = "",
-				entitySet = "/GravarContratoJuridicoSet",
+				oGerenModel = this.getModel("gerenciadorModel"),
+				//	sText = "",
+				entitySet = "/RedirecionarSolicitacaoSet",
 				oParams = {
-					NumSolic:"",
-					RedirecionarSolicitacaoSet: oSolicitacao.solicitacao	
+					NumSolic: "",
+					Evento: sEvento,
+					RedirecionarSolicItemSet: oSolicitacao.solicitacao
 				};
 
 			oModel.create(entitySet, oParams, {
 				success: function (oData) {
-				
-					//sText = that.geti18nText("finalizada_txt");
-						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("solicitacao_encerrada_sucesso_msg"));
-					
+					that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("redirecionar_sucess_msg"));
 					that.getOwnerComponent().hideBusyIndicator();
-					oModel.refresh();
+					oGerenModel.refresh();
+					var oTable = that.byId("tbGerenciadorPendencias"),
+						oBtnRedir = that.byId("btnRedirecionarPendencias");
+					oTable.removeSelections();
+					oBtnRedir.setEnabled(false);
 				},
 				error: function (oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("solicitacao_erro"));
@@ -343,11 +328,6 @@ sap.ui.define([
 			var oSolicitante = this.getModel("solicitantes").getObject(oSelItem.getBindingContextPath());
 			oFilterGer.solicitante = oSolicitante.Nome;
 			ofilterModel.setProperty("/gerenciador", oFilterGer);
-
-		},
-
-		sendSolicitacao: function (oParams, sAction) {
-			
 
 		}
 

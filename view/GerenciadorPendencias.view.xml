@@ -32,8 +32,8 @@
 									<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
 										<content>
 											<ToolbarSpacer width=""/>
-											<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
-											<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
+											<Button text="{i18n>pesquisar_lbl}" icon="sap-icon://search" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
+											<Button text="{i18n>limpar_tela_lbl}" icon="sap-icon://clear-filter" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
 										</content>
 									</OverflowToolbar>
 								</content>
@@ -49,7 +49,7 @@
 												<content>
 													<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
 													<ToolbarSpacer width=""/>
-													<Button id="btnRedirecionarPendencias" enabled="false" text="{i18n>redirecionar_para_txt}" icon="sap-icon://add-employee" type="Emphasized"  press="onRedirectParaPress"/>
+													<Button id="btnRedirecionarPendencias" icon="sap-icon://add-employee" enabled="false" text="{i18n>redirecionar_para_txt}"  type="Emphasized"  press="onRedirectParaPress"/>
 												</content>
 											</OverflowToolbar>
 										</headerToolbar>
@@ -61,7 +61,7 @@
 												<Text text="{i18n>title_txt}"/>
 											</Column>
 											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
-												<Text text="{i18n>solicitante_txt}"/>
+												<Text text="{i18n>pendente_para_txt}"/>
 											</Column>
 											<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
 												<Text text="{i18n>situacao_txt}"/>
@@ -75,7 +75,7 @@
 												<cells>
 													<Text text="{path: 'gerenciadorModel>NumSolic', formatter: '.formatter.solicNumber'}"/>
 													<Text text="{path: 'gerenciadorModel>DescSolic', formatter: '.formatter.textName'}"/>
-													<Text text="{path: 'gerenciadorModel>Solicitante', formatter: '.formatter.textName'}"/>
+													<Text text="{path: 'gerenciadorModel>NomeResponsavel', formatter: '.formatter.textName'}"/>
 													<Text text="{path: 'gerenciadorModel>Situacao', formatter: '.formatter.textName'}"/>
 													<!--<Button type="Transparent" icon="sap-icon://dropdown" press="handlePopoverPress"/>-->
 												</cells>

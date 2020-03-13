@@ -107,13 +107,19 @@ sap.ui.define([
 					structureAppModel.setData(structureApp);
 					that.getView().setModel(structureAppModel, "usrData");
 
-					if (oData.Perfil === "ADMIN") {
+					if (oData.Perfil === "ADMIN" || oData.Perfil === "JURID") {
 						var oSideModel = that.getModel("side"),
 							oSideData = oSideModel.getData();
 
 						for (var i = 0; i < oSideData.navigation.length; i++) {
 							if (oSideData.navigation[i].title === "Administrador") {
 								oSideData.navigation[i].visible = true;
+								var oItems = oSideData.navigation[i].items;
+								for (var x = 0; x < oItems.length; x++) {
+									if (oItems[x].key === "usersAdm" && oData.Perfil === "JURID") {
+										oItems[x].visible = false;
+									}
+								}
 								break;
 							}
 						}
@@ -129,13 +135,13 @@ sap.ui.define([
 		},
 
 		validarCNPJ: function (cnpj) {
-			
+
 			var sCnpj = cnpj.replace(/[^\d]+/g, "");
 
-			if (sCnpj === ""){
-				return false;	
+			if (sCnpj === "") {
+				return false;
 			}
-			if (sCnpj.length !== 14){
+			if (sCnpj.length !== 14) {
 				return false;
 			}
 			// Elimina CNPJs invalidos conhecidos
@@ -148,8 +154,8 @@ sap.ui.define([
 				sCnpj === "66666666666666" ||
 				sCnpj === "77777777777777" ||
 				sCnpj === "88888888888888" ||
-				sCnpj === "99999999999999"){
-					return false;
+				sCnpj === "99999999999999") {
+				return false;
 			}
 			// Valida DVs
 			var tamanho = sCnpj.length - 2,
@@ -157,15 +163,15 @@ sap.ui.define([
 				digitos = sCnpj.substring(tamanho),
 				soma = 0,
 				pos = tamanho - 7;
-				
+
 			for (var i = tamanho; i >= 1; i--) {
 				soma += numeros.charAt(tamanho - i) * pos--;
-				if (pos < 2){
+				if (pos < 2) {
 					pos = 9;
 				}
 			}
 			var resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-			if (resultado !== parseInt(digitos.charAt(0),10)){
+			if (resultado !== parseInt(digitos.charAt(0), 10)) {
 				return false;
 			}
 
@@ -175,15 +181,15 @@ sap.ui.define([
 			pos = tamanho - 7;
 			for (var x = tamanho; x >= 1; x--) {
 				soma += numeros.charAt(tamanho - x) * pos--;
-				if (pos < 2){
+				if (pos < 2) {
 					pos = 9;
 				}
 			}
 			resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-			if (resultado !== digitos.charAt(1)){
+			if (resultado !== digitos.charAt(1)) {
 				return false;
 			}
-			
+
 			return true;
 
 		},

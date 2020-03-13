@@ -47,8 +47,9 @@
 			<OverflowToolbar width="auto" height="46px" visible="true" design="Auto">
 				<content>
 					<ToolbarSpacer width=""/>
-					<Button text="{i18n>btn_salvar_txt}" type="Emphasized" iconFirst="true" width="auto" press="onSave"/>
-					<Button text="{i18n>cancelar_txt}" type="Default" iconFirst="true" width="auto" press="onCancel"/>
+					<Button text="{i18n>btn_salvar_txt}" icon="sap-icon://save" type="Emphasized" iconFirst="true" width="auto" press="onSave"/>
+					<Button text="{i18n>btn_cancelar_txt}"  type="Default" iconFirst="true" width="auto" press="onCancel"/>
+					<Button text="{i18n>btn_excluir_txt}" icon="sap-icon://delete" type="Reject" iconFirst="true" width="auto" press="onDelete"/>
 				</content>
 			</OverflowToolbar>
 		</footer>

@@ -5,7 +5,6 @@
 			<l:BlockLayoutRow>
 				<l:BlockLayoutCell class="sapUiNoContentPadding">
 					<VBox>
-						<content>
 							<Panel expandable="true" expanded="true" headerText="{i18n>gerenciar_form_title}" width="auto">
 								<content>
 									<form:Form width="100%" editable="true">
@@ -96,8 +95,8 @@
 									<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
 										<content>
 											<ToolbarSpacer width=""/>
-											<Button text="{i18n>pesquisar_lbl}" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
-											<Button text="{i18n>limpar_tela_lbl}" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
+											<Button text="{i18n>pesquisar_lbl}" icon="sap-icon://search" type="Emphasized" iconFirst="true" width="auto" press="onSearch"/>
+											<Button text="{i18n>limpar_tela_lbl}" icon="sap-icon://clear-filter" type="Default" iconFirst="true" width="auto" press="onClearFilters"/>
 										</content>
 									</OverflowToolbar>
 									<!--LISTA-->
@@ -161,7 +160,6 @@
 								</items>
 							</FlexBox>
 							<!--LISTA-->
-						</content>
 					</VBox>
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
