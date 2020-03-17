@@ -199,14 +199,12 @@ sap.ui.define([
 			oModel.create(entitySet, oParams, {
 				success: function (oData) {
 					that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("insere_tpdoc_sucesso_msg"));
-					that.getOwnerComponent().hideBusyIndicator();
 					that.onClearFilters();
 					oModel.refresh();
 					oShModel.refresh();
 				},
 				error: function (oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("insere_tpdoc_erro"));
-					that.getOwnerComponent().hideBusyIndicator();
 					oModel.refresh(true);
 					oShModel.refresh(true);
 				}
