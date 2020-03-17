@@ -185,7 +185,7 @@ sap.ui.define([
 				success: function (oData) {
 					that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("edit_user_sucesso_msg"));
 					that.getOwnerComponent().hideBusyIndicator();
-					//that.navBack();
+					
 					oModel.refresh();
 
 					setTimeout(function () {

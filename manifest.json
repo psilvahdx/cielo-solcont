@@ -195,6 +195,11 @@
 					"pattern": "GerenciadorPendencias",
 					"name": "gerenPendencias",
 					"target": "gerenPendencias"
+				},
+				{
+					"pattern": "TiposDocumento",
+					"name": "tiposDocumento",
+					"target": "tiposDocumento"
 				}
 			],
 			"targets": {
@@ -255,6 +260,11 @@
 				"gerenPendencias": {
 					"viewName": "GerenciadorPendencias",
 					"viewId": "gerenPendencias"
+				},
+				"tiposDocumento": {
+					"viewType": "XML",
+					"viewName": "TiposDocumento",
+					"viewId": "tiposDocumento"
 				}
 			}
 		},

@@ -119,6 +119,12 @@ sap.ui.define([
 									if (oItems[x].key === "usersAdm" && oData.Perfil === "JURID") {
 										oItems[x].visible = false;
 									}
+									if (oItems[x].key === "tiposDocumento" && oData.Perfil === "JURID") {
+										oItems[x].visible = false;
+									}
+									if (oItems[x].key === "tiposSolic" && oData.Perfil === "JURID") {
+										oItems[x].visible = false;
+									}
 								}
 								break;
 							}

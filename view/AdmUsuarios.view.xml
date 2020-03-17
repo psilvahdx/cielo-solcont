@@ -80,7 +80,7 @@
 											<cells>
 												<Text text="{IdUsuario}"/>
 												<Text text="{path: 'Nome', formatter: '.formatter.textName'}"/>
-												<Text text="{Perfil}"/>
+												<Text text="{DescPerfil}"/>
 											</cells>
 										</ColumnListItem>
 									</items>

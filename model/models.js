@@ -36,6 +36,11 @@ sap.ui.define([
 						UsrSolic: "",
 						UsrRedir: ""
 					}]
+				},
+				tiposDoc:{
+					Id:"",
+					Descricao:"",
+					isEdit: false
 				}
 
 			});
@@ -59,6 +64,11 @@ sap.ui.define([
 					idUser: "",
 					nome: "",
 					perfil: ""
+				},
+				tiposDoc:{
+					Id:"",
+					Descricao:"",
+					isEdit: false
 				}
 			});
 		}

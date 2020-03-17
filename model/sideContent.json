@@ -48,7 +48,17 @@
 			"title": "Redirecionamento de Pendências",
 			"key": "gerenPendencias",
 			"visible": true
-		}]
+		},{
+			"title": "Tipos de Documento",
+			"key": "tiposDocumento", 
+			"visible":true
+		},
+		{
+			"title": "Tipos de Solicitação",
+			"key": "tiposSolic", 
+			"visible":true
+		}
+		]
 	}, {
 		"title": "Ajuda",
 		"icon": "sap-icon://sys-help",
