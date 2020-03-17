@@ -209,7 +209,6 @@ sap.ui.define([
 					that.getOwnerComponent().hideBusyIndicator();
 					oModel.refresh(true);
 					oShModel.refresh(true);
-
 				}
 			});
 
