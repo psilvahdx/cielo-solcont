@@ -11,7 +11,7 @@ sap.ui.define([
 	JSONModel, Device) {
 	"use strict";
 
-	return BaseController.extend("com.sap.build.sapcsr.SOLCONT.controller.TiposDocumento", {
+	return BaseController.extend("com.sap.build.sapcsr.SOLCONT.controller.TiposSolicitacao", {
 
 		onInit: function () {
 
@@ -25,10 +25,10 @@ sap.ui.define([
 				this.getModel("view").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
 
-			this._oEditDialog = this.getDialog("com.sap.build.sapcsr.SOLCONT.view.fragments.EditTipoDoc");
+			this._oEditDialog = this.getDialog("com.sap.build.sapcsr.SOLCONT.view.fragments.EditTipoSol");
 
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this.oRouter.getRoute("tiposDocumento").attachPatternMatched(this._onRouteMatched, this);
+			this.oRouter.getRoute("tiposSolicitacao").attachPatternMatched(this._onRouteMatched, this);
 
 		},
 
@@ -41,7 +41,7 @@ sap.ui.define([
 				isEdit: false
 			};
 			filterModel.setProperty("/tiposDoc", oFilterTpDoc);
-			this.onSearchTpDoc();
+			this.onSearchTpSol();
 		},
 
 		getDialog: function (sFragment) {
@@ -52,13 +52,13 @@ sap.ui.define([
 			return this._oEditDialog;
 		},
 
-		onListTpDocUpdateFinished: function (oEvent) {
+		onListTpSolUpdateFinished: function (oEvent) {
 
 			var iTotal = oEvent.getParameter("total");
 			if (iTotal > 0) {
-				this.byId("btnNewTpDoc").setEnabled(false);
+				this.byId("btnNewTpSol").setEnabled(false);
 			} else {
-				this.byId("btnNewTpDoc").setEnabled(true);
+				this.byId("btnNewTpSol").setEnabled(true);
 			}
 
 		},
@@ -68,7 +68,7 @@ sap.ui.define([
 			var aFilter = new Filter([]),
 				oFilter = {};
 
-			oFilter = new Filter("IpDominio", sap.ui.model.FilterOperator.EQ, "ZMMD_SOLCONT_TPDOCUMENTO");
+			oFilter = new Filter("IpDominio", sap.ui.model.FilterOperator.EQ, "ZMMD_SOLCONT_TPSOLICITACAO");
 			aFilter.aFilters.push(oFilter);
 
 			if (oFilterTpDoc.Descricao) {
@@ -78,9 +78,9 @@ sap.ui.define([
 			return aFilter;
 		},
 
-		onSearchTpDoc: function (oEvent) {
+		onSearchTpSol: function (oEvent) {
 			var filterModel = this.getModel("filterModel"),
-				oTable = this.byId("tbTipoDoc"),
+				oTable = this.byId("tbTipoSol"),
 				oBinding = oTable.getBinding("items"),
 				oFilterTpDoc = filterModel.getProperty("/tiposDoc");
 			oFilterTpDoc.Descricao = oEvent ? oEvent.getParameter("value") : "";
@@ -89,11 +89,11 @@ sap.ui.define([
 			oBinding.filter(aFilter.aFilters);
 		},
 
-		onEditTpDoc: function (oEvent) {
+		onEditTpSol: function (oEvent) {
 			var oEditModel = this.getModel("structureApp"),
 				oEdit = oEditModel.getProperty("/tiposDoc");
 			var sPath = oEvent.getSource().getParent().getBindingContextPath(),
-				oSelItem = this.getModel("shModel").getObject(sPath);
+				oSelItem = this.getModel().getObject(sPath);
 
 			oEdit.Id = oSelItem.Id;
 			oEdit.Descricao = oSelItem.Descricao;
@@ -128,7 +128,7 @@ sap.ui.define([
 				isEdit: false
 			};
 			filterModel.setProperty("/tiposDoc", oFilterTpDoc);
-			this.onSearchTpDoc();
+			this.onSearchTpSol();
 		},
 
 		onEditClose: function (oEvent) {
@@ -143,19 +143,19 @@ sap.ui.define([
 			this._oEditDialog.close();
 		},
 
-		onNewTpDoc: function (oEvent) {
+		onNewTpSol: function (oEvent) {
 			var oShModel = this.getModel("shModel"),
 				filterModel = this.getModel("filterModel"),
 				oFilterTpDoc = filterModel.getProperty("/tiposDoc");
 
 			var oParams = {
-				IpDominio: "ZMMD_SOLCONT_TPDOCUMENTO",
+				IpDominio: "ZMMD_SOLCONT_TPSOLICITACAO",
 				Id: oFilterTpDoc.Id,
 				Descricao: oFilterTpDoc.Descricao
 			};
 
-			if (this.validateFields(oParams, "inpTpDoc")) {
-				this.SaveTipoDoc(oParams, oShModel);
+			if (this.validateFields(oParams, "inpTpSol")) {
+				this.SaveTipoSol(oParams, oShModel);
 			} else {
 				MessageToast.show(this.geti18nText("campo_obrigatorio_msg"));
 			}
@@ -167,39 +167,39 @@ sap.ui.define([
 				oFilterTpDoc = filterModel.getProperty("/tiposDoc");
 
 			var oParams = {
-				IpDominio: "ZMMD_SOLCONT_TPDOCUMENTO",
+				IpDominio: "ZMMD_SOLCONT_TPSOLICITACAO",
 				Id: oFilterTpDoc.Id,
 				Descricao: oFilterTpDoc.Descricao
 			};
 
-			if (this.validateFields(oParams, "inpDesc")) {
-				this.SaveTipoDoc(oParams, oShModel);
+			if (this.validateFields(oParams, "inpDescTpSol")) {
+				this.SaveTipoSol(oParams, oShModel);
 				this._oEditDialog.close();
 			} else {
 				MessageToast.show(this.geti18nText("campo_obrigatorio_msg"));
 			}
 		},
 
-		onDeleteTpDoc: function (oEvent) {
+		onDeleteTpSol: function (oEvent) {
 			var that = this,
 				sPath = oEvent.getSource().getParent().getBindingContextPath(),
-				oShModel = this.getModel("shModel"),
-				oSelItem = this.getModel("shModel").getObject(sPath),
-				sMessage = this.geti18nText1("excluir_tpDoc_conf_msg", [oSelItem.Descricao]);
+				oShModel = this.getModel(),
+				oSelItem = this.getModel().getObject(sPath),
+				sMessage = this.geti18nText1("excluir_tpSol_conf_msg", [oSelItem.Descricao]);
 
 			MessageBox.warning(
 				sMessage, {
 					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.CANCEL],
 					onClose: function (sAction) {
 						if (sAction === sap.m.MessageBox.Action.YES) {
-							that.deleteTipoDoc(oSelItem, oShModel);
+							that.deleteTipoSol(oSelItem, oShModel);
 						}
 					}
 				});
 
 		},
 
-		SaveTipoDoc: function (oParams, oShModel) {
+		SaveTipoSol: function (oParams, oShModel) {
 			var that = this,
 				entitySet = "/SearchHelpSet",
 				oModel = this.getModel();
@@ -212,7 +212,7 @@ sap.ui.define([
 					oShModel.refresh();
 				},
 				error: function (oError) {
-					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("insere_tpdoc_erro"));
+					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("insere_tpsol_erro"));
 					oModel.refresh(true);
 					oShModel.refresh(true);
 				}
@@ -220,13 +220,13 @@ sap.ui.define([
 
 		},
 
-		deleteTipoDoc: function (oDelItem, oShModel) {
+		deleteTipoSol: function (oDelItem, oShModel) {
 			var that = this,
 				entitySet = "/SearchHelpSet",
 				oModel = this.getModel();
 
 			oModel.remove(oModel.createKey(entitySet, {
-				IpDominio: "ZMMD_SOLCONT_TPDOCUMENTO",
+				IpDominio: "ZMMD_SOLCONT_TPSOLICITACAO",
 				Id: oDelItem.Id
 			}), {
 				success: function (oData) {

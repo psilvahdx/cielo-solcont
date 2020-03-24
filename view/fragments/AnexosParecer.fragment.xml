@@ -1,0 +1,18 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Popover title="{i18n>parecer_anexos_title}" class="sapUiContentPadding" placement="Auto">
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button text="{i18n>btn_cancelar_txt}" press="onCancelPopover"/>
+			</Toolbar>
+		</footer>
+		<UploadCollection numberOfAttachmentsText="{i18n>number_of_attachments_txt}" uploadButtonInvisible="true"
+			noDataDescription="" noDataText="" busy="{structureApp>/parecerAnexo/isBusy}"
+			items="{path: 'parecerAnexo>/results', templateShareable: false}">
+			<items>
+				<UploadCollectionItem documentId="{parecerAnexo>Idanexo}" fileName="{parecerAnexo>Zfilename}" 
+				mimeType="{parecerAnexo>Zfiletype}" press="handleShowFile" visibleEdit="false" visibleDelete="false"/>
+			</items>
+		</UploadCollection>
+	</Popover>
+</core:FragmentDefinition>

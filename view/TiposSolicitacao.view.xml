@@ -1,0 +1,81 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout"
+	controllerName="com.sap.build.sapcsr.SOLCONT.controller.TiposSolicitacao" xmlns:form="sap.ui.layout.form">
+	<Page id="tpDocs" showHeader="false" title="TiposSolicitacao" showFooter="false" showNavButton="false">
+		<!--FILTERBAR-->
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<Panel expandable="true" expanded="true" headerText="{i18n>tipos_sol_title}" width="auto">
+							<content>
+								<form:Form width="100%" editable="true">
+									<form:formContainers>
+										<form:FormContainer>
+											<form:formElements>
+												<form:FormElement label="{i18n>tipo_sol_lbl}">
+													<form:fields>
+														<Input id="inpTpSol" type="Text" value="{filterModel>/tiposDoc/Descricao}" liveChange="onSearchTpSol"/>
+													</form:fields>
+												</form:FormElement>
+											</form:formElements>
+										</form:FormContainer>
+									</form:formContainers>
+									<form:layout>
+										<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="2" labelSpanL="2" columnsM="2" labelSpanM="2" labelSpanS="12"/>
+									</form:layout>
+								</form:Form>
+								<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
+									<content>
+										<ToolbarSpacer width=""/>
+										<Button id="btnNewTpSol" icon="sap-icon://add" enabled="false" text="{i18n>btn_novo_txt}" type="Emphasized" iconFirst="true"
+											press="onNewTpSol"/>
+									</content>
+								</OverflowToolbar>
+							</content>
+						</Panel>
+						<!--LISTA-->
+						<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+							<items>
+								<Table id="tbTipoSol" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>usuario_noDataText}"
+									mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{ path: '/SearchHelpSet'}" updateFinished="onListTpSolUpdateFinished">
+									<headerToolbar>
+										<OverflowToolbar width="auto" height="100%" design="Transparent">
+											<content>
+												<Title text="{i18n>tipos_sol_title}" class="sapUiSmallMarginBottom"></Title>
+												<ToolbarSpacer width=""/>
+											</content>
+										</OverflowToolbar>
+									</headerToolbar>
+									<columns>
+										<Column demandPopin="false" hAlign="Begin" width="15%">
+											<Text text="{i18n>id_lbl}"/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="70%">
+											<Text text="{i18n>tipo_sol_lbl}"/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="3%">
+											<Text text=""/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
+											<Text text=""/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem type="Active">
+											<cells>
+												<Text text="{Id}"/>
+												<Text text="{Descricao}"/>
+												<core:Icon src="sap-icon://edit" tooltip="{i18n>btn_editar_txt}" press="onEditTpSol"/>
+												<core:Icon src="sap-icon://delete" tooltip="{i18n>btn_excluir_txt}" press="onDeleteTpSol"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</items>
+						</FlexBox>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+	</Page>
+</mvc:View>

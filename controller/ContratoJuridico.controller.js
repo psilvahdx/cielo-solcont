@@ -49,6 +49,7 @@ sap.ui.define([
 
 			this.getView().unbindElement();
 			this.getView().byId("txtAdvogadoResp").setText("");
+			this.getView().byId("cmbResponsavel").setSelectedKey("1");
 
 			oArgs = oEvent.getParameter("arguments");
 			sPath = oArgs.IdSolic;
@@ -82,6 +83,7 @@ sap.ui.define([
 							if (oViewModel.NumAdvogado !== "00000000") {
 								that.getAdvogadoResponsavel(oViewModel.NumAdvogado);
 							}
+							structureAppModel.refresh(); 
 						}
 					}
 				});
@@ -182,6 +184,7 @@ sap.ui.define([
 			this.byId("dtSolic").setValue(today.toLocaleDateString());
 			this.byId("inpDtVigenciaDe").setValue("");
 			this.byId("inpDtVigenciaAte").setValue("");
+			this.byId("inpSegundoA").setValue("");
 
 			//Pega os dados de centro de custo e km do usuario logado
 			var oView = this.getView(),
@@ -239,7 +242,7 @@ sap.ui.define([
 			if (!this._validateField("inpCNPJ"))
 				isValid = false;
 
-			if (!this._validateField("txtADescricao"))
+			if (!this._validateField("txtADes"))
 				isValid = false;
 
 			return isValid;
@@ -331,7 +334,8 @@ sap.ui.define([
 			 		oAdvogadoModel = oView.getModel("advogadoRespModel"),
 			 		oAprovModel = oView.getModel("selectedAprovador"),
 					sNumAdvogadoResp = oAdvogadoModel ? oAdvogadoModel.getProperty("/Matricula") : "",
-					sAprovadorID = oAprovModel ? oAprovModel.getProperty("/Matricula") : "";
+					sAprovadorID = oAprovModel ? oAprovModel.getProperty("/Matricula") : "",
+					sNumRespCompras = oView.byId("cmbResponsavel").getSelectedKey();
 					
 				if (sAprovadorID === ""){
 					sAprovadorID = oViewModel ? oViewModel.getProperty("/NumSegAprov") : "";
@@ -347,6 +351,7 @@ sap.ui.define([
 					"NContrato": oView.byId("inpNContrato").getValue(),
 					"NRc": oView.byId("inpNRC").getValue(),
 					"SegApr": oView.byId("inpSegundoA").getValue(),
+					"UsrSolic": oViewModel ? oViewModel.getProperty("UsrSolic") : "",
 					"Solicitante": oView.byId("txtSolicitante").getText(),
 					"Telefone": oView.byId("txtTelefone").getText().trim(),
 					"CCusto": oView.byId("inpCentroC").getValue(),
@@ -357,8 +362,8 @@ sap.ui.define([
 					"DescContratacao": oView.byId("txtADescricao").getValue(),
 					"Status": oViewModel ? oViewModel.getProperty("Status") : "" ,
 					"Situacao": oViewModel ? oViewModel.getProperty("Situacao") : "",
-					"SendCompras": oViewModel ? oViewModel.getProperty("SendCompras") : "",
-					"SendComplice": oViewModel ? oViewModel.getProperty("SendComplice") : "",
+					"SendCompras": oView.byId("chekCompras").getSelected(),//oViewModel ? oViewModel.getProperty("SendCompras") : "",
+					"SendComplice": oView.byId("checkComplice").getSelected(), //oViewModel ? oViewModel.getProperty("SendComplice") : "",
 					"Valor": oValor.getValue() ? (oValor.data("convertedValue") ? oValor.data("convertedValue") : oValor.getValue().replace(",", ".")) : "0.00",
 					"AnexoSet": aFiles,
 					"NumAdvogado": sNumAdvogadoResp ? sNumAdvogadoResp : "",
@@ -370,7 +375,8 @@ sap.ui.define([
 					"DtVigenciaIni": oView.byId("inpDtVigenciaDe").getDateValue(),
 					"DtVigenciaFim": oView.byId("inpDtVigenciaAte").getDateValue(),
 					"FormVigencia": oView.byId("inpFormVig").getValue(),
-					"NumSegAprov": sAprovadorID ? sAprovadorID : ""
+					"NumSegAprov": sAprovadorID ? sAprovadorID : "",
+					"NumRespCompras": sNumRespCompras
 				};
 				
 			return oParams;
@@ -386,13 +392,15 @@ sap.ui.define([
 
 			oModel.create(entitySet, oParams, {
 				success: function (oData) {
+					that.getOwnerComponent().hideBusyIndicator();
 					var iNumSol = parseInt(oData.NumSolic);
 					if (sAction === "S") {
+						//that.sNumSolicitacao = oData.NumSolic;
 						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText1("solicitacao_sucesso_msg", [iNumSol]));
 					} else {
 						that.getOwnerComponent()._genericSuccessMessage(that.geti18nText1("enc_solicitacao_sucesso_msg", [iNumSol]));
 					}
-					that.getOwnerComponent().hideBusyIndicator();
+					
 					oModel.refresh();
 					
 					if (sAction === "E") {
@@ -402,7 +410,7 @@ sap.ui.define([
 					} else {
 						if (that.sNumSolicitacao === "") {
 							if (oData.NumSolic !== "") {
-								that.getOwnerComponent().showBusyIndicator();
+								//that.getOwnerComponent().showBusyIndicator();
 								that.readSolicitacao(oData.NumSolic);
 							}
 						}
@@ -419,8 +427,12 @@ sap.ui.define([
 		},
 
 		readSolicitacao: function (sPath) {
+			
+			this.getRouter().navTo("contrato", {
+					IdSolic: sPath
+				});
 
-			var that = this,
+		/*	var that = this,
 				structureAppModel = this.getModel("structureApp"),
 				structureApp = structureAppModel.getData();
 			
@@ -447,7 +459,7 @@ sap.ui.define([
 						structureAppModel.refresh();
 					}
 				}
-			});
+			});*/
 		},
 		navToSolicitacoes: function () {
 			this.getRouter().navTo("solicitacoes");
@@ -458,7 +470,8 @@ sap.ui.define([
 		 ************************/
 		_onCancel: function (oEvent) {
 			this.getView().unbindElement();
-			history.go(-1);
+			//history.go(-1);
+			this.navToSolicitacoes();
 		},
 
 		onCancel: function () {

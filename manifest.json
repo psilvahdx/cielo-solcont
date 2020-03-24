@@ -200,6 +200,11 @@
 					"pattern": "TiposDocumento",
 					"name": "tiposDocumento",
 					"target": "tiposDocumento"
+				},
+				{
+					"pattern": "TiposSolicitacao",
+					"name": "tiposSolicitacao",
+					"target": "tiposSolicitacao"
 				}
 			],
 			"targets": {
@@ -265,6 +270,11 @@
 					"viewType": "XML",
 					"viewName": "TiposDocumento",
 					"viewId": "tiposDocumento"
+				},
+				"tiposSolicitacao": {
+					"viewType": "XML",
+					"viewName": "TiposSolicitacao",
+					"viewId": "tiposSolicitacao"
 				}
 			}
 		},

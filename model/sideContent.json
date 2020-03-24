@@ -55,7 +55,7 @@
 		},
 		{
 			"title": "Tipos de Solicitação",
-			"key": "tiposSolic", 
+			"key": "tiposSolicitacao", 
 			"visible":true
 		}
 		]

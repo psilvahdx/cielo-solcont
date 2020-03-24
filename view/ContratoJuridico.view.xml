@@ -37,9 +37,9 @@
 										<f:FormElement id="lblTipoS" label="{i18n>tp_sol_lbl}">
 											<f:fields>
 												<ComboBox id="cmbSolicitacao" width="100%" required="true"
-													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPSOLICITACAO' }] }"
+													items="{ path: '/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPSOLICITACAO' }] }"
 													selectedKey="{IdTipoSol}" enabled="{structureApp>/solViewModel/enabled}">
-													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+													<core:Item key="{Id}" text="{Descricao}"/>
 												</ComboBox>
 											</f:fields>
 										</f:FormElement>
@@ -54,7 +54,7 @@
 										</f:FormElement>
 										<f:FormElement id="lblDescricao" label="{i18n>descricao_sol_lbl}">
 											<f:fields>
-												<TextArea id="txtADes" value="{DescSolic}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
+												<TextArea required="true" id="txtADes" value="{DescSolic}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement id="lblAdvogadoResp" label="{i18n>advogado_resp_lbl}">
@@ -150,13 +150,14 @@
 										</f:FormElement>
 										<f:FormElement>
 											<f:fields>
-												<CheckBox id="chekCompras" selected="{= ${SendCompras} !== '' ? true : false}" text="{i18n>chk_compras_txt}" select="checkCompra"
+												<!--<CheckBox id="chekCompras" selected="{= ${SendCompras} !== '' ? true : false}" text="{i18n>chk_compras_txt}" select="checkCompra"-->
+												<CheckBox id="chekCompras" selected="{SendCompras}" text="{i18n>chk_compras_txt}" select="checkCompra"
 													enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement>
 											<f:fields>
-												<CheckBox id="checkComplice" selected="{= ${SendComplice} !== '' ? true : false}" text="{i18n>chk_parte_relac_txt}"
+												<CheckBox id="checkComplice" selected="{SendComplice}" text="{i18n>chk_parte_relac_txt}"
 													visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}"
 													enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
@@ -195,8 +196,7 @@
 												<Label text="{i18n>resp_compras_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<ComboBox id="cmbResponsavel" enabled="false" items="{ path: '/AprovadoresComprasSet'}">
-													<core:Item key="1" text=""/>
+												<ComboBox id="cmbResponsavel" selectedKey="{NumRespCompras}" enabled="false" items="{ path: '/AprovadoresComprasSet'}">
 													<core:Item key="{Matricula}" text="{path: 'Nome', formatter : '.formatter.textName'}"/>
 												</ComboBox>
 											</f:fields>
@@ -251,7 +251,7 @@
 											</f:label>
 											<f:fields>
 												<TextArea id="txtADescricao" value="{DescContratacao}" placeholder="{i18n>desc_contratacao_plh}" editable="true" width="100%"
-													required="true"/>
+													/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>

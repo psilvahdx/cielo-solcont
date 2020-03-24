@@ -41,6 +41,9 @@ sap.ui.define([
 					Id:"",
 					Descricao:"",
 					isEdit: false
+				},
+				parecerAnexo:{
+					isBusy: false
 				}
 
 			});

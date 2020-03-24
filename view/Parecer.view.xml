@@ -1,38 +1,31 @@
-<mvc:View controllerName="com.sap.build.sapcsr.SOLCONT.controller.Parecer" xmlns="sap.suite.ui.commons" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:m="sap.m" height="100%">
-	<m:Page showHeader="false" >
+<mvc:View controllerName="com.sap.build.sapcsr.SOLCONT.controller.Parecer" xmlns:core="sap.ui.core" xmlns="sap.suite.ui.commons"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:m="sap.m" height="100%">
+	<m:Page showHeader="false">
 		<m:Panel height="auto" width="100%" id="parecer" expandable="false" expanded="false" expandAnimation="false" backgroundDesign="Transparent">
 			<m:headerToolbar>
 				<m:OverflowToolbar height="3rem">
 					<m:Title id="title" text="" level="H2"/>
-					<m:ToolbarSpacer />
-					<m:Button icon="sap-icon://add"  press="onOpenDialogParecer"/>
+					<m:ToolbarSpacer/>
+					<m:Button icon="sap-icon://add" press="onOpenDialogParecer"/>
 				</m:OverflowToolbar>
 			</m:headerToolbar>
 		</m:Panel>
-		<Timeline id="idTimeline" 
-			enableDoubleSided="true"
-			groupBy="HireDate"
-			growingThreshold="10"
-			noDataText="{i18n>nenhum_parecer_txt}"
-			showHeaderBar="true" 
-			showFilterBar="false"
-			textHeight="automatic"
-			sortOldestFirst="true"
-			content="{path: 'pareceres>/results',  sorter : {
-				path : 'Seqnr',
-				descending : false
-			}}">
+		<Timeline id="idTimeline" enableDoubleSided="true" groupBy="HireDate" growingThreshold="10" noDataText="{i18n>nenhum_parecer_txt}"
+			showHeaderBar="true" showFilterBar="false" textHeight="automatic" sortOldestFirst="true"
+			content="{path: 'pareceres>/results', sorter : { path : 'Seqnr', descending : false }}">
 			<content>
-				<TimelineItem 
-					id="idTemplateItem" 
-					dateTime="{path: 'pareceres>DataParecer', formatter: '.formatter.date'}" 
-					title="{path: 'pareceres>RazaoSoc'}" 
-					userNameClickable="true" 
-					text="{path: 'pareceres>Mensagem'}"
-					userName="{path: 'pareceres>UserDe'}" 
-					filterValue="" 
-					icon="sap-icon://post">
+				<TimelineItem id="idTemplateItem" dateTime="{path: 'pareceres>DataParecer', formatter: '.formatter.date'}"
+					title="{path: 'pareceres>RazaoSoc'}" userNameClickable="true" text="{path: 'pareceres>Mensagem'}" userName="{path: 'pareceres>UserDe'}"
+					filterValue="" icon="sap-icon://post">
+					<embeddedControl>
+						<m:Panel width="auto">
+							<m:content class="sapUiContentPadding">
+								<m:Text text="{path: 'pareceres>Mensagem'}"/>
+								<m:ToolbarSpacer/>
+								<m:Button visible="{pareceres>ContemAnexo}" icon="sap-icon://attachment" tooltip="{i18n>number_of_attachments_txt}" press="onPressAttachList"/>
+							</m:content>
+						</m:Panel>
+					</embeddedControl>
 				</TimelineItem>
 			</content>
 		</Timeline>
