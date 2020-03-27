@@ -13,7 +13,13 @@
 			"title": "Pendências",
 			"key": "solicitacoes",
 			"visible": true
-		}, {
+		},
+		{
+			"title": "Redirecionamento de Pendências",
+			"key": "gerenPendencias",
+			"visible": false
+		},
+		{
 			"title": "Histórico",
 			"key": "Story",
 			"visible": true
@@ -45,10 +51,6 @@
 			"visible": true
 		},
 		{
-			"title": "Redirecionamento de Pendências",
-			"key": "gerenPendencias",
-			"visible": true
-		},{
 			"title": "Tipos de Documento",
 			"key": "tiposDocumento", 
 			"visible":true

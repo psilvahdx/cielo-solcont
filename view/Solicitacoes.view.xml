@@ -1,7 +1,7 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" controllerName="com.sap.build.sapcsr.SOLCONT.controller.Solicitacoes" xmlns="sap.m"
-	xmlns:semantic="sap.f.semantic" xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core">
+xmlns:core="sap.ui.core">
 	<Page id="page" showHeader="false" title="" showFooter="false" showNavButton="false">
-		<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+		<FlexBox class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
 			<items>
 				<Table id="tbSolicitacoes" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
 					mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: '/GravarContratoJuridicoSet', templateShareable:true}">
@@ -10,6 +10,11 @@
 							<content>
 								<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
 								<ToolbarSpacer width=""/>
+								<SearchField id="srcSol" search="onSearch">
+					              <layoutData><OverflowToolbarLayoutData minWidth="10%" maxWidth="70%"/></layoutData>
+					            </SearchField>
+					             <ToolbarSpacer/>
+					            <!--<OverflowToolbarButton type="Transparent" text="Limpar Filtros" icon="sap-icon://clear-filter" tooltip="Limpar Filtros" press="onClear"/>-->
 							</content>
 						</OverflowToolbar>
 					</headerToolbar>
@@ -46,7 +51,9 @@
 								<Text text="{path: 'DescSolic', formatter: '.formatter.textName'}"/>
 								<Text text="{path: 'Solicitante', formatter: '.formatter.textName'}"/>
 								<Text text="{path: 'RazaoSoc', formatter: '.formatter.textName'}"/>
-								<Text text="{path: 'Situacao', formatter: '.formatter.textName'}"/>
+								<!--<Text text="{path: 'Situacao', formatter: '.formatter.textName'}"/>-->
+								<Link text="{path: 'Situacao', formatter: '.formatter.textName'}" wrapping="true"
+										press="handleSituacaoPopoverPress" />
 								<Text text="{path: 'DtSolic', formatter: '.formatter.date'}"/>
 								<core:Icon src="{path: 'sla', formatter: '.formatter.getIcon'}" color="{path: 'sla', formatter: '.formatter.getColor'}"/>
 								<Button type="Transparent" icon="sap-icon://dropdown" press="handlePopoverPress"/>

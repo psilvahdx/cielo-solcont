@@ -104,7 +104,7 @@
 													value=" {path: 'DtVigenciaFim', formatter: '.formatter.formatDateShow'}"></DatePicker>
 											</f:fields>
 										</f:FormElement>
-										<f:FormElement id="lblFormVig" label="{i18n>form_vigencia_lbl}">
+										<f:FormElement visible="false" id="lblFormVig" label="{i18n>form_vigencia_lbl}">
 											<f:fields>
 												<Input id="inpFormVig" value="{FormVigencia}" width="100%" enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>

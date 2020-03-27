@@ -75,20 +75,6 @@ sap.ui.define([
 			return this._oDialog;
 		},
 
-		/*showMessageBoxConfirmation: function(sMessage, fnConfirm){
-			MessageBox.warning(
-				sMessage,
-				{
-					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-					onClose: function(sAction) {
-						if(sAction === sap.m.MessageBox.Action.OK){
-							fnConfirm();
-						}
-					}
-				}
-			);
-		},*/
-
 		getUserData: function (oParams) {
 
 			var oModel = this.getModel(),
@@ -98,39 +84,41 @@ sap.ui.define([
 			oModel.read("/UsuarioPerfilSet('')", {
 				success: function (oData) {
 					var structureApp = structureAppModel.getData();
+					var sTel = that.getOwnerComponent().Telefone;
 					structureApp.userData.IdUser = oData.IdUsuario;
 					structureApp.userData.Perfil = oData.Perfil;
 					structureApp.userData.Nome = that.getOwnerComponent().user;
 					structureApp.userData.CentroCusto = that.getOwnerComponent().CentroCusto;
 					structureApp.userData.Gerencia = that.getOwnerComponent().Gerencia;
-					structureApp.userData.Telefone = that.getOwnerComponent().Telefone.trim();
+					structureApp.userData.Telefone = sTel ? sTel.trim() : "";
 					structureAppModel.setData(structureApp);
 					that.getView().setModel(structureAppModel, "usrData");
 
+					var oSideModel = that.getModel("side"),
+						oSideData = oSideModel.getData();
+
 					if (oData.Perfil === "ADMIN" || oData.Perfil === "JURID") {
-						var oSideModel = that.getModel("side"),
-							oSideData = oSideModel.getData();
 
 						for (var i = 0; i < oSideData.navigation.length; i++) {
-							if (oSideData.navigation[i].title === "Administrador") {
+							if (oSideData.navigation[i].title === "Administrador" && oData.Perfil === "ADMIN") {
 								oSideData.navigation[i].visible = true;
-								var oItems = oSideData.navigation[i].items;
-								for (var x = 0; x < oItems.length; x++) {
-									if (oItems[x].key === "usersAdm" && oData.Perfil === "JURID") {
-										oItems[x].visible = false;
-									}
-									if (oItems[x].key === "tiposDocumento" && oData.Perfil === "JURID") {
-										oItems[x].visible = false;
-									}
-									if (oItems[x].key === "tiposSolicitacao" && oData.Perfil === "JURID") {
-										oItems[x].visible = false;
+							}
+							if (oSideData.navigation[i].title === "Contratos") {
+								var oItemsCont = oSideData.navigation[i].items;
+								for (var y = 0; y < oItemsCont.length; y++) {
+									if (oItemsCont[y].key === "gerenPendencias") {
+										if (oData.Perfil === "ADMIN" || oData.Perfil === "JURID") {
+											oItemsCont[y].visible = true;
+											break;
+										}
 									}
 								}
-								break;
 							}
+
 						}
-						oSideModel.setData(oSideData);
 					}
+
+					oSideModel.setData(oSideData);
 
 				},
 				error: function (oError) {

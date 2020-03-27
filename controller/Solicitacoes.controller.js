@@ -60,6 +60,78 @@ sap.ui.define([
 
 		},
 		
+		handleSituacaoPopoverPress: function(oEvent){
+			
+			var oContext = oEvent.getSource().getBindingContext(),
+				oObject = this.getModel().getObject(oContext.getPath()),
+				structureAppModel = this.getModel("structureApp"),
+				structureApp = structureAppModel.getData(),
+				sText = "";		
+				
+				switch(oObject.Status){
+				
+					case "01":
+						sText = "aguardando_def_advogado_txt";
+						break;
+					case "02":
+						sText = "em_analise_txt";
+						break;
+					case "03":
+						sText = "advogado_def_txt";
+						break;
+					case "04":
+						sText = "parecer_enviado_txt";
+						break;
+					case "05":
+						sText = "analisando_parecer_txt";
+						break;
+					case "06":
+						sText = "aguardando_assinatura_txt";
+						break;
+					case "07":
+						sText = "aguardando_aprov_ger_txt";
+						break;
+					case "08":
+						sText = "rejeit_ressalv_txt";
+						break;
+					case "09":
+						sText = "rejeit_ressalv_sem_aprov_txt";
+						break;
+					case "10":
+						sText = "aguar_aprov_compr_txt";
+						break;
+					case "11":
+						sText = "aprovada_txt";
+						break;
+					case "12":
+						sText = "cancelada_txt";
+						break;
+					case "13":
+						sText = "finalizada_txt";
+						break;
+					case "14":
+						sText = "recusada_txt";
+						break;
+					default: 
+						sText = "em_aberto_txt";
+						break;
+				}
+				
+				structureApp.situacaoText.text = this.geti18nText(sText);
+				structureAppModel.refresh();
+			
+			// create popover
+			if (!this._oSituacaoPopover) {
+				this._oSituacaoPopover = sap.ui.xmlfragment("com.sap.build.sapcsr.SOLCONT.view.fragments.Situacao", this);
+				this.getView().addDependent(this._oSituacaoPopover);
+			}
+			this._oSituacaoPopover.openBy(oEvent.getSource());
+		},
+		
+		handleCancelPpvSituacaoPress: function(oEvent){
+			this._oSituacaoPopover.close();
+		},
+		
 		_onCriarAlt: function(oEvent){
 			var structureAppModel = this.getModel("structureApp"),
 				structureApp = structureAppModel.getData(),
@@ -221,6 +293,29 @@ sap.ui.define([
 				this._oDialogProc.open();
 				oOwnerComponent.hideBusyIndicator();
 			}
+		},
+		
+		onSearch: function(oEvent){
+			var sValue = oEvent.getParameter("query"),
+				oTable = this.byId("tbSolicitacoes"),
+				oBinding = oTable.getBinding("items");
+			var aFilter = new Filter({
+				filters:[
+					new Filter("NumSolic", sap.ui.model.FilterOperator.EQ, sValue)//,
+					//new Filter("Solicitante", sap.ui.model.FilterOperator.Contains, sValue)
+					],
+				//and: false
+				and: true
+			});
+			
+			oBinding.filter(aFilter);
+		},
+		
+		onClear: function(oEvent){
+			var	oTable = this.byId("tbSolicitacoes"),
+				oBinding = oTable.getBinding("items");
+		
+			oBinding.filter([]);
 		},
 
 		_onSearchProc: function (oEvent) {

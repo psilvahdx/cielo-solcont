@@ -51,6 +51,9 @@
 			"async": true,
 			"id": "app"
 		},
+		"config": {
+			"fullWidth": false
+		},
 		"dependencies": {
 			"minUI5Version": "1.30",
 			"libs": {

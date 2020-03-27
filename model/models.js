@@ -44,6 +44,9 @@ sap.ui.define([
 				},
 				parecerAnexo:{
 					isBusy: false
+				},
+				situacaoText:{
+					text: ""
 				}
 
 			});

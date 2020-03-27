@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		title="{i18n>situacao_txt}"
+		class="sapUiPopupWithPadding"
+		placement="Auto">
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button
+					id="action"
+					text="{i18n>btn_cancelar_txt}"
+					press="handleCancelPpvSituacaoPress" />
+			</Toolbar>
+		</footer>
+		<VBox>
+			<Text text="{structureApp>/situacaoText/text}" />
+		</VBox>
+	</Popover>
+</core:FragmentDefinition>
