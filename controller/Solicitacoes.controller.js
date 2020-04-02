@@ -299,13 +299,11 @@ sap.ui.define([
 			var sValue = oEvent.getParameter("query"),
 				oTable = this.byId("tbSolicitacoes"),
 				oBinding = oTable.getBinding("items");
+			
 			var aFilter = new Filter({
 				filters:[
-					new Filter("NumSolic", sap.ui.model.FilterOperator.EQ, sValue)//,
-					//new Filter("Solicitante", sap.ui.model.FilterOperator.Contains, sValue)
-					],
-				//and: false
-				and: true
+					new Filter("StrSearch", sap.ui.model.FilterOperator.Contains, sValue)
+					]
 			});
 			
 			oBinding.filter(aFilter);
@@ -314,7 +312,7 @@ sap.ui.define([
 		onClear: function(oEvent){
 			var	oTable = this.byId("tbSolicitacoes"),
 				oBinding = oTable.getBinding("items");
-		
+			
 			oBinding.filter([]);
 		},
 

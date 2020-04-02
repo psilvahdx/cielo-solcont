@@ -49,6 +49,9 @@ sap.ui.define([
 
 			oFilter = new Filter("Situacao", sap.ui.model.FilterOperator.NE, "XX"); //VAZIO - Em Aberta
 			aFilter.aFilters.push(oFilter);
+			
+			//oFilter = new Filter("Modulo", sap.ui.model.FilterOperator.EQ, "GERENC");
+			//aFilter.aFilters.push(oFilter);
 
 			if (oFilterGer.solicitante) {
 				oFilter = new Filter("NomeResponsavel", sap.ui.model.FilterOperator.Contains, oFilterGer.solicitante);

@@ -1,0 +1,61 @@
+<mvc:View controllerName="com.sap.build.sapcsr.SOLCONT.controller.HistoricoSolicitacao" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" height="100%">
+	<Page showHeader="false">
+		<Panel height="auto" width="100%" expandable="false" expanded="false" expandAnimation="false" backgroundDesign="Transparent">
+			<headerToolbar>
+				<OverflowToolbar height="3rem">
+					<Title id="title" text="{i18n>hist_solicitacao_title}" level="H2"/>
+					<ToolbarSpacer/>
+					<SearchField id="srchHistParecer" placeholder="{i18n>plch_sch_hist_solic}" search="onSearchSolic">
+						<layoutData><OverflowToolbarLayoutData minWidth="10%" maxWidth="70%"/></layoutData>
+					</SearchField>
+				</OverflowToolbar>
+			</headerToolbar>
+		</Panel>
+		<Table id="tbHistSolicitacoes" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
+			itemPress="handleSolPress"
+			mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: 'histSolicitacao>/results', templateShareable:true}">
+			<headerToolbar>
+				<OverflowToolbar width="auto" height="100%" design="Transparent" visible="true" enabled="true">
+					<content>
+						<Title text="" class="sapUiSmallMarginBottom"></Title>
+					</content>
+				</OverflowToolbar>
+			</headerToolbar>
+			<columns>
+				<Column demandPopin="false" hAlign="Begin" width="6%">
+					<Text text="{i18n>num_txt}"/>
+				</Column>
+				<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="25%">
+					<Text text="{i18n>title_txt}"/>
+				</Column>
+				<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="20%">
+					<Text text="{i18n>solicitante_txt}"/>
+				</Column>
+				<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="14%">
+					<Text text="{i18n>razao_social_txt}"/>
+				</Column>
+				<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
+					<Text text="{i18n>situacao_txt}"/>
+				</Column>
+				<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="10%">
+					<Text text="{i18n>data_txt}" tooltip="{i18n>conta_contabil_tol}"/>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem type="Navigation">
+					<cells>
+						<Text text="{path: 'histSolicitacao>NumSolic', formatter: '.formatter.solicNumber'}"/>
+						<Text text="{path: 'histSolicitacao>DescSolic', formatter: '.formatter.textName'}"/>
+						<Text text="{path: 'histSolicitacao>Solicitante', formatter: '.formatter.textName'}"/>
+						<Text text="{path: 'histSolicitacao>RazaoSoc', formatter: '.formatter.textName'}"/>
+						<ObjectStatus text="{path: 'histSolicitacao>Situacao', formatter: '.formatter.textName'}" 
+					state="{path: 'histSolicitacao>Status', formatter: '.formatter.situacaoState'}" />
+						<!--<Text text="{path: 'histSolicitacao>Situacao', formatter: '.formatter.textName'}" wrapping="true"/>-->
+						<Text text="{path: 'histSolicitacao>DtSolic', formatter: '.formatter.date'}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</Page>
+</mvc:View>

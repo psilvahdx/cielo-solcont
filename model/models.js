@@ -37,16 +37,36 @@ sap.ui.define([
 						UsrRedir: ""
 					}]
 				},
-				tiposDoc:{
-					Id:"",
-					Descricao:"",
+				tiposDoc: {
+					Id: "",
+					Descricao: "",
 					isEdit: false
 				},
-				parecerAnexo:{
+				parecerAnexo: {
 					isBusy: false
 				},
-				situacaoText:{
+				situacaoText: {
 					text: ""
+				},
+				histSol: {
+					numSolic: "",
+					nomeSolicitante: "",
+					razaoSoc: "",
+					situacao: "",
+					descSituacao: "",
+					nomePendentePara: ""
+				},
+				parteRel: {
+					Id: "",
+					Cnpj: "",
+					RazaoSoc: "",
+					SearchStr: ""
+				},
+				parteRelEdit: {
+					Id: "",
+					Cnpj: "",
+					RazaoSoc: "",
+					SearchStr: ""
 				}
 
 			});
@@ -71,10 +91,16 @@ sap.ui.define([
 					nome: "",
 					perfil: ""
 				},
-				tiposDoc:{
-					Id:"",
-					Descricao:"",
+				tiposDoc: {
+					Id: "",
+					Descricao: "",
 					isEdit: false
+				},
+				parteRel: {
+					Id: "",
+					Cnpj: "",
+					RazaoSoc: "",
+					SearchStr: ""
 				}
 			});
 		}

@@ -1,0 +1,92 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<Dialog showHeader="true">
+		<l:BlockLayout id="BlockLayout" background="Dashboard">
+			<l:BlockLayoutRow>
+				<l:BlockLayoutCell class="sapUiNoContentPadding">
+					<VBox>
+						<Panel expandable="true" expanded="true" headerText="{i18n>parte_rel_title}" width="auto">
+							<content>
+								<form:Form  editable="true">
+									<form:formContainers>
+										<form:FormContainer>
+											<form:formElements>
+												<form:FormElement visible="false" label="{i18n>id_lbl}">
+													<form:fields>
+														<Input id="inpIdParteRel" type="Text" value="{structureApp>/parteRel/Id}"/>
+													</form:fields>
+												</form:FormElement>
+												<form:FormElement label="{i18n>cnpj_lbl}">
+													<form:fields>
+														<Input id="inpNewCnpjParteRel" type="Text" liveChange="onCnpjParteRelLiveChange"
+															value="{path: 'structureApp>/parteRel/Cnpj', formatter: '.formatter.mascaraCnpj'}"/>
+													</form:fields>
+												</form:FormElement>
+												<form:FormElement label="{i18n>razao_social_txt}">
+													<form:fields>
+														<Input id="inpNewRazaoSocParteRel" type="Text" value="{structureApp>/parteRel/RazaoSoc}"/>
+													</form:fields>
+												</form:FormElement>
+											</form:formElements>
+										</form:FormContainer>
+									</form:formContainers>
+									<form:layout>
+										<form:ResponsiveGridLayout adjustLabelSpan="true" columnsL="2" labelSpanL="2" columnsM="2" labelSpanM="2" labelSpanS="12"/>
+									</form:layout>
+								</form:Form>
+								<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
+									<content>
+										<ToolbarSpacer width=""/>
+										<Button id="btnNewParteRelacionada" icon="sap-icon://add" text="{i18n>btn_novo_txt}" type="Emphasized" iconFirst="true" press="onNewParteRel"/>
+									</content>
+								</OverflowToolbar>
+							</content>
+						</Panel>
+						<!--LISTA-->
+						<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+							<items>
+								<Table id="tbParteRelacionada" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>usuario_noDataText}"
+									mode="SingleSelectMaster" itemPress="onParteRelItemPress" class="sapUiSmallMarginTop" items="{ path: 'parteRelacModel>/results'}">
+									<headerToolbar>
+										<OverflowToolbar design="Transparent">
+											<content  class="sapUiSmallMarginBottom">
+												<Title text="{i18n>parte_rel_title}"></Title>
+												<ToolbarSpacer width=""/>
+												<SearchField id="srcParteRelacionada" placeholder="{i18n>tooltp_search_parte_rel}" 
+												search="onSearchParteRel">
+													<layoutData><OverflowToolbarLayoutData minWidth="10%" maxWidth="70%"/></layoutData>
+												</SearchField>
+											</content>
+										</OverflowToolbar>
+									</headerToolbar>
+									<columns>
+										<Column demandPopin="false" hAlign="Begin" width="30%">
+											<Text text="{i18n>id_lbl}"/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="35%">
+											<Text text="{i18n>razao_social_txt}"/>
+										</Column>
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="35%">
+											<Text text="{i18n>cnpj_lbl}"/>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem type="Active">
+											<cells>
+												<Text text="{parteRelacModel>Id}"/>
+												<Text text="{parteRelacModel>RazaoSoc}"/>
+												<Text text="{path: 'parteRelacModel>Cnpj', formatter: '.formatter.mascaraCnpj'}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</items>
+						</FlexBox>
+					</VBox>
+				</l:BlockLayoutCell>
+			</l:BlockLayoutRow>
+		</l:BlockLayout>
+		<buttons>
+			<Button text="{i18n>btn_voltar_txt}" type="Default" press="onDialogParteRelClose"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>	

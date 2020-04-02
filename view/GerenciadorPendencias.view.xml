@@ -42,7 +42,9 @@
 							<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
 								<items>
 									<Table id="tbGerenciadorPendencias" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
-										mode="MultiSelect" class="sapUiSmallMarginTop" items="{path: 'gerenciadorModel>/GravarContratoJuridicoSet', templateShareable:true}"
+										mode="MultiSelect" class="sapUiSmallMarginTop" 
+										items="{path: 'gerenciadorModel>/GravarContratoJuridicoSet',
+										filters: [{path: 'Modulo', operator: 'EQ', value1: 'GERENC'}], templateShareable:true}"
 										selectionChange="onTbGernciaPencenciaSelecChange">
 										<headerToolbar>
 											<OverflowToolbar width="auto" height="100%" design="Transparent">

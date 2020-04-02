@@ -21,11 +21,11 @@
 		},
 		{
 			"title": "Histórico",
-			"key": "Story",
+			"key": "historicoSolicitacao",
 			"visible": true
 		}, {
 			"title": "Histórico do parecer",
-			"key": "StoryP",
+			"key": "historicoParecer",
 			"visible": true
 		}]
 	}, {
@@ -58,6 +58,11 @@
 		{
 			"title": "Tipos de Solicitação",
 			"key": "tiposSolicitacao", 
+			"visible":true
+		},
+		{
+			"title": "Parte Relacionada",
+			"key": "parteRelacionada", 
 			"visible":true
 		}
 		]

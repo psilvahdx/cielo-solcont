@@ -4,7 +4,8 @@ xmlns:core="sap.ui.core">
 		<FlexBox class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
 			<items>
 				<Table id="tbSolicitacoes" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>solicitacao_noDataText}"
-					mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{path: '/GravarContratoJuridicoSet', templateShareable:true}">
+					mode="SingleSelectMaster" class="sapUiSmallMarginTop" 
+					items="{path: '/GravarContratoJuridicoSet' , filters: [{path: 'Modulo', operator: 'EQ', value1: 'PEND'}] , templateShareable:true}">
 					<headerToolbar>
 						<OverflowToolbar width="auto" height="100%" design="Transparent" visible="true" enabled="true">
 							<content>

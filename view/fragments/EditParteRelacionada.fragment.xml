@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:form="sap.ui.layout.form">
+	<Dialog showHeader="false" contentWidth="600px">
+		<content>
+			<VBox>
+				<form:Form width="100%" editable="true">
+					<form:title>
+						<core:Title text="{i18n>edit_parte_rel_txt}" level="Auto"/>
+					</form:title>
+					<form:formContainers>
+						<form:FormContainer>
+							<form:formElements>
+								<form:FormElement label="{i18n>id_lbl}">
+									<form:fields>
+										<Text text="{structureApp>/parteRelEdit/Id}"/>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>cnpj_lbl}">
+									<form:fields>
+									<Input id="inpCnpjEdit" type="Text" required="true" liveChange="onCnpjLiveChange"
+										value="{path: 'structureApp>/parteRelEdit/Cnpj', formatter: '.formatter.mascaraCnpj'}"/>
+									</form:fields>
+								</form:FormElement>
+								<form:FormElement label="{i18n>razao_social_txt}">
+									<form:fields>
+										<Input id="inpRazaoSocEdit" required="true" type="Text" value="{structureApp>/parteRelEdit/RazaoSoc}"/>
+									</form:fields>
+								</form:FormElement>
+							</form:formElements>
+							<form:title/>
+						</form:FormContainer>
+					</form:formContainers>
+					<form:layout>
+						<form:ResponsiveGridLayout adjustLabelSpan="false" columnsL="2" labelSpanL="2" columnsM="2" labelSpanM="2" labelSpanS="3"/>
+					</form:layout>
+				</form:Form>
+			</VBox>
+		</content>
+		<beginButton/>
+		<buttons>
+			<Button text="{i18n>btn_salvar_txt}" type="Emphasized" press="onSaveEdit"/>
+			<Button text="{i18n>btn_voltar_txt}" type="Default" press="onEditClose"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

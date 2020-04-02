@@ -150,7 +150,6 @@
 										</f:FormElement>
 										<f:FormElement>
 											<f:fields>
-												<!--<CheckBox id="chekCompras" selected="{= ${SendCompras} !== '' ? true : false}" text="{i18n>chk_compras_txt}" select="checkCompra"-->
 												<CheckBox id="chekCompras" selected="{SendCompras}" text="{i18n>chk_compras_txt}" select="checkCompra"
 													enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
@@ -158,8 +157,18 @@
 										<f:FormElement>
 											<f:fields>
 												<CheckBox id="checkComplice" selected="{SendComplice}" text="{i18n>chk_parte_relac_txt}"
+												select="onCheckCompliance"
 													visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}"
 													enabled="{structureApp>/solViewModel/enabled}"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement visible="{= ${structureApp>/userData/Perfil} === 'ADMIN' ? true : false}">
+											<f:label>
+												<Label text="{i18n>chk_parte_relac_txt}" width="100%" textAlign="Begin" textDirection="Inherit"/>
+											</f:label>
+											<f:fields>
+												<Input id="inpParteRelac" value="{ParteRelacionada}" width="100%" valueHelpRequest="_onOpenDialogParteRel" showValueHelp="true"
+													enabled="{SendComplice}"/>
 											</f:fields>
 										</f:FormElement>
 									</f:formElements>
@@ -227,12 +236,6 @@
 												<Label text="{i18n>cnpj_cpf_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-											<!--	<MaskInput id="inpCNPJ" mask="99.999.999/9999-99" placeholderSymbol="_" value="{path: 'CnpjCpf', formatter: '.formatter.mascaraCnpj'}"
-													width="50%" required="true" enabled="{structureApp>/solViewModel/enabled}" change="onCnpjChange">
-													<rules>
-														<MaskInputRule maskFormatSymbol="9" regex="[0-9]"/>
-													</rules>
-												</MaskInput>-->
 												<Input id="inpCNPJ" value="{path: 'CnpjCpf', formatter: '.formatter.mascaraCnpj'}" width="50%" required="true"
 													enabled="{structureApp>/solViewModel/enabled}" liveChange="onCnpjLiveChange"/>
 											</f:fields>
