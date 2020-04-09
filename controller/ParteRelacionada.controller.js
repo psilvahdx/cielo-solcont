@@ -187,11 +187,13 @@ sap.ui.define([
 			var oModel = this.getModel(),
 				structureAppModel = this.getModel("structureApp"),
 				oParteRel = structureAppModel.getProperty("/parteRel");
+				
+			var sCnpj = this.getView().byId("inpCnpj").getValue();
 
 			var oParams = {
 				
 				Id: oParteRel.Id,
-				Cnpj: this.retirarFormatacao(oParteRel.Cnpj),
+				Cnpj: this.retirarFormatacao(sCnpj),
 				RazaoSoc: oParteRel.RazaoSoc
 			};
 			

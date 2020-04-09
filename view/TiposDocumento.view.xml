@@ -1,5 +1,5 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout"
-	controllerName="com.sap.build.sapcsr.SOLCONT.controller.TiposDocumento" xmlns:form="sap.ui.layout.form">
+	controllerName="com.sap.build.sapcsr.SOLCONT.controller.TiposDocumento" xmlns:form="sap.ui.layout.form" xmlns:t="sap.tnt">
 	<Page id="tpDocs" showHeader="false" title="TiposDocumento" showFooter="false" showNavButton="false">
 		<!--FILTERBAR-->
 		<l:BlockLayout id="BlockLayout" background="Dashboard">
@@ -12,9 +12,18 @@
 									<form:formContainers>
 										<form:FormContainer>
 											<form:formElements>
+												<form:FormElement label="{i18n>grupo_tipo_doc_lbl}">
+													<form:fields>
+														<ComboBox id="cmbTpDocumento" width="100%"
+															items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPDOCUMENTO' }]}"
+															selectedKey="{IdTipoDoc}">
+															<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+														</ComboBox>
+													</form:fields>
+												</form:FormElement>
 												<form:FormElement label="{i18n>tipo_doc_lbl}">
 													<form:fields>
-														<Input id="inpTpDoc" type="Text" value="{filterModel>/tiposDoc/Descricao}" liveChange="onSearchTpDoc"/>
+														<Input id="inpTpDoc" type="Text" value="{filterModel>/tiposDoc/Descricao}"/>
 													</form:fields>
 												</form:FormElement>
 											</form:formElements>
@@ -27,8 +36,7 @@
 								<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
 									<content>
 										<ToolbarSpacer width=""/>
-										<Button id="btnNewTpDoc" icon="sap-icon://add" enabled="false" text="{i18n>btn_novo_txt}" type="Emphasized" iconFirst="true"
-											press="onNewTpDoc"/>
+										<Button id="btnNewTpDoc" icon="sap-icon://add" text="{i18n>btn_novo_txt}" type="Emphasized" iconFirst="true" press="onNewTpDoc"/>
 									</content>
 								</OverflowToolbar>
 							</content>
@@ -37,7 +45,8 @@
 						<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
 							<items>
 								<Table id="tbTipoDoc" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>usuario_noDataText}"
-									mode="SingleSelectMaster" class="sapUiSmallMarginTop" items="{ path: 'shModel>/SearchHelpSet'}" updateFinished="onListTpDocUpdateFinished">
+									mode="SingleSelectMaster" showNoData="false" class="sapUiSmallMarginTop" items="{ path: 'shModel>/SearchHelpSet'}"
+									updateFinished="onListTpDocUpdateFinished">
 									<headerToolbar>
 										<OverflowToolbar width="auto" height="100%" design="Transparent">
 											<content>
@@ -47,13 +56,13 @@
 										</OverflowToolbar>
 									</headerToolbar>
 									<columns>
-										<Column demandPopin="false" hAlign="Begin" width="15%">
+										<Column demandPopin="false" hAlign="Begin"  width="15%">
 											<Text text="{i18n>id_lbl}"/>
 										</Column>
-										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="70%">
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="75%">
 											<Text text="{i18n>tipo_doc_lbl}"/>
 										</Column>
-										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="3%">
+										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
 											<Text text=""/>
 										</Column>
 										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="5%">
@@ -73,9 +82,75 @@
 								</Table>
 							</items>
 						</FlexBox>
+						<Tree id="Tree" items="{path: 'shTreeModel>/nodes'}" mode="SingleSelectMaster">
+							<CustomTreeItem >
+								<FlexBox alignItems="Start" justifyContent="Start" width="15%">
+									<items>
+										<Text text="{shTreeModel>Id}">
+											<layoutData>
+												<FlexItemData growFactor="1"/>
+											</layoutData>
+										</Text>
+									</items>
+								</FlexBox>
+								<FlexBox alignItems="Start" justifyContent="Start" width="75%">
+									<items>
+										<Text text="{shTreeModel>Descricao}">
+											<layoutData>
+												<FlexItemData growFactor="1"/>
+											</layoutData>
+										</Text>
+									</items>
+								</FlexBox>
+								<FlexBox alignItems="Center" justifyContent="End" width="5%">
+									<core:Icon src="sap-icon://edit" tooltip="{i18n>btn_editar_txt}" press="onEditTpDoc"/>
+								</FlexBox>
+								<FlexBox alignItems="Center" justifyContent="End" width="5%">
+									<core:Icon src="sap-icon://delete" tooltip="{i18n>btn_excluir_txt}" press="onDeleteTpDoc"/>
+								</FlexBox>
+							</CustomTreeItem>
+						</Tree>
 					</VBox>
 				</l:BlockLayoutCell>
 			</l:BlockLayoutRow>
 		</l:BlockLayout>
+		<!--		<l:VerticalLayout width="100%">
+			<l:content>
+				<Tree id="Tree" items="{path: 'shTreeModel>/nodes'}" mode="SingleSelectMaster">
+					<CustomTreeItem >
+						<FlexBox alignItems="Start" justifyContent="Start" width="15%">
+							<items>
+								<Text text="{shTreeModel>Id}">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Text>
+							</items>
+						</FlexBox>
+						<FlexBox alignItems="Start" justifyContent="Start" width="75%">
+							<items>
+								<Text text="{shTreeModel>Descricao}">
+									<layoutData>
+										<FlexItemData growFactor="1"/>
+									</layoutData>
+								</Text>
+							</items>
+						</FlexBox>
+						<FlexBox alignItems="Center" justifyContent="End" width="5%">
+							<core:Icon src="sap-icon://edit" tooltip="{i18n>btn_editar_txt}" press="onEditTpDoc"/>
+						</FlexBox>
+						<FlexBox alignItems="Center" justifyContent="End" width="5%">
+							<core:Icon src="sap-icon://delete" tooltip="{i18n>btn_excluir_txt}" press="onDeleteTpDoc"/>
+						</FlexBox>
+					</CustomTreeItem>
+				</Tree>
+			</l:content>
+		</l:VerticalLayout>-->
+		<!--	<t:NavigationList items="{ path: 'shTreeModel>/results', templateShareable: false }" width="auto">
+						<t:NavigationListItem  icon="sap-icon://document-text" items="{ path: 'shTreeModel>SearchHelpItemSet/results/', templateShareable: false }"
+							text="{shTreeModel>Descricao}" key="{shTreeModel>Id}" select="_onHeaderSelectedExpand">
+							<t:NavigationListItem text="{shTreeModel>Descricao}" key="{shTreeModel>Id}" select="_onNavigationListItemFirstLevelSelect"/>
+						</t:NavigationListItem>
+					</t:NavigationList>-->
 	</Page>
 </mvc:View>

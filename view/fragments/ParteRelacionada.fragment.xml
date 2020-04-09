@@ -1,12 +1,68 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
 	<Dialog showHeader="true">
-		<l:BlockLayout id="BlockLayout" background="Dashboard">
-			<l:BlockLayoutRow>
-				<l:BlockLayoutCell class="sapUiNoContentPadding">
-					<VBox>
-						<Panel expandable="true" expanded="true" headerText="{i18n>parte_rel_title}" width="auto">
-							<content>
-								<form:Form  editable="true">
+		<NavContainer id="navCon" width="800px" height="600px" class="navContainerControl sapUiSmallMarginBottom">
+			<Page id="p1" title="{i18n>sel_parte_rel_title}">
+				<headerContent>
+					<Button text="{i18n>btn_novo_item_txt}" icon="sap-icon://add" type="Emphasized" press="handleNav">
+						<customData>
+							<core:CustomData key="target" value="p2"/>
+						</customData>
+					</Button>
+				</headerContent>
+				<l:BlockLayout id="BlockLayout" background="Dashboard">
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell class="sapUiNoContentPadding">
+							<VBox>
+								<!--LISTA-->
+								<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
+									<items>
+										<Table id="tbParteRelacionada" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>usuario_noDataText}"
+											mode="SingleSelectMaster" itemPress="onParteRelItemPress" class="sapUiSmallMarginTop" items="{ path: 'parteRelacModel>/results'}">
+											<headerToolbar>
+												<OverflowToolbar design="Transparent">
+													<content class="sapUiSmallMarginBottom">
+														<Title text="{i18n>parte_rel_title}"></Title>
+														<ToolbarSpacer width=""/>
+														<SearchField id="srcParteRelacionada" placeholder="{i18n>tooltp_search_parte_rel}" search="onSearchParteRel">
+															<layoutData><OverflowToolbarLayoutData minWidth="10%" maxWidth="70%"/></layoutData>
+														</SearchField>
+													</content>
+												</OverflowToolbar>
+											</headerToolbar>
+											<columns>
+												<Column demandPopin="false" hAlign="Begin" width="30%">
+													<Text text="{i18n>id_lbl}"/>
+												</Column>
+												<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="35%">
+													<Text text="{i18n>razao_social_txt}"/>
+												</Column>
+												<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="35%">
+													<Text text="{i18n>cnpj_lbl}"/>
+												</Column>
+											</columns>
+											<items>
+												<ColumnListItem type="Active">
+													<cells>
+														<Text text="{parteRelacModel>Id}"/>
+														<Text text="{parteRelacModel>RazaoSoc}"/>
+														<Text text="{path: 'parteRelacModel>Cnpj', formatter: '.formatter.mascaraCnpj'}"/>
+													</cells>
+												</ColumnListItem>
+											</items>
+										</Table>
+									</items>
+								</FlexBox>
+							</VBox>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+				</l:BlockLayout>
+			</Page>
+			<Page id="p2" title="{i18n>nova_parte_rel_title}" showNavButton="true" navButtonPress="handleNav">
+				<l:BlockLayout id="BlockLayoutP2" background="Dashboard">
+					<l:BlockLayoutRow>
+						<l:BlockLayoutCell class="sapUiNoContentPadding">
+							<VBox>
+								<form:Form editable="true">
 									<form:formContainers>
 										<form:FormContainer>
 											<form:formElements>
@@ -36,57 +92,18 @@
 								<OverflowToolbar width="auto" height="46px" design="Solid" visible="true" enabled="true">
 									<content>
 										<ToolbarSpacer width=""/>
-										<Button id="btnNewParteRelacionada" icon="sap-icon://add" text="{i18n>btn_novo_txt}" type="Emphasized" iconFirst="true" press="onNewParteRel"/>
+										<Button id="btnNewParteRelacionada" icon="sap-icon://save" text="{i18n>btn_salvar_txt}" type="Emphasized" iconFirst="true"
+											press="onNewParteRel"/>
 									</content>
 								</OverflowToolbar>
-							</content>
-						</Panel>
-						<!--LISTA-->
-						<FlexBox width="100%" class="columns" wrap="Wrap" alignItems="Center" backgroundDesign="Translucent">
-							<items>
-								<Table id="tbParteRelacionada" visible="true" growing="true" growingScrollToLoad="true" noDataText="{i18n>usuario_noDataText}"
-									mode="SingleSelectMaster" itemPress="onParteRelItemPress" class="sapUiSmallMarginTop" items="{ path: 'parteRelacModel>/results'}">
-									<headerToolbar>
-										<OverflowToolbar design="Transparent">
-											<content  class="sapUiSmallMarginBottom">
-												<Title text="{i18n>parte_rel_title}"></Title>
-												<ToolbarSpacer width=""/>
-												<SearchField id="srcParteRelacionada" placeholder="{i18n>tooltp_search_parte_rel}" 
-												search="onSearchParteRel">
-													<layoutData><OverflowToolbarLayoutData minWidth="10%" maxWidth="70%"/></layoutData>
-												</SearchField>
-											</content>
-										</OverflowToolbar>
-									</headerToolbar>
-									<columns>
-										<Column demandPopin="false" hAlign="Begin" width="30%">
-											<Text text="{i18n>id_lbl}"/>
-										</Column>
-										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="35%">
-											<Text text="{i18n>razao_social_txt}"/>
-										</Column>
-										<Column demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" hAlign="Begin" width="35%">
-											<Text text="{i18n>cnpj_lbl}"/>
-										</Column>
-									</columns>
-									<items>
-										<ColumnListItem type="Active">
-											<cells>
-												<Text text="{parteRelacModel>Id}"/>
-												<Text text="{parteRelacModel>RazaoSoc}"/>
-												<Text text="{path: 'parteRelacModel>Cnpj', formatter: '.formatter.mascaraCnpj'}"/>
-											</cells>
-										</ColumnListItem>
-									</items>
-								</Table>
-							</items>
-						</FlexBox>
-					</VBox>
-				</l:BlockLayoutCell>
-			</l:BlockLayoutRow>
-		</l:BlockLayout>
+							</VBox>
+						</l:BlockLayoutCell>
+					</l:BlockLayoutRow>
+				</l:BlockLayout>
+			</Page>
+		</NavContainer>
 		<buttons>
-			<Button text="{i18n>btn_voltar_txt}" type="Default" press="onDialogParteRelClose"/>
+			<Button text="{i18n>btn_cancelar_txt}" type="Default" press="onDialogParteRelClose"/>
 		</buttons>
 	</Dialog>
-</core:FragmentDefinition>	
+</core:FragmentDefinition>

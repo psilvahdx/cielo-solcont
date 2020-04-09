@@ -8,8 +8,8 @@ xmlns:core="sap.ui.core">
 					items="{path: '/GravarContratoJuridicoSet' , filters: [{path: 'Modulo', operator: 'EQ', value1: 'PEND'}] , templateShareable:true}">
 					<headerToolbar>
 						<OverflowToolbar width="auto" height="100%" design="Transparent" visible="true" enabled="true">
-							<content>
-								<Title text="{i18n>solicitacao_title}" class="sapUiSmallMarginBottom"></Title>
+							<content class="sapUiSmallMarginBottom">
+								<Title text="{i18n>solicitacao_title}"/>
 								<ToolbarSpacer width=""/>
 								<SearchField id="srcSol" search="onSearch">
 					              <layoutData><OverflowToolbarLayoutData minWidth="10%" maxWidth="70%"/></layoutData>

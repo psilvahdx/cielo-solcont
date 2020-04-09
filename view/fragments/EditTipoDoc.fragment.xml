@@ -14,6 +14,15 @@
 										<Text text="{structureApp>/tiposDoc/Id}"/>
 									</form:fields>
 								</form:FormElement>
+									<form:FormElement label="{i18n>grupo_tipo_doc_lbl}">
+													<form:fields>
+														<ComboBox id="cmbTpDocumentoEdit" width="100%"
+															items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPDOCUMENTO' }] }"
+															selectedKey="{structureApp>/tiposDoc/Grupo}">
+															<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
+														</ComboBox>
+													</form:fields>
+												</form:FormElement>
 								<form:FormElement label="{i18n>tipo_doc_lbl}">
 									<form:fields>
 										<Input id="inpDesc" type="Text" value="{structureApp>/tiposDoc/Descricao}"/>

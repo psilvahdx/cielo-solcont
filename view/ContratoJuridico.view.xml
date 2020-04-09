@@ -45,11 +45,13 @@
 										</f:FormElement>
 										<f:FormElement id="lblTipoD" label="{i18n>tp_doc_lbl}">
 											<f:fields>
-												<ComboBox id="cmbDocumento" width="100%" required="true"
+												<!--<ComboBox id="cmbDocumento" width="100%" required="true"
 													items="{ path: 'shModel>/SearchHelpSet', filters: [{ path: 'IpDominio', operator: 'EQ', value1: 'ZMMD_SOLCONT_TPDOCUMENTO' }] }"
 													selectedKey="{IdTipoDoc}" enabled="{structureApp>/solViewModel/enabled}">
 													<core:Item key="{shModel>Id}" text="{shModel>Descricao}"/>
-												</ComboBox>
+												</ComboBox>-->
+												<Input id="inpTpDoc" required="true" value="{TpDoc}" width="100%" valueHelpOnly="true"  valueHelpRequest="openDialogTipoDoc" showValueHelp="true"
+												enabled="{structureApp>/solViewModel/enabled}"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement id="lblDescricao" label="{i18n>descricao_sol_lbl}">
@@ -78,7 +80,7 @@
 										</f:FormElement>
 										<f:FormElement id="lblNContrato" label="{i18n>num_contrato_lbl}">
 											<f:fields>
-												<Input id="inpNContrato" value="{NContrato}" valueHelpRequest="openDialogContrato" showValueHelp="true" width="100%"/>
+												<Input id="inpNContrato" value="{NContrato}" valueHelpRequest="openDialogContrato" showValueHelp="true"  width="100%"/>
 											</f:fields>
 										</f:FormElement>
 										<f:FormElement id="lblNRC" label="{i18n>num_req_compras_lbl}">
@@ -167,7 +169,7 @@
 												<Label text="{i18n>chk_parte_relac_txt}" width="100%" textAlign="Begin" textDirection="Inherit"/>
 											</f:label>
 											<f:fields>
-												<Input id="inpParteRelac" value="{ParteRelacionada}" width="100%" valueHelpRequest="_onOpenDialogParteRel" showValueHelp="true"
+												<Input id="inpParteRelac" value="{ParteRelacionada}" valueHelpOnly="true"  width="100%" valueHelpRequest="_onOpenDialogParteRel" showValueHelp="true"
 													enabled="{SendComplice}"/>
 											</f:fields>
 										</f:FormElement>
@@ -253,7 +255,7 @@
 												<Label text="{i18n>desc_contratacao_lbl}" width="100%" textAlign="Begin" textDirection="Inherit" visible="true"/>
 											</f:label>
 											<f:fields>
-												<TextArea id="txtADescricao" value="{DescContratacao}" placeholder="{i18n>desc_contratacao_plh}" editable="true" width="100%"
+												<TextArea id="txtADescricao" value="{DescContratacao}" placeholder="{i18n>desc_contratacao_plh}" rows="5" editable="true" width="100%"
 													/>
 											</f:fields>
 										</f:FormElement>

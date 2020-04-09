@@ -241,7 +241,9 @@ sap.ui.define([
 			if (!this._validateField("cmbSolicitacao"))
 				isValid = false;
 
-			if (!this._validateField("cmbDocumento"))
+			//if (!this._validateField("cmbDocumento"))
+			//	isValid = false;
+			if(!this._validateField("inpTpDoc"))
 				isValid = false;
 
 			if (!this._validateField("inpSegundoA"))
@@ -395,9 +397,12 @@ sap.ui.define([
 				oAdvogadoModel = oView.getModel("advogadoRespModel"),
 				oAprovModel = oView.getModel("selectedAprovador"),
 				oSelectedParteRel = oView.getModel("SelectedParteRel"),
+				oSelectedTpDoc = oView.getModel("SelectedTpDoc"),
 				sNumAdvogadoResp = oAdvogadoModel ? oAdvogadoModel.getProperty("/Matricula") : "",
 				sAprovadorID = oAprovModel ? oAprovModel.getProperty("/Matricula") : "",
 				sParteRelID = oSelectedParteRel ? oSelectedParteRel.getProperty("/Id") : "",
+				sIdTpDoc = oSelectedTpDoc ? oSelectedTpDoc.getProperty("/Id") : "",
+				sTpDoc = oSelectedTpDoc ? oSelectedTpDoc.getProperty("/Descricao") : "",
 				sNumRespCompras = oView.byId("cmbResponsavel").getSelectedKey();
 
 			if (sAprovadorID === "") {
@@ -407,13 +412,21 @@ sap.ui.define([
 			if (sParteRelID === "") {
 				sParteRelID = oViewModel ? oViewModel.getProperty("/IdParteRelacionada") : "";
 			}
+			
+			if (sIdTpDoc === "") {
+				sIdTpDoc = oViewModel ? oViewModel.getProperty("/IdTipoDoc") : "";
+			}
+			
+			if (sTpDoc === "") {
+				sTpDoc = oViewModel ? oViewModel.getProperty("/TpDoc") : "";
+			}
 
 			oParams = {
 				"NumSolic": this.sNumSolicitacao,
 				"DtSolic": oDtSol ? oDtSol : "", //oView.byId("dtSolic").getDateValue(),
 				"Empresa": oView.byId("cmbEmpresa").getValue(),
 				"TpSolic": oView.byId("cmbSolicitacao").getValue(),
-				"TpDoc": oView.byId("cmbDocumento").getValue(),
+				"TpDoc": sTpDoc,//oView.byId("cmbDocumento").getValue(),
 				"DescSolic": oView.byId("txtADes").getValue(),
 				"NContrato": oView.byId("inpNContrato").getValue(),
 				"NRc": oView.byId("inpNRC").getValue(),
@@ -436,7 +449,7 @@ sap.ui.define([
 				"NumAdvogado": sNumAdvogadoResp ? sNumAdvogadoResp : "",
 				"IdEmpresa": oView.byId("cmbEmpresa").getSelectedKey(),
 				"IdTipoSol": oView.byId("cmbSolicitacao").getSelectedKey(),
-				"IdTipoDoc": oView.byId("cmbDocumento").getSelectedKey(),
+				"IdTipoDoc": sIdTpDoc, //oView.byId("cmbDocumento").getSelectedKey(),
 				"Evento": sEvento,
 				//"NaturezaContrato": oView.byId("cmbNatCont").getSelectedKey(),
 				"DtVigenciaIni": oDtViIni, //oView.byId("inpDtVigenciaDe").getDateValue(),
@@ -609,7 +622,7 @@ sap.ui.define([
 				}
 			}
 		},
-
+		
 		/********************************************
 		 *   DIALOG PARA SELEÇÃO DE CENTRO DE CUSTO
 		 **********************************************/
@@ -746,29 +759,7 @@ sap.ui.define([
 				}]
 			});
 			oValueHelpDialog.getTable().setModel(oColModel, "columns");
-			// var aFilters = [ new Filter("Empresa", FilterOperator.EQ, oEmpresa)];
-
-			// oValueHelpDialog.getTable().setModel(oModel);
-			// if (oValueHelpDialog.getTable().bindRows) {
-			// 	oValueHelpDialog.getTable().bindRows({path: "/AreaSet", filters: aFilters});
-			// }
-			// if (oValueHelpDialog.getTable().bindItems) {
-			// 	var oTable = oValueHelpDialog.getTable();
-
-			// 	oTable.bindAggregation("items", "/AreaSet", function (sId, oContext) {
-			// 		var aCols = oTable.getModel("columns").getData().cols;
-
-			// 		return new sap.m.ColumnListItem({
-			// 			cells: aCols.map(function (column) {
-			// 				var colname = column.template;
-			// 				return new sap.m.Label({
-			// 					text: "{" + colname + "}"
-			// 				});
-			// 			})
-			// 		});
-			// 	});
-			// }
-
+			
 			var oFilterBar = new sap.ui.comp.filterbar.FilterBar({
 				filterBarExpanded: true,
 				useToolbar: false,
@@ -1010,6 +1001,7 @@ sap.ui.define([
 					oView.setModel(oParteRelModel, "parteRelacModel");
 					oOwnerComponent.hideBusyIndicator();
 					that.oDialogParteRelacionada.open();
+					that.handleNav();
 				}.bind(that),
 				error: function (oError) {
 					oOwnerComponent.hideBusyIndicator();
@@ -1061,6 +1053,8 @@ sap.ui.define([
 
 			this.getView().byId("inpParteRelac").setValue("");
 			this.getView().byId("inpParteRelac").setValue(oSelParteRel.RazaoSoc);
+			//this.getView().byId("inpCNPJ").setValue(oSelParteRel.Cnpj);
+			//this.getView().byId("inpRazao").setValue(oSelParteRel.RazaoSoc);
 			this._oDialogParteRelacionada.close();
 		},
 
@@ -1129,6 +1123,7 @@ sap.ui.define([
 					that.onSearchParteRel();
 					sap.ui.getCore().byId("inpNewRazaoSocParteRel").setValue("");
 					sap.ui.getCore().byId("inpNewCnpjParteRel").setValue("");
+					that.handleNav();
 				},
 				error: function (oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("insere_parte_rel_erro"));
@@ -1136,6 +1131,100 @@ sap.ui.define([
 				}
 			});
 
+		},
+		
+		handleNav: function(evt) {
+			var navCon = sap.ui.getCore().byId("navCon");
+			var target = evt ? evt.getSource().data("target") : null;
+			if (target) {
+				var animation = "slide";
+				navCon.to(sap.ui.getCore().byId(target), animation);
+			} else {
+				navCon.back();
+			}
+		},
+		
+		
+		getDialogTpDoc: function (sFragment) {
+			if (!this._oDialogTpDoc) {
+				this._oDialogTpDoc = sap.ui.xmlfragment(sFragment, this);
+				this.getView().addDependent(this._oDialogTpDoc);
+			}
+
+			return this._oDialogTpDoc;
+		},
+		
+		openDialogTipoDoc: function(oEvent){
+			var that = this,
+				oDataM = this.getModel(),
+				oView = this.getView(),
+				oOwnerComponent = this.getOwnerComponent(),
+				sEntity = "/SearchHelpSet",
+				sDialog = "com.sap.build.sapcsr.SOLCONT.view.fragments.TipoDoc";
+
+			oOwnerComponent.showBusyIndicator();
+			this.oDialogTpDoc = this.getDialogTpDoc(sDialog);
+		
+			oDataM.read(sEntity, {
+				filters: [new Filter("IpDominio", sap.ui.model.FilterOperator.EQ, "ZMMD_SOLCONT_TPDOCUMENTO")],
+				urlParameters: {
+					"$expand": "SearchHelpItemSet"
+				},
+				success: function (oData) {
+					var aNodes = {
+						nodes: []
+					};
+
+					for (var i = 0; i < oData.results.length; i++) {
+						var oItem = oData.results[i];
+						var oNode = {
+							IpDominio: oItem.IpDominio,
+							Id: oItem.Id,
+							Descricao: oItem.Descricao,
+							Grupo: oItem.Grupo,
+							nodes: []
+						};
+						for (var x = 0; x < oData.results[i].SearchHelpItemSet.results.length; x++) {
+							var value = oData.results[i].SearchHelpItemSet.results[x];
+
+							var oSubNode = {
+								IpDominio: value.IpDominio,
+								Id: value.Id,
+								Descricao: value.Descricao,
+								Grupo: value.Grupo
+							};
+							oNode.nodes.push(oSubNode);
+						}
+						aNodes.nodes.push(oNode);
+					}
+					var oJsModel = new JSONModel(aNodes);
+					that.getView().setModel(oJsModel, "shTreeModel");
+					that.oDialogTpDoc.open();
+					oOwnerComponent.hideBusyIndicator();
+				}.bind(that),
+				error: function (oError) {
+						oOwnerComponent.hideBusyIndicator();
+					}
+			});
+			
+		},
+		
+		onDialogTpDocClose: function(oEvent){
+			this._oDialogTpDoc.close();
+		},
+		
+		onTreeItemTpDocPress: function(oEvent){
+			var oSource = oEvent.getSource(),
+				oContext = oSource.getSelectedContexts()[0],
+				oSelItem = this.getModel("shTreeModel").getObject(oContext.getPath());
+				
+			var oSelectedTpDoc = new JSONModel(oSelItem);
+			this.getView().setModel(oSelectedTpDoc, "SelectedTpDoc");
+			this.getView().getModel("SelectedTpDoc").refresh();
+			
+			this.byId("inpTpDoc").setValue("");	
+			this.byId("inpTpDoc").setValue(oSelItem.Descricao);
+			this._oDialogTpDoc.close();
 		},
 
 		/********************************************

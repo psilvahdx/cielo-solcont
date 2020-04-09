@@ -40,6 +40,7 @@ sap.ui.define([
 				tiposDoc: {
 					Id: "",
 					Descricao: "",
+					Grupo: "",
 					isEdit: false
 				},
 				parecerAnexo: {
@@ -94,6 +95,7 @@ sap.ui.define([
 				tiposDoc: {
 					Id: "",
 					Descricao: "",
+					Grupo: "",
 					isEdit: false
 				},
 				parteRel: {

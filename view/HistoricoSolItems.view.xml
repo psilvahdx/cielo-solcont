@@ -5,9 +5,11 @@
 				title="{i18n>sol_numero_txt} {path: 'structureApp>/histSol/numSolic', formatter: '.formatter.solicNumber'}"
 				backgroundDesign="Transparent">
 				<attributes>
-					<ObjectAttribute title="{i18n>solicitante_txt}" text="{structureApp>/histSol/nomeSolicitante}" />
+					<ObjectAttribute title="{i18n>solicitante_txt}" 
+					text="{path: 'structureApp>/histSol/nomeSolicitante', formatter: '.formatter.textName' }" />
 					<ObjectAttribute title="{i18n>razao_social_txt}" text="{structureApp>/histSol/razaoSoc}" />
-					<ObjectAttribute title="{i18n>pendente_para_txt}" text="{structureApp>/histSol/nomePendentePara}" />
+					<ObjectAttribute title="{i18n>pendente_para_txt}" 
+					text="{path: 'structureApp>/histSol/nomePendentePara', formatter: '.formatter.textName' }" />
 				</attributes>
 				<statuses>
 					<ObjectStatus title="{i18n>situacao_txt}" 

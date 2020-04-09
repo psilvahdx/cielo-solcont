@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Dialog showHeader="true">
+		<Tree id="TreeTpDoc" items="{path: 'shTreeModel>/nodes'}" mode="SingleSelectMaster" selectionChange="onTreeItemTpDocPress">
+			<CustomTreeItem>
+				<FlexBox alignItems="Start" justifyContent="Start" width="100%">
+					<items>
+						<Text text="{shTreeModel>Descricao}">
+							<layoutData>
+								<FlexItemData growFactor="1"/>
+							</layoutData>
+						</Text>
+					</items>
+				</FlexBox>
+			</CustomTreeItem>
+		</Tree>
+		<buttons>
+			<Button text="{i18n>btn_cancelar_txt}" type="Default" press="onDialogTpDocClose"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
