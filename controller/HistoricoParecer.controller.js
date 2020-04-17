@@ -137,7 +137,18 @@ sap.ui.define([
 
 			var url = URL.createObjectURL(blob);
 
-			window.open(url, '_blank');
+			//window.open(url, '_blank');
+			this.forceDownload(url,fname);
+		},
+		
+		forceDownload: function(blob, filename) {
+			var a = document.createElement('a');
+			a.download = filename;
+			a.href = blob;
+			// For Firefox https://stackoverflow.com/a/32226068
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
 		},
 
 		onPressAttachList: function (oEvent) {

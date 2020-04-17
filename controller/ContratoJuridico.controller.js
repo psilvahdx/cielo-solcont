@@ -15,7 +15,7 @@ sap.ui.define([
 	"sap/ui/comp/valuehelpdialog/ValueHelpDialog",
 	"com/sap/build/sapcsr/SOLCONT/model/formatter",
 	"com/sap/build/sapcsr/SOLCONT/model/jqueryMask"
-], function (jQuery, BaseController, History, MessageBox, ODataModel, Filter, FilterOperator, MessageToast, SimpleType, UIComponent,
+], function(jQuery, BaseController, History, MessageBox, ODataModel, Filter, FilterOperator, MessageToast, SimpleType, UIComponent,
 	JSONModel, ValidateException, Device, ValueHelpDialog, formatter, jqueryMask) {
 	"use strict";
 
@@ -23,14 +23,14 @@ sap.ui.define([
 		formatter: formatter,
 		sNumSolicitacao: "",
 
-		onInit: function () {
+		onInit: function() {
 			var oViewModel = new JSONModel({
 				isPhone: Device.system.phone
 			});
 
 			//define um model para celular
 			this.setModel(oViewModel, "view");
-			Device.media.attachHandler(function (oDevice) {
+			Device.media.attachHandler(function(oDevice) {
 				this.getModel("view").setProperty("/isPhone", oDevice.name === "Phone");
 			}.bind(this));
 
@@ -39,7 +39,7 @@ sap.ui.define([
 		},
 
 		//função que copia todos os dados do oData para os campos na tela, e as imagens
-		_onRouteMatched: function (oEvent) {
+		_onRouteMatched: function(oEvent) {
 			var oArgs,
 				sPath,
 				that = this,
@@ -64,7 +64,7 @@ sap.ui.define([
 						expand: "AnexoSet"
 					},
 					events: {
-						dataReceived: function (oEvent) {
+						dataReceived: function(oEvent) {
 							that.hideBusy();
 							var oContext = oEvent.getSource().getBoundContext(),
 								oViewModel = this.getModel().getObject(oContext.getPath());
@@ -101,7 +101,7 @@ sap.ui.define([
 
 		},
 
-		getAdvogadoResponsavel: function (sMatricula) {
+		getAdvogadoResponsavel: function(sMatricula) {
 
 			var that = this,
 				oModel = this.getModel();
@@ -109,19 +109,19 @@ sap.ui.define([
 			oModel.read(oModel.createKey("/ProcuradoresSet", {
 				Matricula: sMatricula
 			}), {
-				success: function (oData) {
+				success: function(oData) {
 					var oAdvogadoModel = new JSONModel(oData);
 					that.getView().byId("txtAdvogadoResp").setText(oAdvogadoModel.getProperty("/Nome"));
 					that.getView().setModel(oAdvogadoModel, "advogadoRespModel");
 				},
-				error: function (oError) {
+				error: function(oError) {
 					that.getView().byId("txtAdvogadoResp").setText("");
 				}
 			});
 
 		},
 
-		getFornecedorByCnpj: function (sCnpj) {
+		getFornecedorByCnpj: function(sCnpj) {
 
 			var that = this,
 				oModel = this.getModel();
@@ -129,12 +129,12 @@ sap.ui.define([
 			oModel.read(oModel.createKey("/FornecedorSet", {
 				IvCnpj: sCnpj
 			}), {
-				success: function (oData) {
+				success: function(oData) {
 					var oFornecedorModel = new JSONModel(oData);
 					that.getView().byId("inpRazao").setValue(oFornecedorModel.getProperty("/EvFornecedor"));
 					that.getOwnerComponent().hideBusyIndicator();
 				},
-				error: function (oError) {
+				error: function(oError) {
 					that.getView().byId("inpRazao").setValue("");
 					that.getOwnerComponent().hideBusyIndicator();
 				}
@@ -142,13 +142,13 @@ sap.ui.define([
 
 		},
 
-		onCnpjLiveChange: function (oEvent) {
+		onCnpjLiveChange: function(oEvent) {
 
-			var brCnpjBehaviour = function (value) {
+			var brCnpjBehaviour = function(value) {
 					return value.replace(/\D/g, "").length === 14 ? "00.000.000/0000-00" : "00.000.000/0000-00";
 				},
 				brOptions = {
-					onKeyPress: function (value, event, field, options) {
+					onKeyPress: function(value, event, field, options) {
 						var behaviour;
 						behaviour = brCnpjBehaviour;
 						field.mask(behaviour.apply({}, arguments), options);
@@ -181,13 +181,13 @@ sap.ui.define([
 
 		},
 
-		onCnpjParteRelLiveChange: function (oEvent) {
+		onCnpjParteRelLiveChange: function(oEvent) {
 
-			var brCnpjBehaviour = function (value) {
+			var brCnpjBehaviour = function(value) {
 					return value.replace(/\D/g, "").length === 14 ? "00.000.000/0000-00" : "00.000.000/0000-00";
 				},
 				brOptions = {
-					onKeyPress: function (value, event, field, options) {
+					onKeyPress: function(value, event, field, options) {
 						var behaviour;
 						behaviour = brCnpjBehaviour;
 						field.mask(behaviour.apply({}, arguments), options);
@@ -199,7 +199,7 @@ sap.ui.define([
 
 		},
 
-		setInitialValues: function () {
+		setInitialValues: function() {
 
 			//data atual
 			var today = new Date();
@@ -232,7 +232,7 @@ sap.ui.define([
 		/********************************
 		 * Valida os campos obrigatórios
 		 *********************************/
-		_validateForm: function () {
+		_validateForm: function() {
 			var isValid = true;
 
 			if (!this._validateField("cmbEmpresa"))
@@ -243,7 +243,7 @@ sap.ui.define([
 
 			//if (!this._validateField("cmbDocumento"))
 			//	isValid = false;
-			if(!this._validateField("inpTpDoc"))
+			if (!this._validateField("inpTpDoc"))
 				isValid = false;
 
 			if (!this._validateField("inpSegundoA"))
@@ -273,7 +273,7 @@ sap.ui.define([
 			return isValid;
 		},
 
-		_validateField: function (fieldName) {
+		_validateField: function(fieldName) {
 
 			var oControl = this.getView().byId(fieldName);
 			var value;
@@ -303,19 +303,19 @@ sap.ui.define([
 		 *  Envia solicitação 
 		 ************************/
 
-		onSubmit: function () {
+		onSubmit: function() {
 			this.oParams = this.getParamsToSubmit("S");
 			this.sendSolicitacao(this.oParams, "S");
 		},
 
-		onPressEncaminhar: function (oEvent) {
+		onPressEncaminhar: function(oEvent) {
 			if (this._validateForm()) {
 				this.oParams = this.getParamsToSubmit("E");
 				this.sendSolicitacao(this.oParams, "E");
 			}
 		},
 
-		getParamsToSubmit: function (sEvento) {
+		getParamsToSubmit: function(sEvento) {
 
 			var oView = this.getView();
 			var oParams = new Object();
@@ -368,7 +368,7 @@ sap.ui.define([
 			}
 
 			//anexos
-			jQuery.each(aArquivos, function (i, oFile) {
+			jQuery.each(aArquivos, function(i, oFile) {
 
 				oArquivo = {
 					"Idanexo": "00",
@@ -383,7 +383,7 @@ sap.ui.define([
 			if (listaUpload.getItems().length !== oFiles.length) {
 
 				for (var j = 0; j < listaUpload.getItems().length; j++) {
-					aFiles.push(...oFiles.filter(function (arquivo) {
+					aFiles.push(...oFiles.filter(function(arquivo) {
 						return arquivo.Zfilename === listaUpload.aItems[j].getFileName();
 					}));
 				}
@@ -412,11 +412,11 @@ sap.ui.define([
 			if (sParteRelID === "") {
 				sParteRelID = oViewModel ? oViewModel.getProperty("/IdParteRelacionada") : "";
 			}
-			
+
 			if (sIdTpDoc === "") {
 				sIdTpDoc = oViewModel ? oViewModel.getProperty("/IdTipoDoc") : "";
 			}
-			
+
 			if (sTpDoc === "") {
 				sTpDoc = oViewModel ? oViewModel.getProperty("/TpDoc") : "";
 			}
@@ -426,7 +426,7 @@ sap.ui.define([
 				"DtSolic": oDtSol ? oDtSol : "", //oView.byId("dtSolic").getDateValue(),
 				"Empresa": oView.byId("cmbEmpresa").getValue(),
 				"TpSolic": oView.byId("cmbSolicitacao").getValue(),
-				"TpDoc": sTpDoc,//oView.byId("cmbDocumento").getValue(),
+				"TpDoc": sTpDoc, //oView.byId("cmbDocumento").getValue(),
 				"DescSolic": oView.byId("txtADes").getValue(),
 				"NContrato": oView.byId("inpNContrato").getValue(),
 				"NRc": oView.byId("inpNRC").getValue(),
@@ -464,7 +464,7 @@ sap.ui.define([
 
 		},
 
-		sendSolicitacao: function (oParams, sAction) {
+		sendSolicitacao: function(oParams, sAction) {
 			this.getOwnerComponent().showBusyIndicator();
 			sap.ui.getCore().fileUploadArr = [];
 			var that = this,
@@ -472,7 +472,7 @@ sap.ui.define([
 				entitySet = "/GravarContratoJuridicoSet";
 
 			oModel.create(entitySet, oParams, {
-				success: function (oData) {
+				success: function(oData) {
 					that.getOwnerComponent().hideBusyIndicator();
 					var iNumSol = parseInt(oData.NumSolic);
 					if (sAction === "S") {
@@ -484,7 +484,7 @@ sap.ui.define([
 					oModel.refresh();
 
 					if (sAction === "E") {
-						setTimeout(function () {
+						setTimeout(function() {
 							that.navToSolicitacoes();
 						}.bind(that), 2000);
 					} else {
@@ -497,7 +497,7 @@ sap.ui.define([
 					}
 
 				},
-				error: function (oError) {
+				error: function(oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("solicitacao_erro"));
 					that.getOwnerComponent().hideBusyIndicator();
 					oModel.refresh(true);
@@ -506,27 +506,27 @@ sap.ui.define([
 
 		},
 
-		readSolicitacao: function (sPath) {
+		readSolicitacao: function(sPath) {
 
 			this.getRouter().navTo("contrato", {
 				IdSolic: sPath
 			});
 
 		},
-		navToSolicitacoes: function () {
+		navToSolicitacoes: function() {
 			this.getRouter().navTo("solicitacoes");
 		},
 
 		/***********************
 		 *  Quando clica em CANCELAR solicitação 
 		 ************************/
-		_onCancel: function (oEvent) {
+		_onCancel: function(oEvent) {
 			this.getView().unbindElement();
 			//history.go(-1);
 			this.navToSolicitacoes();
 		},
 
-		onCancel: function () {
+		onCancel: function() {
 			var oView = this.getView();
 			var oEmpresa = oView.byId("cmbEmpresa");
 			var oTPSolic = oView.byId("cmbSolicitacao");
@@ -562,7 +562,7 @@ sap.ui.define([
 			var oUploadCollection = oView.byId('UploadCollection'),
 				aItems = oUploadCollection.getItems();
 
-			jQuery.each(aItems, function (i, oItem) {
+			jQuery.each(aItems, function(i, oItem) {
 				oUploadCollection.removeItem(oItem);
 				oUploadCollection.destroyItems(oItem);
 			});
@@ -574,7 +574,7 @@ sap.ui.define([
 		/***********************
 		 *  converte o campo valor em moeda 
 		 ************************/
-		currency: function (oEvent, oValor) {
+		currency: function(oEvent, oValor) {
 			var oInput = oEvent !== "" ? oEvent.getSource() : oValor;
 			var sValor = oInput.getValue();
 
@@ -622,12 +622,12 @@ sap.ui.define([
 				}
 			}
 		},
-		
+
 		/********************************************
 		 *   DIALOG PARA SELEÇÃO DE CENTRO DE CUSTO
 		 **********************************************/
 
-		getDialogCentroCusto: function (sFragment) {
+		getDialogCentroCusto: function(sFragment) {
 			if (!this._oDialogCC) {
 				this._oDialogCC = sap.ui.xmlfragment(sFragment, this);
 				this.getView().addDependent(this._oDialogCC);
@@ -636,7 +636,7 @@ sap.ui.define([
 			return this._oDialogCC;
 		},
 
-		_onOpenDialogCC: function () {
+		_onOpenDialogCC: function() {
 			var oView = this.getView();
 			var oOwnerComponent = this.getOwnerComponent();
 			var oController = this;
@@ -646,14 +646,14 @@ sap.ui.define([
 				oOwnerComponent.showBusyIndicator();
 				$.ajax({
 					url: "/sap/opu/odata/SAP/ZTRIP_SRV/ET_CENTROS_CUSTOSet?$format=json",
-					success: function (oResponse) {
+					success: function(oResponse) {
 						oController.oCentroCusto = oResponse.d;
 						var oModel = new JSONModel(oController.oCentroCusto);
 						oView.setModel(oModel, "centroCusto");
 						oOwnerComponent.hideBusyIndicator();
 						oController.oDialogCentroCusto.open();
 					},
-					error: function (oResponse) {
+					error: function(oResponse) {
 						oOwnerComponent.hideBusyIndicator();
 						oController._oCentroCustoModalDialog.open();
 						oOwnerComponent._genericErrorMessage(oController.geti18nText("centro_custo_error_load_msg"));
@@ -666,16 +666,16 @@ sap.ui.define([
 
 		},
 
-		_onDialogCCClose: function () {
+		_onDialogCCClose: function() {
 			this.oDialogCentroCusto.close();
 		},
 
-		_onTableItemCCPress: function (oEvent) {
+		_onTableItemCCPress: function(oEvent) {
 			var oController = this;
 			var oCC = this.getView().byId("inpCentroC");
 			var odesc = this.getView().byId("inpGerencia");
 			var aContexts = oEvent.getParameter("selectedContexts");
-			var centroCustoId = aContexts.map(function (oContext) {
+			var centroCustoId = aContexts.map(function(oContext) {
 				return oContext.getObject();
 			});
 			var oTextCC = oController.formatter.textName(centroCustoId[0].Ltext);
@@ -683,7 +683,7 @@ sap.ui.define([
 			odesc.setValue(oTextCC);
 		},
 
-		_onSearchCC: function (oEvent) {
+		_onSearchCC: function(oEvent) {
 			var sQuery = oEvent.getParameter("query");
 
 			var oFilter = new Filter({
@@ -700,7 +700,7 @@ sap.ui.define([
 		/*****************************************************************
 		 * Exclui o texto de gerencia se o input Centro de custo for modificado
 		 ******************************************************************/
-		_onChangeCC: function (oEvent) {
+		_onChangeCC: function(oEvent) {
 			var oController = this,
 				oView = oController.getView(),
 				oInput = oEvent.getSource();
@@ -718,7 +718,7 @@ sap.ui.define([
 		 * Abrir Value Help de contrato
 		 * @param {object} [oEvent] 
 		 **************************************************************/
-		openDialogContrato: function (oEvent) {
+		openDialogContrato: function(oEvent) {
 			var that = this;
 			var oModel = this.getView().getModel();
 			var oValueHelpDialog = new ValueHelpDialog({
@@ -729,15 +729,15 @@ sap.ui.define([
 				key: "ContratoCodigo",
 				descriptionKey: "ContratoNome",
 				// Seleciona o item
-				ok: function (oControlEvent) {
+				ok: function(oControlEvent) {
 					var key = oControlEvent.getParameter("tokens")[0].getKey();
 					oValueHelpDialog.close();
 				},
 
-				cancel: function (oControlEvent) {
+				cancel: function(oControlEvent) {
 					oValueHelpDialog.close();
 				},
-				afterClose: function () {
+				afterClose: function() {
 					oValueHelpDialog.destroy();
 				}
 			});
@@ -759,7 +759,7 @@ sap.ui.define([
 				}]
 			});
 			oValueHelpDialog.getTable().setModel(oColModel, "columns");
-			
+
 			var oFilterBar = new sap.ui.comp.filterbar.FilterBar({
 				filterBarExpanded: true,
 				useToolbar: false,
@@ -792,7 +792,7 @@ sap.ui.define([
 
 				],
 				// Busca
-				search: function (oEvent) {
+				search: function(oEvent) {
 					var ccusto = oEvent.getParameter("selectionSet")[0].getValue();
 					var gerencia = oEvent.getParameter("selectionSet")[1].getValue();
 					var gerente = oEvent.getParameter("selectionSet")[2].getValue();
@@ -823,7 +823,7 @@ sap.ui.define([
 
 		/*ANEXOS*/
 		// When user select the file then this method will call....
-		handleSelectFile: function (oEvent) {
+		handleSelectFile: function(oEvent) {
 			var fileDetails = oEvent.getParameters("file").files[0];
 			if (sap.ui.getCore().fileUploadArr === undefined)
 				sap.ui.getCore().fileUploadArr = [];
@@ -839,13 +839,13 @@ sap.ui.define([
 		},
 
 		// Base64 conversion of selected file(Called method)....
-		base64coonversionMethod: function (fileMime, fileName, fileDetails, DocNum) {
+		base64coonversionMethod: function(fileMime, fileName, fileDetails, DocNum) {
 			var that = this;
 			if (!FileReader.prototype.readAsBinaryString) {
-				FileReader.prototype.readAsBinaryString = function (fileData) {
+				FileReader.prototype.readAsBinaryString = function(fileData) {
 					var binary = "";
 					var reader = new FileReader();
-					reader.onload = function (e) {
+					reader.onload = function(e) {
 						var bytes = new Uint8Array(reader.result);
 						var length = bytes.byteLength;
 						for (var i = 0; i < length; i++) {
@@ -863,7 +863,7 @@ sap.ui.define([
 				};
 			}
 			var reader = new FileReader();
-			reader.onload = function (readerEvt) {
+			reader.onload = function(readerEvt) {
 				var binaryString = readerEvt.target.result;
 				that.base64ConversionRes = btoa(binaryString);
 				sap.ui.getCore().fileUploadArr.push({
@@ -877,7 +877,7 @@ sap.ui.define([
 			reader.readAsBinaryString(fileDetails);
 		},
 
-		handleShowFile: function (oEvent) {
+		handleShowFile: function(oEvent) {
 
 			//pega o conteúdo do arquivo
 			var fname = oEvent.getSource().getFileName(),
@@ -903,10 +903,21 @@ sap.ui.define([
 
 			var url = URL.createObjectURL(blob);
 
-			window.open(url, '_blank');
+			//window.open(url, '_blank');
+			this.forceDownload(url,fname);
 		},
 
-		fnFileDeleted: function (oEvent) {
+		forceDownload: function(blob, filename) {
+			var a = document.createElement('a');
+			a.download = filename;
+			a.href = blob;
+			// For Firefox https://stackoverflow.com/a/32226068
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		},
+
+		fnFileDeleted: function(oEvent) {
 			var that = this,
 				sMsg = "",
 				oModel = this.getModel(),
@@ -918,19 +929,19 @@ sap.ui.define([
 				sap.m.MessageBox.warning(
 					this.geti18nText1("confirm_excluir_file", [oFile.Zfilename]), {
 						actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.CANCEL],
-						onClose: function (sAction) {
+						onClose: function(sAction) {
 							if (sAction === sap.m.MessageBox.Action.YES) {
 								that.showBusy();
 								oModel.remove(oModel.createKey("/AnexoSet", {
 									Numsolic: oFile.Numsolic,
 									Idanexo: oFile.Idanexo
 								}), {
-									success: function (oData) {
+									success: function(oData) {
 										that.hideBusy();
 										sMsg = that.geti18nText("arquivo_excluido_sucess_msg");
 										that.getOwnerComponent()._genericSuccessMessage(sMsg);
 									},
-									error: function (oError) {
+									error: function(oError) {
 										that.hideBusy();
 										sMsg = that.geti18nText("arquivo_excluido_error_msg");
 										that.getOwnerComponent()._genericErrorMessage(sMsg);
@@ -945,7 +956,7 @@ sap.ui.define([
 
 		},
 
-		checkCompra: function (oEvent) {
+		checkCompra: function(oEvent) {
 			var oSelecionado = oEvent.getSource();
 			var respCompras = this.getView().byId("cmbResponsavel");
 
@@ -957,7 +968,7 @@ sap.ui.define([
 			}
 		},
 
-		onCheckCompliance: function (oEvent) {
+		onCheckCompliance: function(oEvent) {
 			var oSelecionado = oEvent.getSource();
 			var parteRel = this.getView().byId("inpParteRelac");
 
@@ -969,13 +980,13 @@ sap.ui.define([
 			}
 		},
 
-		onDtVigenciaDeChange: function (oEvent) {
+		onDtVigenciaDeChange: function(oEvent) {
 			var dMindate = oEvent.getSource().getDateValue();
 			this.byId("inpDtVigenciaAte").setValue("");
 			this.byId("inpDtVigenciaAte").setMinDate(dMindate);
 		},
 
-		getDialogParteRel: function (sFragment) {
+		getDialogParteRel: function(sFragment) {
 			if (!this._oDialogParteRelacionada) {
 				this._oDialogParteRelacionada = sap.ui.xmlfragment(sFragment, this);
 				this.getView().addDependent(this._oDialogParteRelacionada);
@@ -984,7 +995,7 @@ sap.ui.define([
 			return this._oDialogParteRelacionada;
 		},
 
-		_onOpenDialogParteRel: function (oEvent) {
+		_onOpenDialogParteRel: function(oEvent) {
 			var that = this,
 				oModel = this.getModel(),
 				oView = this.getView(),
@@ -996,24 +1007,24 @@ sap.ui.define([
 			this.oDialogParteRelacionada = this.getDialogParteRel(sDialog);
 
 			oModel.read(sEntity, {
-				success: function (oData) {
+				success: function(oData) {
 					var oParteRelModel = new JSONModel(oData);
 					oView.setModel(oParteRelModel, "parteRelacModel");
 					oOwnerComponent.hideBusyIndicator();
 					that.oDialogParteRelacionada.open();
 					that.handleNav();
 				}.bind(that),
-				error: function (oError) {
+				error: function(oError) {
 					oOwnerComponent.hideBusyIndicator();
 				}
 			});
 
 		},
-		onDialogParteRelClose: function (oEvent) {
+		onDialogParteRelClose: function(oEvent) {
 			this._oDialogParteRelacionada.close();
 		},
 
-		onSearchParteRel: function (oEvent) {
+		onSearchParteRel: function(oEvent) {
 			var that = this,
 				oModel = this.getModel(),
 				oView = this.getView(),
@@ -1026,23 +1037,22 @@ sap.ui.define([
 				]
 			});
 
-			oModel.read("/ParteRelacionadaItemSet",
-				 {
-				 	filters: [aFilter],
-					success: function (oData) {
-						var oParteRelModel = new JSONModel(oData);
-						oView.setModel(oParteRelModel, "parteRelacModel");
-						oOwnerComponent.hideBusyIndicator();
+			oModel.read("/ParteRelacionadaItemSet", {
+				filters: [aFilter],
+				success: function(oData) {
+					var oParteRelModel = new JSONModel(oData);
+					oView.setModel(oParteRelModel, "parteRelacModel");
+					oOwnerComponent.hideBusyIndicator();
 
-					}.bind(that),
-					error: function (oError) {
-						oOwnerComponent.hideBusyIndicator();
-					}
-				});
+				}.bind(that),
+				error: function(oError) {
+					oOwnerComponent.hideBusyIndicator();
+				}
+			});
 
 		},
 
-		onParteRelItemPress: function (oEvent) {
+		onParteRelItemPress: function(oEvent) {
 			var oSelItem = oEvent.getParameter("listItem").getBindingContextPath();
 
 			var oSelParteRel = this.getModel("parteRelacModel").getObject(oSelItem);
@@ -1058,7 +1068,7 @@ sap.ui.define([
 			this._oDialogParteRelacionada.close();
 		},
 
-		validateParteRelFields: function (oParams, oIdInput) {
+		validateParteRelFields: function(oParams, oIdInput) {
 			var bReturn = true;
 			var oInput;
 			if (this.byId(oIdInput)) {
@@ -1082,7 +1092,7 @@ sap.ui.define([
 			return bReturn;
 		},
 
-		onNewParteRel: function (oEvent) {
+		onNewParteRel: function(oEvent) {
 			var oModel = this.getModel(),
 				structureAppModel = this.getModel("structureApp"),
 				oParteRel = structureAppModel.getProperty("/parteRel");
@@ -1105,7 +1115,7 @@ sap.ui.define([
 			}
 		},
 
-		SaveParteRelacionada: function (oParams, oShModel) {
+		SaveParteRelacionada: function(oParams, oShModel) {
 			var that = this,
 				entitySet = "/ParteRelacionadaSet",
 				oModel = this.getModel();
@@ -1118,21 +1128,21 @@ sap.ui.define([
 			oParteRel.ParteRelacionadaItemSet.push(oParams);
 
 			oModel.create(entitySet, oParteRel, {
-				success: function (oData) {
+				success: function(oData) {
 					that.getOwnerComponent()._genericSuccessMessage(that.geti18nText("insere_parte_rel_sucesso_msg"));
 					that.onSearchParteRel();
 					sap.ui.getCore().byId("inpNewRazaoSocParteRel").setValue("");
 					sap.ui.getCore().byId("inpNewCnpjParteRel").setValue("");
 					that.handleNav();
 				},
-				error: function (oError) {
+				error: function(oError) {
 					that.getOwnerComponent()._genericErrorMessage(that.geti18nText("insere_parte_rel_erro"));
 					oModel.refresh(true);
 				}
 			});
 
 		},
-		
+
 		handleNav: function(evt) {
 			var navCon = sap.ui.getCore().byId("navCon");
 			var target = evt ? evt.getSource().data("target") : null;
@@ -1143,9 +1153,8 @@ sap.ui.define([
 				navCon.back();
 			}
 		},
-		
-		
-		getDialogTpDoc: function (sFragment) {
+
+		getDialogTpDoc: function(sFragment) {
 			if (!this._oDialogTpDoc) {
 				this._oDialogTpDoc = sap.ui.xmlfragment(sFragment, this);
 				this.getView().addDependent(this._oDialogTpDoc);
@@ -1153,8 +1162,8 @@ sap.ui.define([
 
 			return this._oDialogTpDoc;
 		},
-		
-		openDialogTipoDoc: function(oEvent){
+
+		openDialogTipoDoc: function(oEvent) {
 			var that = this,
 				oDataM = this.getModel(),
 				oView = this.getView(),
@@ -1164,13 +1173,13 @@ sap.ui.define([
 
 			oOwnerComponent.showBusyIndicator();
 			this.oDialogTpDoc = this.getDialogTpDoc(sDialog);
-		
+
 			oDataM.read(sEntity, {
 				filters: [new Filter("IpDominio", sap.ui.model.FilterOperator.EQ, "ZMMD_SOLCONT_TPDOCUMENTO")],
 				urlParameters: {
 					"$expand": "SearchHelpItemSet"
 				},
-				success: function (oData) {
+				success: function(oData) {
 					var aNodes = {
 						nodes: []
 					};
@@ -1202,27 +1211,27 @@ sap.ui.define([
 					that.oDialogTpDoc.open();
 					oOwnerComponent.hideBusyIndicator();
 				}.bind(that),
-				error: function (oError) {
-						oOwnerComponent.hideBusyIndicator();
-					}
+				error: function(oError) {
+					oOwnerComponent.hideBusyIndicator();
+				}
 			});
-			
+
 		},
-		
-		onDialogTpDocClose: function(oEvent){
+
+		onDialogTpDocClose: function(oEvent) {
 			this._oDialogTpDoc.close();
 		},
-		
-		onTreeItemTpDocPress: function(oEvent){
+
+		onTreeItemTpDocPress: function(oEvent) {
 			var oSource = oEvent.getSource(),
 				oContext = oSource.getSelectedContexts()[0],
 				oSelItem = this.getModel("shTreeModel").getObject(oContext.getPath());
-				
+
 			var oSelectedTpDoc = new JSONModel(oSelItem);
 			this.getView().setModel(oSelectedTpDoc, "SelectedTpDoc");
 			this.getView().getModel("SelectedTpDoc").refresh();
-			
-			this.byId("inpTpDoc").setValue("");	
+
+			this.byId("inpTpDoc").setValue("");
 			this.byId("inpTpDoc").setValue(oSelItem.Descricao);
 			this._oDialogTpDoc.close();
 		},
@@ -1231,7 +1240,7 @@ sap.ui.define([
 		 *   DIALOG PARA SELEÇÃO DE Aprovador
 		 **********************************************/
 
-		getDialogAprovador: function (sFragment) {
+		getDialogAprovador: function(sFragment) {
 			if (!this._oDialogAprovador) {
 				this._oDialogAprovador = sap.ui.xmlfragment(sFragment, this);
 				this.getView().addDependent(this._oDialogAprovador);
@@ -1240,7 +1249,7 @@ sap.ui.define([
 			return this._oDialogAprovador;
 		},
 
-		_onOpenDialogAprovador: function () {
+		_onOpenDialogAprovador: function() {
 			var oView = this.getView();
 			var oOwnerComponent = this.getOwnerComponent();
 			var oController = this;
@@ -1250,14 +1259,14 @@ sap.ui.define([
 				oOwnerComponent.showBusyIndicator();
 				$.ajax({
 					url: "/sap/opu/odata/SAP/ZMM_SOLCONT_SRV_01/GestoresSet?$format=json",
-					success: function (oResponse) {
+					success: function(oResponse) {
 						oController.oAprovadores = oResponse.d;
 						var oModel = new JSONModel(oController.oAprovadores);
 						oView.setModel(oModel, "aprovadores");
 						oOwnerComponent.hideBusyIndicator();
 						oController.oDialogAprovadores.open();
 					},
-					error: function (oResponse) {
+					error: function(oResponse) {
 						oOwnerComponent.hideBusyIndicator();
 						oOwnerComponent._genericErrorMessage(oController.geti18nText("aprovadores_load_erro_msg"));
 					},
@@ -1269,15 +1278,15 @@ sap.ui.define([
 
 		},
 
-		_onDialogAprClose: function () {
+		_onDialogAprClose: function() {
 			this.oDialogAprovadores.close();
 		},
 
-		_onTableItemAprPress: function (oEvent) {
+		_onTableItemAprPress: function(oEvent) {
 			var oController = this;
 			var oCampoApr = oController.getView().byId("inpSegundoA");
 			var aContexts = oEvent.getParameter("selectedContexts");
-			var beneficiarioId = aContexts.map(function (oContext) {
+			var beneficiarioId = aContexts.map(function(oContext) {
 				return oContext.getObject();
 			});
 			var aprovador = oController.formatter.textName(beneficiarioId[0].Nome),
@@ -1291,7 +1300,7 @@ sap.ui.define([
 
 		},
 
-		_onSearchApr: function (oEvent) {
+		_onSearchApr: function(oEvent) {
 			var sValue = oEvent.getParameter("value");
 			var oFilter = new Filter(
 				"Nome",
@@ -1302,7 +1311,7 @@ sap.ui.define([
 			oBinding.filter([oFilter]);
 		},
 
-		setCentroDeCustoAprovador: function (sMatricula) {
+		setCentroDeCustoAprovador: function(sMatricula) {
 			var oView = this.getView(),
 				oOwnerComponent = this.getOwnerComponent(),
 				oModel = this.getModel(),
@@ -1314,7 +1323,7 @@ sap.ui.define([
 				oModel.read(oModel.createKey("/CentroCustoUsuarioSet", {
 					Matricula: sMatricula
 				}), {
-					success: function (oData) {
+					success: function(oData) {
 
 						var oCCustoAprov = new JSONModel(oData);
 						oView.setModel(oCCustoAprov, "centroCusotAprovModel");
@@ -1323,7 +1332,7 @@ sap.ui.define([
 						oOwnerComponent.hideBusyIndicator();
 
 					},
-					error: function (oError) {
+					error: function(oError) {
 						oOwnerComponent.hideBusyIndicator();
 						oOwnerComponent._genericErrorMessage(that.geti18nText("centro_custo_error_load_msg"));
 					}

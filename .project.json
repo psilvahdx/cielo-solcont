@@ -1,0 +1,6 @@
+{
+  "deploy": {
+    "destination": "SMD",
+    "name": "ZUI5_SOLCONT"
+  }
+}
