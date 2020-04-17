@@ -24,7 +24,7 @@
 										<UploadCollection id="parecerUploadCollection" maximumFilenameLength="55" maximumFileSize="10" multiple="false" sameFilenameAllowed="false"
 											numberOfAttachmentsText="{i18n>number_of_attachments_txt}" noDataText="{i18n>nodata_attachment}" instantUpload="false"
 											noDataDescription="{i18n>nodata_description}" fileSizeExceed="onFileSizeExceed" typeMissmatch="onTypeMissmatch" change="handleSelectFile"
-											fileType="pdf,png,jpeg,jpg" mimeType="pdf,png,jpeg,jpg" items="{path: 'AnexoSet', templateShareable: false}">
+											fileType="{Zfiletype}" mimeType="{Zfiletype}" items="{path: 'AnexoSet', templateShareable: false}">
 											<items>
 												<UploadCollectionItem documentId="{Idanexo}" fileName="{Zfilename}" mimeType="{Zfiletype}" press="handleShowFile"
 													deletePress="fnFileDeleted"></UploadCollectionItem>
